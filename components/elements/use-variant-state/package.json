@@ -1,0 +1,36 @@
+{
+  "name": "@app-elements/use-variant-state",
+  "version": "1.0.0",
+  "description": "A (P)React hook for defining strict state descriptors and transitions.",
+  "main": "dist/use-variant-state.js",
+  "module": "dist/use-variant-state.m.js",
+  "source": "index.js",
+  "scripts": {
+    "build": "microbundle --jsx React.createElement --external react --no-compress",
+    "prepublishOnly": "npm run build",
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inputlogic/elements.git"
+  },
+  "bugs": {
+    "url": "https://github.com/inputlogic/elements/issues"
+  },
+  "dependencies": {
+    "variant-type": "0.1.3"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "preact",
+    "component",
+    "hook",
+    "ui"
+  ],
+  "author": "Input Logic Team",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  }
+}

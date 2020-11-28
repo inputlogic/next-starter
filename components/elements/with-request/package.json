@@ -1,0 +1,34 @@
+{
+  "name": "@app-elements/with-request",
+  "version": "3.0.19",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inputlogic/elements.git"
+  },
+  "bugs": {
+    "url": "https://github.com/inputlogic/elements/issues"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "preact",
+    "component",
+    "ui"
+  ],
+  "author": "Input Logic Team",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@app-elements/router": "^3.4.1",
+    "@wasmuth/map": "2.1.1",
+    "check-arg-types": "1.1.2"
+  },
+  "gitHead": "d50087f5b15f56e544e7e52d0628bc3b7f0ea361"
+}
