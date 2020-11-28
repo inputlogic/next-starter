@@ -24,8 +24,8 @@ const Login = () => {
       <Link href='/'>Home</Link>
       <h1>Login</h1>
       <form onSubmit={onSubmit}>
-        <Input form='login' placeholder='email' name='email' cleanup={true} type='email' />
-        <Input form='login' placeholder='password' name='password' cleanup={true} type='password' />
+        <Input form='login' placeholder='email' name='email' cleanup type='email' foo='bar' />
+        <Input form='login' placeholder='password' name='password' cleanup type='password' />
         <input type='submit' value='Log in' />
       </form>
     </div>
