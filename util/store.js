@@ -1,5 +1,13 @@
-import { createStore } from './createStore'
-import { createStoreDevTools } from './createStoreDevTools'
-export const store = createStoreDevTools(createStore(() => ({
-  erik: {mom: 5}
+import create from 'zustand'
+import { devtools } from 'zustand/middleware'
+
+export const useStore = create(devtools(set => ({
+  form: {},
+  setForm: (form) => set(state => ({ form: Object.assign(state.form, form) })),
+  
+  count: 0,
+  setCount: (count) => set({ count }),
+  
+  posts: [],
+  setPosts: (posts) => set({ posts })
 })))
