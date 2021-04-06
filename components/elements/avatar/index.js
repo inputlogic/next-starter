@@ -1,4 +1,4 @@
-import React from 'react'
+import styles from './avatar.module.scss'
 
 export const Avatar = ({
   src,
