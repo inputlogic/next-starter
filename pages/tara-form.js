@@ -31,48 +31,70 @@ export default function TaraForm() {
 
   return (
     <div className="container">
-      
       <div className="errorsBox">
         {errorLength > 0 ? (
           <ul>Please fix the following errors:{errorMessages}</ul>
         ) : null}
       </div>
       <form onSubmit={handleSubmit(onSubmit, onError)}>
-        <label htmlFor="name">Name </label>
-        <input
-          className={errors.name?.message ? 'error' : ''}
-          {...register('name', {
-            required: 'Name is required',
-            minLength: {
-              value: 2,
-              message: 'Name must be at least 2 characters'
-            }
-          })}
-        />
-        {errors.name?.message}
+        <label htmlFor="name">
+          Name
+          <input
+            className={errors.name?.message ? 'error' : ''}
+            aria-invalid={errors.name ? 'true' : 'false'}
+            {...register('name', {
+              required: 'Name is required',
+              minLength: {
+                value: 2,
+                message: 'Name must be at least 2 characters'
+              }
+            })}
+          />
+          {errors.name?.type === 'required' && (
+            <span role="alert">Name is required</span>
+          )}
+          {errors.name?.type === 'minLength' && (
+            <span role="alert">Name must be at least 2 characters</span>
+          )}
+        </label>
         <br />
         <label htmlFor="email">
           Email{' '}
           <input
             className={errors.email?.message ? 'error' : ''}
-            {...register('email', { required: 'Email is required' })}
+            aria-invalid={errors.email ? 'true' : 'false'}
+            {...register('email', {
+              required: 'Email is required'
+            })}
             type="email"
           />
-          {errors.email?.message}
+          {errors.email?.type === 'required' && (
+            <span role="alert">Email is required</span>
+          )}
         </label>
         <br />
-        <label htmlFor="age">Age </label>
-        <input
-          className={errors.age?.message ? 'error' : ''}
-          type="number"
-          {...register('age', {
-            min: { value: 5, message: 'Please input valid age' },
-            max: { value: 150, message: 'Please input valid age' }
-          })}
-        />
-        {errors.age?.message}
+        <label htmlFor="age">
+          Age
+          <input
+            className={errors.age?.message ? 'error' : ''}
+            aria-invalid={errors.age ? 'true' : 'false'}
+            type="number"
+            {...register('age', {
+              min: { value: 5, message: 'Please input valid age' },
+              max: { value: 150, message: 'Please input valid age' }
+            })}
+          />
+          {errors.age?.message && (
+            <span role="alert">Please input valid age</span>
+          )}
+        </label>
         <br />
-        <input type="submit" value="Submit" disabled={isSubmitting} />
+        <input
+          className="submitBtn"
+          type="submit"
+          value="Submit"
+          disabled={isSubmitting}
+        />
       </form>
       <style jsx>{`
         .container {
@@ -88,11 +110,18 @@ export default function TaraForm() {
           display: flex;
           align-items: center;
         }
-        .errorMsg {
-
-        }
         .error {
           border: 2px solid red;
+        }
+        form {
+          display: flex;
+          flex-direction: column;
+        }
+        input {
+          margin-left: 5px;
+        }
+        .submitBtn {
+          align-self: center;
         }
       `}</style>
     </div>
