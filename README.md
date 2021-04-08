@@ -18,6 +18,24 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
+## API
+
+You'll need to make a local env file with the projects settings in it. Make a file named `.env.local` in the root of the project, and paste the API url into it:
+
+```
+NEXT_PUBLIC_API_URL=http://input-logic-api.herokuapp.com/
+```
+
+## Admin
+
+You can control the data in the API by logging into the Django admin.
+
+```
+http://input-logic-api.herokuapp.com/admin/login
+```
+
+Please be careful, as this API powers our live web site at inputlogic.ca. 
+
 ## Learn More
 
 To learn more, take a look at the following resources:

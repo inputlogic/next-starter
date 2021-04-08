@@ -1,0 +1,222 @@
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  width: 94%;
+  position: relative;
+
+  .dot-flashing {
+    margin: 0 auto;
+  }
+}
+
+.is-centered {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.is-slim {
+  max-width: 392px;
+}
+
+.is-med {
+  max-width: 710px;
+}
+
+.level {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--gutter);
+  padding-bottom: var(--gutter);
+  width: 100%;
+}
+
+.level.no-padding {
+  padding: 0;
+}
+
+.level.no-padding-bottom {
+  padding-bottom: 0;
+}
+
+.level:not(.no-margin) > *:not(.level-right) {
+  margin-right: var(--gutter);
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+// Flex helpers
+
+.flex {
+  display: flex;
+}
+
+.justify-content-around {
+  justify-content: space-around;
+}
+
+.column {
+  flex-direction: column;
+}
+
+// // Grid helpers
+
+// @mixin generate-grids($i) when ($i > 0){
+//   .grid-${i} {
+//     display: grid;
+//     grid-template-columns: repeat($i, 1fr);
+//     grid-gap: $gutter * 2;
+//   }
+//   @include generate-grids(($i - 1));
+// }
+// @include generate-grids(6);
+
+// // width helpers
+// @mixin w-loop($i) when ($i > 0){
+//   .w-${i} {
+//     width: ~'${i}%';
+//   }
+//   @include w-loop($i - 25);
+// }
+// .w-loop (100);
+
+// .w-third {
+//   width: calc(100% / 3);
+// }
+
+// .w-two-thirds {
+//   width: calc(100% / 1.5);
+// }
+
+// $iterations: 20;
+
+// // margin-top helper class
+// @mixin mt-loop($i) when ($i > 0){
+//   .mt-${i} {
+//     margin-top: ~'${i}em';
+//   }
+//   @include mt-loop($i - 1);
+// }
+// .mt-loop ($iterations);
+
+// // margin-bottom helper class
+// @mixin mb-loop($i) when ($i > 0){
+//   .mb-${i} {
+//     margin-bottom: ~'${i}em';
+//   }
+//   @include mb-loop($i - 1);
+// }
+// .mb-loop ($iterations);
+
+// // padding-top helper class
+// @mixin pt-loop($i) when ($i > 0){
+//   .pt-${i} {
+//     padding-top: ~'${i}em';
+//   }
+//   @include pt-loop($i - 1);
+// }
+// .pt-loop ($iterations);
+
+// // padding-bottom helper class
+// @mixin pb-loop($i) when ($i > 0){
+//   .pb-${i} {
+//     padding-bottom: ~'${i}em';
+//   }
+//   @include pb-loop($i - 1);
+// }
+// .pb-loop ($iterations);
+
+// // padding horizontal
+// @mixin ph-loop($i) when ($i > 0){
+//   .ph-${i} {
+//     padding-left: ~'${i}em';
+//     padding-right: ~'${i}em';
+//   }
+//   @include ph-loop($i - 1);
+// }
+// .ph-loop ($iterations);
+
+// // padding left
+// @mixin pl-loop($i) when ($i > 0){
+//   .pl-${i} {
+//     padding-left: ~'${i}em';
+//   }
+//   @include pl-loop($i - 1);
+// }
+// .pl-loop ($iterations);
+
+// Router
+
+.stack {
+  flex: 1;
+  position: relative;
+  margin-top: 20px;
+  border: 1px solid slateblue;
+  width: 100%;
+  height: 100vh;
+}
+
+.stack > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background-color: #ccc;
+}
+
+.fade-enter {
+  opacity: 0;
+  transform: translateX(100px);
+  z-index: 1;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+  // transition: transform 400ms cubic-bezier(0.4, 0.1, 0.7, 0.95);
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+.fade-enter-active,
+.fade-exit-active {
+  transition: opacity 500ms, transform 500ms;
+}
+
+.fade-reverse-enter {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+.fade-reverse-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+  // transition: transform 400ms cubic-bezier(0.4, 0.1, 0.7, 0.95);
+}
+
+.fade-reverse-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.fade-reverse-exit-active {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+.fade-reverse-enter-active,
+.fade-reverse-exit-active {
+  transition: opacity 500ms, transform 500ms;
+}

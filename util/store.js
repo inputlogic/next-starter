@@ -9,5 +9,8 @@ export const useStore = create(devtools(set => ({
   setCount: (count) => set({ count }),
   
   posts: [],
-  setPosts: (posts) => set({ posts })
+  setPosts: (posts) => set({ posts }),
+  
+  modal: '',
+  setModal: (modal) => set({ modal })
 })))

@@ -1,0 +1,62 @@
+.select-wrap {
+  margin-bottom: $gutterE * 1.5;
+
+  label {
+    margin-bottom: 0.3em;
+    display: block;
+    color: $text-color;
+    font-size: 0.8em;
+    letter-spacing: 0.05em;
+  }
+}
+
+.select {
+  position: relative;
+  overflow: hidden;
+  background: $white url(/images/controls/arrow-down.svg) no-repeat center;
+  background-size: 0.65em 0.35em;
+  border: solid 1px $middle-grey;
+  border-radius: $border-radius;
+  width: 100%;
+}
+
+.select select {
+  background: transparent;
+  width: 100%;
+  border: 0;
+  -webkit-appearance: none;
+  outline: 0;
+  appearance: none;
+  -moz-appearance: none;
+  font-size: 0.9em;
+  font-weight: normal;
+  font-family: $font-family;
+  color: $text-color;
+  padding: 0.8em;
+  padding-right: 2.5em;
+  
+  &[readonly] {
+    background-color: $light-grey;
+    color: $dark-grey;
+  }
+
+  @media #{$phone} {
+    font-size: 16px;
+  }
+}
+
+.select select::-ms-expand {
+  display: none;
+}
+
+.select select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+.radio-component,
+.checkbox-component {
+  & + .select-wrap {
+    margin-top: $gutterE * 2.2;
+  }
+}

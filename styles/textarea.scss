@@ -1,0 +1,22 @@
+.textarea-component {
+  @extend .input-component;
+
+  textarea {
+    width: 100%;
+    padding: 0.65em 0.75rem;
+    outline: none;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    background-color: $white;
+    font-size: 1rem;
+    font-family: $font-family;
+    -webkit-appearance: none;
+    color: $text-color;
+    font-weight: normal;
+    resize: none;
+
+    &:focus {
+      border: 1px solid $secondary-color;
+    }
+  }
+}
