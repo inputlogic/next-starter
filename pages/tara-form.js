@@ -12,7 +12,10 @@ export default function TaraForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset
-  } = useForm()
+  } = useForm({
+    reValidateMode: 'onBlur',
+    defaultValues: { name: '', email: '', age: '' }
+  })
 
   const onError = (errors, e) => {
     console.log('keys', Object.keys(errors))
