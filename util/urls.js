@@ -24,6 +24,5 @@ const urls = {
  * URLs specific to the API; the host is determined by environment in settings.js
  */
 const apiUrls = {
-  authFacebook: '/facebook',
-  me: '/me',
+  posts: 'posts'
 }

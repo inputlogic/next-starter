@@ -2,6 +2,7 @@ import Head from 'next/head'
 
 import { useEffect } from 'react'
 import { useStore } from '@/util/store'
+import { apiUrl } from '@/util/urls'
 
 import { Layout } from '@/components/layout'
 
@@ -15,10 +16,10 @@ export default function Home() {
   const setModal = useStore((state) => state.setModal)
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
+    fetch(apiUrl('posts'))
     .then((resp) => resp.json())
     .then((data) => {
-      setPosts(data)
+      setPosts(data.results)
     })
   }, [])
   
