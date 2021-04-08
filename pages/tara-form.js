@@ -3,60 +3,98 @@ import { useForm } from 'react-hook-form'
 
 // Use for delaying submit
 function timeout(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 export default function TaraForm() {
-  const [ isSubmitting, setIsSubmitting ] = useState(false)
-  const { register, handleSubmit, formState: { errors }, reset } = useForm()
-  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset
+  } = useForm()
+
   const onError = (errors, e) => {
     console.log('keys', Object.keys(errors))
   }
 
-  const onSubmit = async(data) => {
-    setIsSubmitting(true)
+  const onSubmit = async (data) => {
     await timeout(2000)
-    setIsSubmitting(false)
     console.log('submitted data:', data)
     reset()
   }
 
-  const errorLength = Object.entries(errors).length;
-  const errorMessages = Object.entries(errors).map(arr => <p>{arr[1].message}</p>);
+  const errorLength = Object.entries(errors).length
+  const errorMessages = Object.entries(errors).map((arr) => (
+    <li className="errorMsg">{arr[1].message}</li>
+  ))
 
   return (
-    <>
-      {errorLength > 0 ? <div>Please fix the following errors:{errorMessages}</div> : null}
+    <div className="container">
+      
+      <div className="errorsBox">
+        {errorLength > 0 ? (
+          <ul>Please fix the following errors:{errorMessages}</ul>
+        ) : null}
+      </div>
       <form onSubmit={handleSubmit(onSubmit, onError)}>
-        <label htmlFor="name">
-          Name{' '}
-            <input {...register("name", {required: 'Name is required', minLength: {value: 2, message: 'Name must be at least 2 characters'}})} />
-            {errors.name && errors.name.message}
-        </label>
+        <label htmlFor="name">Name </label>
+        <input
+          className={errors.name?.message ? 'error' : ''}
+          {...register('name', {
+            required: 'Name is required',
+            minLength: {
+              value: 2,
+              message: 'Name must be at least 2 characters'
+            }
+          })}
+        />
+        {errors.name?.message}
         <br />
         <label htmlFor="email">
           Email{' '}
-          <input {...register("email", {required: 'Email is required'})} type="email" />
+          <input
+            className={errors.email?.message ? 'error' : ''}
+            {...register('email', { required: 'Email is required' })}
+            type="email"
+          />
+          {errors.email?.message}
         </label>
         <br />
-        <label htmlFor="age">
-          Age{' '}
-          {/* might be a way to set a single message for both errors? */}
-          <input type="number" {...register("age", { min: {value: 5, message: 'Please input valid age'}, max: {value: 150, message: 'Please input valid age'} })} />
-        </label>
-        <br />
-        <label htmlFor="gender">
-          Gender{' '}
-          <select {...register("gender")}>
-            <option value="female">female</option>
-            <option value="male">male</option>
-            <option value="other">other</option>
-          </select>
-        </label>
+        <label htmlFor="age">Age </label>
+        <input
+          className={errors.age?.message ? 'error' : ''}
+          type="number"
+          {...register('age', {
+            min: { value: 5, message: 'Please input valid age' },
+            max: { value: 150, message: 'Please input valid age' }
+          })}
+        />
+        {errors.age?.message}
         <br />
         <input type="submit" value="Submit" disabled={isSubmitting} />
       </form>
-    </>
-  );
+      <style jsx>{`
+        .container {
+          margin: 0 auto;
+          width: 500px;
+          margin-top: 50px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .errorsBox {
+          height: 130px;
+          display: flex;
+          align-items: center;
+        }
+        .errorMsg {
+
+        }
+        .error {
+          border: 2px solid red;
+        }
+      `}</style>
+    </div>
+  )
 }
