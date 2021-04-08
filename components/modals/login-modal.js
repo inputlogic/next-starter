@@ -12,13 +12,7 @@ export function LoginModal () {
   const setModal = useStore(state => state.setModal)
 
   const onSubmit = data => {
-    return fetch(apiUrl('login'), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+    return post(apiUrl('login'), JSON.stringify(data))
       .then((response) => response.json())
       .then((data) => {
         const { token, userId } = data
@@ -34,8 +28,8 @@ export function LoginModal () {
     <Modal variant='small'>
       <h2>Log in</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input type='text' placeholder='email@email.com' label='Email address' name='email' />
-        <input type='password' placeholder='Enter a password' label='Password' name='password' />
+        <input type='text' placeholder='email@email.com' label='Email address' name='email' {...register({ required: true })} /><br />
+        <input type='password' placeholder='Enter a password' label='Password' name='password' /><br />
         <button type='submit' disabled={isSubmitting}>Login</button>
       </form>
     </Modal>
