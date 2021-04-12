@@ -1,5 +1,3 @@
-const R = require('ramda')
-
 import { useEffect } from 'react'
 import { useStore } from '@/util/store'
 
@@ -27,34 +25,34 @@ const useModalClickListener = () => {
   }, [])
 }
 
-export const Modals = ({ children }) => {
+export const Modals = ({ modals }) => {
   const modalName = useStore(state => state.modal)
   useNoScrollClass(modalName)
   useModalClickListener()
   if (!modalName) return null
-  const modals = (Array.isArray(children) ? children : [children]).reduce(
-    (acc, x) => ({ ...acc, [R.path(['type', 'name'], x)]: x }),
-    {},
-  )
   const Match = modals[modalName]
-
   if (!Match) console.warn('no modal named ', modalName)
-
-  return (
-    <div className='modal-container'>{Match}</div>
-  )
+  return <Match />
 }
 
 export const Modal = ({ children, hideClose, variant }) => {
   const setModal = useStore(state => state.setModal)
   return (
-    <div className={`modal-content ${variant || ''}`}>
-      {!hideClose && (
-        <div onClick={() => setModal(null)} className='close'>
-          close
-        </div>
-      )}
-      {children}
+    <div
+      className={`modal-container ${variant || ''}`}
+      onClick={(ev) => {
+        if (ev.target.classList.contains('modal-component-container')) {
+          setModal(null)
+        }
+      }}
+    >
+      <div className={`modal-content ${variant || ''}`} >
+        {!hideClose
+          && <div className='close' onClick={() => setModal(null)}>
+            close
+          </div>}
+        {children}
+      </div>
     </div>
   )
 }
