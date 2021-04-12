@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "next": "latest",
-    "ramda": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "latest",

@@ -26,7 +26,7 @@ export function LoginModal () {
         console.error('ERROR: ', error)
       })
   }
-  
+
   return (
     <Modal variant='small'>
       <h2>Log in</h2>
