@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "next": "latest",
+    "next-iron-session": "lastest",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "latest",
