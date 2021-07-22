@@ -17,24 +17,27 @@ export const get = (url, payload={}) => {
  *
  * returns a standard fetch promise or throws a normalized error
  **/
-export const post = (url, payload={}) => {
+export const post = (url, data={}, payload={}) => {
   payload['method'] = 'POST'
+  payload['body'] = data
   return _fetch(url, payload)
 }
 
 /**
  * Same as `post` but as PUT
  **/
-export const put = (url, payload={}) => {
+export const put = (url, data={}, payload={}) => {
   payload['method'] = 'PUT'
+  payload['body'] = data
   return _fetch(url, payload)
 }
 
 /**
  * Same as `post` but as PATCH
  **/
-export const patch = (url, payload={}) => {
+export const patch = (url, data={}, payload={}) => {
   payload['method'] = 'PATCH'
+  payload['body'] = data
   return _fetch(url, payload)
 }
 
@@ -75,7 +78,7 @@ export const uploadFile = async (file, token) => {
 /**
  * Wrapper to fetch to normalize how we make and receive requests.
  **/
-function _fetch(url, payload={}) {
+async function _fetch(url, payload={}) {
   // If url starts with a slash, we're hitting NextJS's local api (and must use full url)
   // Otherwise, if there is no http defined, assume named api url (see /util/urls.js)
   if (url.startsWith('/')) url = window.location.protocol + '//' + window.location.host + url
@@ -98,36 +101,37 @@ function _fetch(url, payload={}) {
     delete payload.token
   }
 
+  // Add data as body
+  if (payload.data) {
+    payload['body'] = payload.data
+    delete payload.data
+  }
+
   // Ensure body is JSONified
   if (payload.body && typeof payload.body === 'object') {
     payload.body = JSON.stringify(payload.body)
   }
 
-  let result
-
   console.log(`${payload.method}: ${url}`)
   console.log(payload)
 
-  return fetch(url, payload)
-    .then(res => {
-      result = res // Need to set response so we can access further down the chain
-      return res.json()
-    })
-    .then(data => {
-      if(![200, 201, 203, 204].includes(result.status)) {
-        throw({
-          code: result.status, 
-          message: result.status+' '+result.statusText,
-          data
-        })
-      }
-      return data
-    })
-    .catch(error => {
-      if(error.code) throw (error)
+  try {
+    const resp = await fetch(url, payload)
+    const result = await resp.json()
+    if(![200, 201, 203, 204].includes(resp.status)) {
       throw({
-        code: 500,
-        message: error
+        code: result.status, 
+        message: result.status+' '+result.statusText,
+        data
       })
+    } else {
+      return result
+    }
+  } catch (error) {
+    if(error.code) throw (error)
+    throw({
+      code: 500,
+      message: error
     })
   }
+}

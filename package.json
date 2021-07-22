@@ -8,12 +8,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "@hookform/resolvers": "latest",
     "next": "latest",
     "next-iron-session": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "latest",
     "sass": "latest",
+    "yup": "latest",
     "zustand": "latest"
   }
 }

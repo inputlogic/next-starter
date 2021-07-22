@@ -24,7 +24,7 @@ function App({ Component, pageProps, router }) {
     ValidComponent = Component
   }
 
-  // Wrap component in layouts (if it has them) and inject user
+  // Wrap component in layouts (if it has them) and inject props, user and token
   return buildLayout(ValidComponent.Layouts || [], ValidComponent, {...pageProps, user, token})
 }
 
