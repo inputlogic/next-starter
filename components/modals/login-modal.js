@@ -1,31 +1,33 @@
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from "yup"
 
 import { Modal } from '@/components/modals'
-import { TextInput } from '@/components/text-input'
 
-import { apiUrl } from '@/util/urls'
 import { post } from '@/util/api'
 import { useStore } from '@/util/store'
 
 export function LoginModal () {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+  const router = useRouter()
+  const { register, handleSubmit, setError, clearErrors, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(y.object().shape({
       email: y.string().email().required(),
       password: y.string().required()
     }))
   })
-  const setToken = useStore(state => state.setToken)
+  const setUserAndToken = useStore(state => state.setUserAndToken)
   const setModal = useStore(state => state.setModal)
 
   const onSubmit = async data => {
     try {
-      const result = await post('login', data)
-      console.log(result)
-      // setToken(token)
-      // setModal(null)
+      clearErrors()
+      const { token, user } = await post('/api/login', data)
+      setUserAndToken(user, token)
+      setModal(null)
+      router.push('/admin')
     } catch (error) {
+      setError('notification', {type: 'manual', message: 'Invalid login details.'})
       console.log('ERROR:', error)
     }
   }
@@ -33,6 +35,7 @@ export function LoginModal () {
   return (
     <Modal variant='small'>
       <h2>Log in</h2>
+      {errors.notification && <strong>{errors.notification?.message}</strong>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <input placeholder='Email' {...register('email')} /><br />
         {errors.email && <div className='input-error'>{errors.email?.message}</div>}

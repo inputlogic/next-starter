@@ -7,20 +7,22 @@ import '@/styles/index.scss'
 
 function App({ Component, pageProps, router }) {
   const { user, token } = useUser()
-  const loadingUser = user === null
+  // const loadingUser = user === null
   const adminPath = router.pathname.startsWith('/admin')
 
   // Default to a blank component until we figure out what we're rendering based on auth
   let ValidComponent = () => <></>
 
   // If we're on a protected path without a valid user, go to index
-  if(!loadingUser && adminPath && !user.isAdmin) {
+  // if(!loadingUser && adminPath && !user.isAdmin) {
+  if(adminPath && !user?.isAdmin) {
     if (process.browser) router.push('/')
     ValidComponent = Index
   }
 
   // If we're not on a protected path or user is admin, render as normal
-  else if(!loadingUser && (!adminPath || user.isAdmin)) {
+  // else if(!loadingUser && (!adminPath || user.isAdmin)) {
+  else if(!adminPath || user?.isAdmin) {
     ValidComponent = Component
   }
 

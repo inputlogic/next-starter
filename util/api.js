@@ -101,12 +101,6 @@ async function _fetch(url, payload={}) {
     delete payload.token
   }
 
-  // Add data as body
-  if (payload.data) {
-    payload['body'] = payload.data
-    delete payload.data
-  }
-
   // Ensure body is JSONified
   if (payload.body && typeof payload.body === 'object') {
     payload.body = JSON.stringify(payload.body)
@@ -120,9 +114,9 @@ async function _fetch(url, payload={}) {
     const result = await resp.json()
     if(![200, 201, 203, 204].includes(resp.status)) {
       throw({
-        code: result.status, 
-        message: result.status+' '+result.statusText,
-        data
+        code: resp.status, 
+        message: resp.status+' '+resp.statusText,
+        data: result
       })
     } else {
       return result

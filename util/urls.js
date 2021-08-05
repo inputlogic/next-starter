@@ -26,5 +26,6 @@ const urls = {
 const apiUrls = {
   login: '/auth/login',
   signup: '/auth/signup',
+  me: '/me',
   posts: '/posts'
 }

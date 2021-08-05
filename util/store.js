@@ -1,7 +1,9 @@
 import create from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import { devtools } from 'zustand/middleware'
 
-export const useStore = create(persist(devtools((set, get) => ({
+export const useStore = create(devtools((set, get) => ({
+  logout: () => set({ token: null, user: null }),
+
   token: null,
   setToken: (token) => set({ token }),
 
@@ -15,7 +17,4 @@ export const useStore = create(persist(devtools((set, get) => ({
 
   modal: '',
   setModal: (modal) => set({ modal })
-})), {
-  name: 'store',
-  getStorage: () => sessionStorage
-}))
+})))
