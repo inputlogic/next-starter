@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 
 import { Notification } from '@/components/notification'
 import { Modals } from '@/components/modals'
+import { ForgotPasswordModal } from '@/components/modals/forgot-password-modal'
 import { LoginModal } from '@/components/modals/login-modal'
 import { SignupModal } from '@/components/modals/signup-modal'
 import { get } from '@/util/api'
@@ -22,6 +23,7 @@ const BaseLayout = ({ user, children }) => {
     <>
       <Modals
         modals={{
+          ForgotPasswordModal,
           LoginModal,
           SignupModal
         }}

@@ -44,6 +44,7 @@ export function LoginModal () {
         {errors.password && <div className='input-error'>{errors.password?.message}</div>}
 
         <button type='submit' disabled={isSubmitting}>Login</button>
+        <a href="#" onClick={() => setModal('ForgotPasswordModal')}>Forgot password?</a>
       </form>
     </Modal>
   )

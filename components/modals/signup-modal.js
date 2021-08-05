@@ -43,7 +43,7 @@ export function SignupModal () {
         <input type='password' placeholder='Password' {...register('password')} /><br />
         {errors.password && <div className='input-error'>{errors.password?.message}</div>}
 
-        <button type='submit' disabled={isSubmitting}>Login</button>
+        <button type='submit' disabled={isSubmitting}>Signup</button>
       </form>
     </Modal>
   )
