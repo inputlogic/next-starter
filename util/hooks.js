@@ -11,7 +11,6 @@ export function useUser() {
   const setUserAndToken = useStore(state => state.setUserAndToken)
 
   useEffect(async () => {
-    if (user?.id) return
     const data = await get('/api/user')
     setUserAndToken(data.user || null, data.token || null)
   }, [])

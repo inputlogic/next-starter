@@ -7,8 +7,7 @@ export default withSession(async (req, res) => {
 
   if (session) {
     const token = session.token
-    // const user = await get('me', { token })
-    const user = { id: 1, username: 'tester' }
+    const user = await get('me', { token })
     return res.json({ token, user })
   }
 
