@@ -7,17 +7,13 @@ import { apiUrl } from '@/util/urls'
 const Index = () => {
   const setModal = useStore((state) => state.setModal)
 
-  const openLoginModal = () => {
-    setModal('LoginModal')
-  }
-
   return (
     <>
       <Head>
         <title>Next Starter</title>
       </Head>
       <h2>Home</h2>
-      <button onClick={openLoginModal}>Login</button>
+      <button onClick={() => setModal('SignupModal')}>Signup</button>
     </>
   )
 }

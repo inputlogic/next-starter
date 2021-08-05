@@ -4,27 +4,26 @@ import { useRouter } from 'next/router'
 import { Notification } from '@/components/notification'
 import { Modals } from '@/components/modals'
 import { LoginModal } from '@/components/modals/login-modal'
+import { SignupModal } from '@/components/modals/signup-modal'
 import { get } from '@/util/api'
 import { useStore } from '@/util/store'
 
 const BaseLayout = ({ user, children }) => {
   const router = useRouter()
   const logout = useStore((state) => state.logout)
+  const setModal = useStore((state) => state.setModal)
 
   const handleLogout = async () => {
     await get('/api/logout') 
-    console.log('after get')
     logout()
-    console.log('after logout')
-    // router.push('/')
-    // console.log('after push')
   }
 
   return (
     <>
       <Modals
         modals={{
-          LoginModal
+          LoginModal,
+          SignupModal
         }}
       />
       <Notification />
@@ -32,9 +31,11 @@ const BaseLayout = ({ user, children }) => {
       <h1>Next Starter</h1>
 
       <nav>
-        <Link href='/'>Home</Link>&nbsp;|&nbsp;
-        <Link href='/admin'>Admin</Link>&nbsp;|&nbsp;
-        {user && <a href="#" onClick={handleLogout}>Logout</a>}
+        <span><Link href='/'>Home</Link> | </span>
+        {user && <span><Link href='/account'>My Account</Link> | </span>}
+        {user?.isAdmin && <span><Link href='/admin'>Admin</Link> | </span>}
+        {user && <a href="#" onClick={handleLogout}>Logout ({user.email})</a>}
+        {!user && <a href="#" onClick={() => setModal('LoginModal')}>Login</a>}
       </nav>
 
       <br />
