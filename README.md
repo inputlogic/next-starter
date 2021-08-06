@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Local development
 
-Start by creating a `.env.local`. You can use the [1Password Generator](https://1password.com/password-generator/) to create a random session secret easily.
+Start by creating a `.env.local` file in the project root. You can use the [1Password Generator](https://1password.com/password-generator/) to create a random session secret easily.
 
 ```
 NEXT_PUBLIC_ENV=dev
@@ -23,7 +23,7 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 ## Run the API
 
-Now that you're frontend is running, you'll need an API. Setup the [Django API Starter](https://github.com/inputlogic/django-api-starter).
+Now that your frontend is running, you'll need an API. Setup the [Django API Starter](https://github.com/inputlogic/django-api-starter).
 
 ## Learn More
 
