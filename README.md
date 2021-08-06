@@ -23,7 +23,7 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 ## Connect to the API
 
-Now that your frontend is running, you'll need an API. Setup the [Django API Starter](https://github.com/inputlogic/django-api-starter).
+Now that your frontend is running, you'll need an API. For a local development API, setup the [Django API Starter](https://github.com/inputlogic/django-api-starter).
 
 If you'd like to skip this step, simply update your `.env.local` file to point to our staging API on Heroku:
 
