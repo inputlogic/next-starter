@@ -1,40 +1,25 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) and modified with some useful utilities, components, and settings that we ([Input Logic](https://github.com/inputlogic)) often need.
 
-## Getting Started
+## Local development
 
-After cloning this repo:
+Start by creating a `.env.local`. You can use the [1Password Generator](https://1password.com/password-generator/) to create a random session secret easily.
+
+```
+NEXT_PUBLIC_ENV=dev
+NEXT_PUBLIC_API_URL=http://localhost:8000
+SESSION_SECRET=[RANDOM-32-CHARACTER-STRING]
+```
+
+Now install and run the project:
 
 ```
 npm install
-```
-
-Then run the development server:
-
-```
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-## API
-
-You'll need to make a local env file with the projects settings in it. Make a file named `.env.local` in the root of the project, and paste the API url into it:
-
-```
-NEXT_PUBLIC_API_URL=http://input-logic-api.herokuapp.com/
-```
-
-## Admin
-
-You can control the data in the API by logging into the Django admin.
-
-```
-http://input-logic-api.herokuapp.com/admin/login
-```
-
-Please be careful, as this API powers our live web site at inputlogic.ca. 
 
 ## Learn More
 
