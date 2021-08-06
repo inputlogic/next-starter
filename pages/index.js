@@ -4,46 +4,19 @@ import { useEffect } from 'react'
 import { useStore } from '@/util/store'
 import { apiUrl } from '@/util/urls'
 
-import { Layout } from '@/components/layout'
-
-export default function Home() {
-  const count = useStore((state) => state.count)
-  const setCount = useStore((state) => state.setCount)
-  
-  const posts = useStore((state) => state.posts)
-  const setPosts = useStore((state) => state.setPosts)
-  
+const Index = () => {
   const setModal = useStore((state) => state.setModal)
 
-  useEffect(() => {
-    fetch(apiUrl('posts'))
-    .then((resp) => resp.json())
-    .then((data) => {
-      setPosts(data.results)
-    })
-  }, [])
-  
-  const openLoginModal = () => {
-    setModal('LoginModal')
-  }
-
   return (
-    <Layout>
+    <>
       <Head>
         <title>Next Starter</title>
       </Head>
-      <h1>Counter {count}</h1>
-      <button onClick={() => setCount(count + 1)}>Add 1</button>
-      <br /><br />
-      <button onClick={openLoginModal}>Log In Popup</button>
-      <br /><br />
-      <h2>Posts</h2>
-      {posts && posts.length === 0 && <strong>Loading posts...</strong>}
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>{post.title}</li>
-        ))}
-      </ul>
-    </Layout>
+      <h2>Home</h2>
+      <button onClick={() => setModal('SignupModal')}>Signup</button>
+    </>
   )
 }
+
+Index.Layouts = ['BaseLayout']
+export default Index

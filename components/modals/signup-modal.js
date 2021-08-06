@@ -8,7 +8,7 @@ import { Modal } from '@/components/modals'
 import { post } from '@/util/api'
 import { useStore } from '@/util/store'
 
-export function LoginModal () {
+export function SignupModal () {
   const router = useRouter()
   const { register, handleSubmit, setError, clearErrors, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(y.object().shape({
@@ -22,19 +22,19 @@ export function LoginModal () {
   const onSubmit = async data => {
     try {
       clearErrors()
-      const { token, user } = await post('/api/login', data)
+      const { token, user } = await post('/api/signup', data)
       setUserAndToken(user, token)
       setModal(null)
-      router.push('/account')
+      router.push('/admin')
     } catch (error) {
-      setError('notification', {type: 'manual', message: 'Invalid login details.'})
+      setError('notification', {type: 'manual', message: 'User already exists.'})
       if (error?.code !== 400) console.error(error)
     }
   }
 
   return (
     <Modal variant='small'>
-      <h2>Log in</h2>
+      <h2>Signup</h2>
       {errors.notification && <strong>{errors.notification?.message}</strong>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <input placeholder='Email' {...register('email')} /><br />
@@ -43,8 +43,7 @@ export function LoginModal () {
         <input type='password' placeholder='Password' {...register('password')} /><br />
         {errors.password && <div className='input-error'>{errors.password?.message}</div>}
 
-        <button type='submit' disabled={isSubmitting}>Login</button>
-        <a href="#" onClick={() => setModal('ForgotPasswordModal')}>Forgot password?</a>
+        <button type='submit' disabled={isSubmitting}>Signup</button>
       </form>
     </Modal>
   )

@@ -1,11 +1,14 @@
+import { apiUrl } from '@/util/urls'
+import { useStore } from '@/util/store'
+
 /**
  * Utility function for making a GET request.
  *
  * returns a standard fetch promise or throws a normalized error
  **/
-export const get = (url, options={}) => {
-  if(options.params) url += '?' + new URLSearchParams(options.params)
-  return _fetch(url, 'GET', options)
+export const get = (url, payload={}) => {
+  payload['method'] = 'GET'
+  return _fetch(url, payload)
 }
 
 /**
@@ -14,62 +17,115 @@ export const get = (url, options={}) => {
  *
  * returns a standard fetch promise or throws a normalized error
  **/
-export const post = (url, data, options={}) => {
-  options['data'] = data
-  return _fetch(url, 'POST', options)
+export const post = (url, data={}, payload={}) => {
+  payload['method'] = 'POST'
+  payload['body'] = data
+  return _fetch(url, payload)
 }
 
 /**
  * Same as `post` but as PUT
  **/
-export const put = (url, data, options={}) => {
-  options['data'] = data
-  return _fetch(url, 'PUT', options)
+export const put = (url, data={}, payload={}) => {
+  payload['method'] = 'PUT'
+  payload['body'] = data
+  return _fetch(url, payload)
 }
 
 /**
  * Same as `post` but as PATCH
  **/
-export const patch = (url, data, options={}) => {
-  options['data'] = data
-  return _fetch(url, 'PATCH', options)
+export const patch = (url, data={}, payload={}) => {
+  payload['method'] = 'PATCH'
+  payload['body'] = data
+  return _fetch(url, payload)
+}
+
+/**
+ * Gets a signed S3 file url from Django API for direct S3 file uploads.
+ **/
+export const getSignedFile = async (file, token) => {
+  const resp = await post('files', {
+    token,
+    data: {
+      file_name: file.name,
+      content_type: file.type
+    }
+  })
+  return resp
+}
+
+export const uploadFile = async (file, token) => {
+  const { url, s3_data } = await getSignedFile(file, token)
+  let data = new FormData()
+  for (const [k, v] of Object.entries(s3_data.fields)) {
+    data.append(k, v)
+  }
+  data.append('file', file)
+
+  try {
+    const resp = await fetch(s3_data.url, {
+      method: 'POST',
+      body: data
+    })
+  } catch(err) {
+    console.warn('Failed to upload file:', err)
+  }
+
+  return url
 }
 
 /**
  * Wrapper to fetch to normalize how we make and receive requests.
  **/
-function _fetch(url, method, options) {
-  console.log(`${method}: ${url}`)
-  let result
-  let request = {method}
-  let headers = {'Content-Type': 'application/json'}
+async function _fetch(url, payload={}) {
+  // If url starts with a slash, we're hitting NextJS's local api (and must use full url)
+  // Otherwise, if there is no http defined, assume named api url (see /util/urls.js)
+  if (url.startsWith('/')) url = window.location.protocol + '//' + window.location.host + url
+  else if (url.indexOf('http') < 0) url = apiUrl(url)
 
-  if (options.headers) headers = Object.assign(headers, options.headers)
-  if (options.token) headers['Authorization'] = `Token ${options.token}`
-  if (options.data) request['body'] = JSON.stringify(options.data)
+  // Remove params from payload and add to url
+  if (payload.params) {
+    url += '?' + new URLSearchParams(payload.params)
+    delete payload.params
+  }
 
-  request['headers'] = headers
+  // If no headers given, assume json request
+  if (!payload.headers) {
+    payload['headers'] = {'Content-Type': 'application/json'}
+  }
 
-  return fetch(url, request)
-    .then(res => {
-      result = res // Need to set response so we can access further down the chain
-      return res.json()
-    })
-    .then(data => {
-      if(![200, 201, 203, 204].includes(result.status)) {
-        throw({
-          code: result.status, 
-          message: result.status+' '+result.statusText,
-          data
-        })
-      }
-      return data
-    })
-    .catch(error => {
-      if(error.code) throw (error)
+  // If auth is required, use authToken from store
+  if (payload.token) {
+    payload.headers['Authorization'] = `Token ${payload.token}`
+    delete payload.token
+  }
+
+  // Ensure body is JSONified
+  if (payload.body && typeof payload.body === 'object') {
+    payload.body = JSON.stringify(payload.body)
+  }
+
+  console.log(`${payload.method}: ${url}`)
+  console.log(payload)
+
+  try {
+    const resp = await fetch(url, payload)
+    const result = await resp.json()
+    if(![200, 201, 203, 204].includes(resp.status)) {
       throw({
-        code: 500,
-        message: error
+        code: resp.status, 
+        message: resp.status+' '+resp.statusText,
+        data: result
       })
+    } else {
+      return result
+    }
+  } catch (error) {
+    if(error.code) throw (error)
+    throw({
+      code: 500,
+      message: error
     })
   }
+}

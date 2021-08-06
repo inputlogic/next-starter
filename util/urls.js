@@ -24,7 +24,10 @@ const urls = {
  * URLs specific to the API; the host is determined by environment in settings.js
  */
 const apiUrls = {
-  login: 'auth/login',
-  signup: 'auth/signup',
-  posts: 'posts'
+  login: '/auth/login',
+  signup: '/auth/signup',
+  forgotPassword: '/auth/forgot-password',
+  resetPassword: '/auth/reset-password',
+  me: '/me',
+  posts: '/posts'
 }
