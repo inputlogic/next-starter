@@ -21,9 +21,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-## Run the API
+## Connect to the API
 
 Now that your frontend is running, you'll need an API. Setup the [Django API Starter](https://github.com/inputlogic/django-api-starter).
+
+If you'd like to skip this step, simply update your `.env.local` file to point to our staging API on Heroku:
+
+```
+NEXT_PUBLIC_API_URL=https://django-api-starter.herokuapp.com
+```
 
 ## Learn More
 
