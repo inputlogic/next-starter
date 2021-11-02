@@ -1,3 +1,4 @@
+@use "sass:math";
 // General
 $gutter: 16px;
 $gutterR: 1rem;
@@ -49,7 +50,7 @@ $error: #fe4669;
 // For Loading Indicator
 $dotWidth: 10px;
 $dotHeight: 10px;
-$dotRadius: $dotWidth / 2;
+$dotRadius: math.div($dotWidth, 2);
 
 $dotColor: $primary-color;
 $dotBgColor: $dotColor;
