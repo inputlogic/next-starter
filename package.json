@@ -17,5 +17,8 @@
     "sass": "latest",
     "yup": "latest",
     "zustand": "latest"
+  },
+  "devDependencies": {
+    "prettier": "2.2.1"
   }
 }
