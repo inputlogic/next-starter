@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $check-size: 1.35rem;
 
 .checkbox-component {
@@ -23,7 +25,7 @@ $check-size: 1.35rem;
   letter-spacing: unset;
   margin: 0;
   padding-left: $check-size * 1.5;
-  font-size: $check-size / 1.6;
+  font-size: math.div($check-size, 1.6);
   font-weight: normal;
   display: inline-block;
 }
