@@ -57,7 +57,7 @@ $dotBgColor: $dotColor;
 $dotBeforeColor: $dotColor;
 $dotAfterColor: $dotColor;
 
-$dotSpacing: $dotWidth + $dotWidth / 2;
+$dotSpacing: $dotWidth + math.div($dotWidth, 2);
 
 // layout
 $desktop-large-min-width: 1400px;
