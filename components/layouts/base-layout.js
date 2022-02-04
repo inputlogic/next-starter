@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { Notification } from '@/components/notification'
-import { Modals } from '@/components/modals'
-import { ForgotPasswordModal } from '@/components/modals/forgot-password-modal'
-import { LoginModal } from '@/components/modals/login-modal'
-import { SignupModal } from '@/components/modals/signup-modal'
-import { get } from '@/util/api'
-import { useStore } from '@/util/store'
+import { Notification } from 'components/notification/'
+import { Modals } from 'components/modals'
+import { ForgotPasswordModal } from 'components/modals/forgot-password-modal'
+import { LoginModal } from 'components/modals/login-modal'
+import { SignupModal } from 'components/modals/signup-modal'
+import { get } from 'util/api'
+import { useStore } from 'util/store'
 
 const BaseLayout = ({ user, children }) => {
   const router = useRouter()
@@ -15,7 +15,7 @@ const BaseLayout = ({ user, children }) => {
   const setModal = useStore((state) => state.setModal)
 
   const handleLogout = async () => {
-    await get('/api/logout') 
+    await get('/api/logout')
     logout()
   }
 
@@ -25,7 +25,7 @@ const BaseLayout = ({ user, children }) => {
         modals={{
           ForgotPasswordModal,
           LoginModal,
-          SignupModal
+          SignupModal,
         }}
       />
       <Notification />
@@ -33,11 +33,29 @@ const BaseLayout = ({ user, children }) => {
       <h1>Next Starter</h1>
 
       <nav>
-        <span><Link href='/'>Home</Link> | </span>
-        {user && <span><Link href='/account'>My Account</Link> | </span>}
-        {user?.isAdmin && <span><Link href='/admin'>Admin</Link> | </span>}
-        {user && <a href="#" onClick={handleLogout}>Logout ({user.email})</a>}
-        {!user && <a href="#" onClick={() => setModal('LoginModal')}>Login</a>}
+        <span>
+          <Link href="/">Home</Link> |{' '}
+        </span>
+        {user && (
+          <span>
+            <Link href="/account">My Account</Link> |{' '}
+          </span>
+        )}
+        {user?.isAdmin && (
+          <span>
+            <Link href="/admin">Admin</Link> |{' '}
+          </span>
+        )}
+        {user && (
+          <a href="#" onClick={handleLogout}>
+            Logout ({user.email})
+          </a>
+        )}
+        {!user && (
+          <a href="#" onClick={() => setModal('LoginModal')}>
+            Login
+          </a>
+        )}
       </nav>
 
       <br />

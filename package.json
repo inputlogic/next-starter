@@ -8,14 +8,15 @@
     "start": "next start"
   },
   "dependencies": {
-    "@hookform/resolvers": "latest",
-    "next": "latest",
-    "next-iron-session": "latest",
-    "react": "latest",
+    "@hookform/resolvers": "^2.8.8",
+    "iron-session": "^6.0.5",
+    "next": "^12.0.10",
+    "react": "^17.0.2",
     "react-dom": "latest",
-    "react-hook-form": "latest",
+    "react-hook-form": "^7.25.3",
+    "react-query": "^3.34.12",
     "sass": "latest",
-    "yup": "latest",
-    "zustand": "latest"
+    "yup": "~0.32.11",
+    "zustand": "^3.6.9"
   }
 }

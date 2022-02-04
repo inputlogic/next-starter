@@ -1,12 +1,13 @@
-import BaseLayout from '@/components/layouts/base-layout'
-import AdminLayout from '@/components/layouts/admin-layout'
+import BaseLayout from 'components/layouts/base-layout'
+import AdminLayout from 'components/layouts/admin-layout'
 
 const LAYOUTS = {
-  'BaseLayout': BaseLayout,
-  'AdminLayout': AdminLayout,
+  BaseLayout: BaseLayout,
+  AdminLayout: AdminLayout,
 }
 
-export function buildLayout(layouts, Component, pageProps) {
+export function buildLayout(layouts, Component, pageProps, user) {
+  console.log('user on layout', user)
   const Layout = LAYOUTS[layouts[0]]
 
   if (layouts.length > 0) {
@@ -17,5 +18,5 @@ export function buildLayout(layouts, Component, pageProps) {
     )
   }
 
-  return <Component {...pageProps} /> 
+  return <Component {...pageProps} />
 }

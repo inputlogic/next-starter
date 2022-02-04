@@ -1,7 +1,9 @@
 const AccountIndex = () => (
   <>
     <h2>My Account</h2>
-    <p>You should see this page if you're logged in as a regular user or admin.</p>
+    <p>
+      You should see this page if you're logged in as a regular user or admin.
+    </p>
   </>
 )
 
