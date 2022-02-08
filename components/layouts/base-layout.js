@@ -1,6 +1,6 @@
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-
 import { Notification } from 'components/notification/'
 import { Modals } from 'components/modals'
 import { ForgotPasswordModal } from 'components/modals/forgot-password-modal'
@@ -8,16 +8,15 @@ import { LoginModal } from 'components/modals/login-modal'
 import { SignupModal } from 'components/modals/signup-modal'
 import { get } from 'util/api'
 import { useStore } from 'util/store'
+import { useUser } from 'hooks/use-user'
 
-const BaseLayout = ({ user, children }) => {
-  const router = useRouter()
-  const logout = useStore((state) => state.logout)
+const BaseLayout = ({ children }) => {
   const setModal = useStore((state) => state.setModal)
+  const { user, logoutUser } = useUser()
 
-  const handleLogout = async () => {
-    await get('/api/logout')
-    logout()
-  }
+  useEffect(() => {
+    console.log('user in layout', user)
+  }, [user])
 
   return (
     <>
@@ -47,8 +46,8 @@ const BaseLayout = ({ user, children }) => {
           </span>
         )}
         {user && (
-          <a href="#" onClick={handleLogout}>
-            Logout ({user.email})
+          <a href="#" onClick={() => logoutUser.mutate()}>
+            Logout ({user?.user?.email})
           </a>
         )}
         {!user && (

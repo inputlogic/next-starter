@@ -4,10 +4,10 @@ Component - Notification bar
 
 .wrapper {
   &.success {
-    background: green;
+    background: lightgreen;
   }
 
   &.error {
-    background: red;
+    background: lightcoral;
   }
 }

@@ -1,3 +1,1 @@
-import { Notification, showNotification } from './notification'
-
-export { Notification, showNotification }
+export { Notification, showNotification } from './notification'

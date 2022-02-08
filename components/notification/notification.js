@@ -20,6 +20,8 @@ export const Notification = () => {
   })
 
   return notification ? (
-    <div className={classnames([styles.wrapper, styles[type]])}>{text}</div>
+    <div className={classnames([styles.wrapper, styles[type]])}>
+      <div className={classnames(['container', styles.container])}>{text}</div>
+    </div>
   ) : null
 }

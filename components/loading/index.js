@@ -1,3 +1,2 @@
-import { InlineLoader } from './inline'
-
-export { InlineLoader }
+export { InlineLoader } from './inline'
+export { FetchingIndicator } from './fetching'

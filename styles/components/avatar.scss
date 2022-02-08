@@ -9,7 +9,7 @@ Component - Avatar
     overflow: hidden;
     display: flex;
     background-color: $brand-color-1;
-    color: #fff;
+    color: $white;
 
     &.hasImage {
       background-color: transparent;

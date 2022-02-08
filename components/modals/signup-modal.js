@@ -2,11 +2,9 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
-
 import { Modal } from 'components/modals'
-
-import { post } from 'util/api'
 import { useStore } from 'util/store'
+import { useUser } from 'hooks/use-user'
 
 export function SignupModal() {
   const router = useRouter()
@@ -26,12 +24,12 @@ export function SignupModal() {
   })
   const setUserAndToken = useStore((state) => state.setUserAndToken)
   const setModal = useStore((state) => state.setModal)
+  const { registerUser } = useUser()
 
   const onSubmit = async (data) => {
     try {
       clearErrors()
-      const { token, user } = await post('/api/signup', data)
-      setUserAndToken(user, token)
+      await registerUser.mutateAsync(data)
       setModal(null)
       router.push('/admin')
     } catch (error) {

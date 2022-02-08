@@ -1,3 +1,1 @@
-import { ErrorDisplay } from './error-display'
-
-export { ErrorDisplay }
+export { ErrorDisplay } from './error-display'

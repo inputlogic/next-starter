@@ -1,8 +1,6 @@
-import { Checkbox } from './checkbox'
-import { Dropdown } from './dropdown'
-import { RadioButton } from './radio-button'
-import { Select } from './select'
-import { TextInput } from './text-input'
-import { TextArea } from './textarea'
-
-export { Checkbox, Dropdown, RadioButton, Select, TextInput, TextArea }
+export { Checkbox } from './checkbox'
+export { Dropdown } from './dropdown'
+export { RadioButton } from './radio-button'
+export { Select } from './select'
+export { TextInput } from './text-input'
+export { TextArea } from './textarea'

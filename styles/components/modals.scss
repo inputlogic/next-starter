@@ -1,24 +1,6 @@
 /* =============================================================================
 Component - Modal
 ============================================================================= */
-@keyframes modalOpen {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes modalContentOpen {
-  0% {
-    transform: translateY(-5px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-
 .modal-container {
   display: flex;
   align-items: center;

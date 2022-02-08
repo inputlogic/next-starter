@@ -3,7 +3,8 @@ Variables
 ============================================================================= */
 // Import this file into css modules in the components folder
 
-// General
+/* General
+=================================================== */
 $gutter: 16px;
 $gutterR: 1rem;
 $gutterE: 1em;
@@ -15,12 +16,14 @@ $box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.1);
 $box-shadow-light: 0 2px 7px 0 rgba(40, 40, 40, 0.05);
 $drop-shadow: drop-shadow($box-shadow);
 
-// Typography
+/* Typography
+=================================================== */
 $font-family: 'Helvetica', arial, sans-serif;
 $line-height: 1.6;
 $font-size: 16px;
 
-// Colors
+/* Colors
+=================================================== */
 $brand-color-1: #8f9e7f;
 $brand-color-2: #422b82;
 $brand-color-3: #315860;
@@ -57,7 +60,8 @@ $success: #74d2b6;
 $warning: #fbb231;
 $error: #fe4669;
 
-// layout
+/* Media Queries / layout
+=================================================== */
 $desktop-extra-large-min-width: 1600px;
 $desktop-large-min-width: 1400px;
 $desktop-max-width: 1200px;
