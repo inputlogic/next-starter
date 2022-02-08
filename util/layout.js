@@ -45,7 +45,7 @@ const AuthedContent = ({ pageProps, layouts, Component }) => {
   }
 
   if (userIsError) {
-    return <ErrorDisplay text={userError} />
+    return <ErrorDisplay error={userError} />
   }
 
   if (
