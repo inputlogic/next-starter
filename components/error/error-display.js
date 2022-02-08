@@ -1,9 +1,9 @@
-export const ErrorDisplay = ({ text, code }) => {
-  console.log('ERROR', code && code, text)
+export const ErrorDisplay = ({ error }) => {
+  const { message, code } = error
+  console.log('ERROR', code, message?.message)
   return (
     <div>
-      {code && `${code}: `}
-      {text}
+      {code}: {message?.message}
     </div>
   )
 }
