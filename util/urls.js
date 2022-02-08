@@ -1,6 +1,6 @@
-import settings from '@/util/settings'
+import settings from 'util/settings'
 
-export function url(pathName, args={}) {
+export function url(pathName, args = {}) {
   let u = urls[pathName]
   for (const [k, v] of Object.entries(args)) {
     u = u.replace(`:${k}`, v)
@@ -17,7 +17,7 @@ export function apiUrl(pathName) {
  */
 const urls = {
   // Public routes
-  index: '/'
+  index: '/',
 }
 
 /**
@@ -29,5 +29,10 @@ const apiUrls = {
   forgotPassword: '/auth/forgot-password',
   resetPassword: '/auth/reset-password',
   me: '/me',
-  posts: '/posts'
 }
+
+/**
+ * Protected URLS that are gated by auth
+ */
+export const protectedUrls = ['/account']
+export const adminUrls = ['/admin']

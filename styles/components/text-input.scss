@@ -1,0 +1,68 @@
+/* =============================================================================
+Component - Text input
+============================================================================= */
+.input-component {
+  position: relative;
+  margin-bottom: $gutterE * 1.5;
+
+  &.small-input {
+    input {
+      max-width: 50px;
+    }
+  }
+
+  &.no-margin {
+    margin-bottom: 0;
+  }
+
+  label {
+    margin: 0 0 0.3em 0;
+    display: block;
+    color: fade($text-color, 90%);
+    font-size: 0.8em;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.8em;
+    outline: none;
+    border: solid 1px $middle-grey;
+    border-radius: $border-radius;
+    background-color: $white;
+    font-size: 0.9em;
+    font-family: $font-family;
+    font-weight: normal;
+    -webkit-appearance: none;
+    color: $text-color;
+
+    @media #{$phone} {
+      font-size: 16px;
+    }
+
+    &::placeholder {
+      color: fade($text-color, 80%);
+    }
+
+    &:read-only {
+      background-color: $light-grey;
+      color: $dark-grey;
+    }
+
+    &.error {
+      background-image: url(/images/icons/icon-error-red.svg);
+      background-repeat: no-repeat;
+      background-position: calc(100% - 1rem);
+      background-size: 1rem 1rem;
+    }
+  }
+
+  & + .input-error {
+    display: block;
+    color: $error;
+    font-size: 12px;
+    margin-top: -$gutterE * 1.5;
+    margin-bottom: $gutterE * 1.5;
+  }
+}

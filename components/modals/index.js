@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { useStore } from '@/util/store'
+import { useStore } from 'util/store'
 
 // add no-scroll class to body when
 // modal is visible
-const useNoScrollClass = modal => {
+const useNoScrollClass = (modal) => {
   useEffect(() => {
     if (!modal) return
     document.body.classList.add('no-scroll')
@@ -13,9 +13,9 @@ const useNoScrollClass = modal => {
 
 // remove modal on click outside modal
 const useModalClickListener = () => {
-  const setModal = useStore(state => state.setModal)
+  const setModal = useStore((state) => state.setModal)
   useEffect(() => {
-    const cb = ev => {
+    const cb = (ev) => {
       if (ev.target.classList.contains('modal-container')) {
         setModal(null)
       }
@@ -26,7 +26,7 @@ const useModalClickListener = () => {
 }
 
 export const Modals = ({ modals }) => {
-  const modalName = useStore(state => state.modal)
+  const modalName = useStore((state) => state.modal)
   useNoScrollClass(modalName)
   useModalClickListener()
   if (!modalName) return null
@@ -36,7 +36,7 @@ export const Modals = ({ modals }) => {
 }
 
 export const Modal = ({ children, hideClose, variant }) => {
-  const setModal = useStore(state => state.setModal)
+  const setModal = useStore((state) => state.setModal)
   return (
     <div
       className={`modal-container ${variant || ''}`}
@@ -46,11 +46,12 @@ export const Modal = ({ children, hideClose, variant }) => {
         }
       }}
     >
-      <div className={`modal-content ${variant || ''}`} >
-        {!hideClose
-          && <div className='close' onClick={() => setModal(null)}>
+      <div className={`modal-content ${variant || ''}`}>
+        {!hideClose && (
+          <div className="close" onClick={() => setModal(null)}>
             close
-          </div>}
+          </div>
+        )}
         {children}
       </div>
     </div>

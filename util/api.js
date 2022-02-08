@@ -1,12 +1,12 @@
-import { apiUrl } from '@/util/urls'
-import { useStore } from '@/util/store'
+import { apiUrl } from 'util/urls'
+import { useStore } from 'util/store'
 
 /**
  * Utility function for making a GET request.
  *
  * returns a standard fetch promise or throws a normalized error
  **/
-export const get = (url, payload={}) => {
+export const get = (url, payload = {}) => {
   payload['method'] = 'GET'
   return _fetch(url, payload)
 }
@@ -17,7 +17,7 @@ export const get = (url, payload={}) => {
  *
  * returns a standard fetch promise or throws a normalized error
  **/
-export const post = (url, data={}, payload={}) => {
+export const post = (url, data = {}, payload = {}) => {
   payload['method'] = 'POST'
   payload['body'] = data
   return _fetch(url, payload)
@@ -26,7 +26,7 @@ export const post = (url, data={}, payload={}) => {
 /**
  * Same as `post` but as PUT
  **/
-export const put = (url, data={}, payload={}) => {
+export const put = (url, data = {}, payload = {}) => {
   payload['method'] = 'PUT'
   payload['body'] = data
   return _fetch(url, payload)
@@ -35,7 +35,7 @@ export const put = (url, data={}, payload={}) => {
 /**
  * Same as `post` but as PATCH
  **/
-export const patch = (url, data={}, payload={}) => {
+export const patch = (url, data = {}, payload = {}) => {
   payload['method'] = 'PATCH'
   payload['body'] = data
   return _fetch(url, payload)
@@ -49,8 +49,8 @@ export const getSignedFile = async (file, token) => {
     token,
     data: {
       file_name: file.name,
-      content_type: file.type
-    }
+      content_type: file.type,
+    },
   })
   return resp
 }
@@ -66,9 +66,9 @@ export const uploadFile = async (file, token) => {
   try {
     const resp = await fetch(s3_data.url, {
       method: 'POST',
-      body: data
+      body: data,
     })
-  } catch(err) {
+  } catch (err) {
     console.warn('Failed to upload file:', err)
   }
 
@@ -78,10 +78,11 @@ export const uploadFile = async (file, token) => {
 /**
  * Wrapper to fetch to normalize how we make and receive requests.
  **/
-async function _fetch(url, payload={}) {
+async function _fetch(url, payload = {}) {
   // If url starts with a slash, we're hitting NextJS's local api (and must use full url)
   // Otherwise, if there is no http defined, assume named api url (see /util/urls.js)
-  if (url.startsWith('/')) url = window.location.protocol + '//' + window.location.host + url
+  if (url.startsWith('/'))
+    url = window.location.protocol + '//' + window.location.host + url
   else if (url.indexOf('http') < 0) url = apiUrl(url)
 
   // Remove params from payload and add to url
@@ -92,7 +93,7 @@ async function _fetch(url, payload={}) {
 
   // If no headers given, assume json request
   if (!payload.headers) {
-    payload['headers'] = {'Content-Type': 'application/json'}
+    payload['headers'] = { 'Content-Type': 'application/json' }
   }
 
   // If auth is required, use authToken from store
@@ -112,20 +113,20 @@ async function _fetch(url, payload={}) {
   try {
     const resp = await fetch(url, payload)
     const result = await resp.json()
-    if(![200, 201, 203, 204].includes(resp.status)) {
-      throw({
-        code: resp.status, 
-        message: resp.status+' '+resp.statusText,
-        data: result
-      })
+    if (![200, 201, 203, 204].includes(resp.status)) {
+      throw {
+        code: resp.status,
+        message: resp.status + ' ' + resp.statusText,
+        data: result,
+      }
     } else {
       return result
     }
   } catch (error) {
-    if(error.code) throw (error)
-    throw({
+    if (error.code) throw error
+    throw {
       code: 500,
-      message: error
-    })
+      message: error,
+    }
   }
 }

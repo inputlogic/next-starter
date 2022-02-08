@@ -1,0 +1,212 @@
+/* =============================================================================
+Component - Button
+============================================================================= */
+.button-reset {
+  border: 0;
+  outline: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: $font-family;
+  line-height: 1;
+  background-color: transparent;
+}
+
+.btn {
+  @extend .button-reset;
+  padding: 0.7rem 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $brand-color-1;
+  border: solid 1px $brand-color-1;
+  border-radius: $border-radius;
+  color: $white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  // To remedy text shift during transform animation
+  transform: perspective(1px) translateZ(0);
+  backface-visibility: hidden;
+  will-change: auto;
+
+  .icon-wrap {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    position: relative;
+
+    svg.icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: inline-block;
+      width: 1.4rem;
+      height: 1.4rem;
+      stroke: currentColor;
+      fill: transparent;
+    }
+  }
+
+  .icon-wrap + span:not(icon-wrap),
+  span:not(icon-wrap) + .icon-wrap {
+    margin-left: 0.6rem;
+  }
+
+  &.min-width {
+    min-width: 7.75rem;
+  }
+
+  /* States
+  =================================================== */
+  &.disabled,
+  &:disabled {
+    border-color: $light-grey;
+    background-color: $light-grey;
+    color: $dark-grey;
+
+    &:hover {
+      border-color: $light-grey;
+      background-color: $light-grey;
+      color: $dark-grey;
+      cursor: default;
+    }
+  }
+
+  &:hover {
+    background-color: lighten($brand-color-1, 10%);
+    border-color: lighten($brand-color-1, 10%);
+    color: $white;
+    text-decoration: none;
+  }
+
+  &:active {
+    opacity: 0.9;
+    transform: translate(0, 0.125rem);
+  }
+
+  /* Variations
+  =================================================== */
+
+  &.btn-small {
+    padding: 0.5rem 1.1rem;
+    font-weight: 500;
+    font-size: 0.735rem;
+
+    .icon-wrap {
+      svg.icon {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+
+  &.btn-wide {
+    padding-right: 3rem;
+    padding-left: 3rem;
+  }
+
+  &.btn-secondary {
+    background-color: $brand-color-2;
+    border-color: $brand-color-2;
+
+    &:hover {
+      background-color: lighten($brand-color-2, 10%);
+      border-color: lighten($brand-color-2, 10%);
+    }
+  }
+
+  &.btn-outline {
+    background-color: transparent;
+    border-color: currentColor;
+    color: $brand-color-2;
+
+    &:hover {
+      background-color: transparent;
+      border-color: currentColor;
+      color: $brand-color-1;
+    }
+
+    &.disabled,
+    &:disabled {
+      border-color: $grey;
+      background-color: transparent;
+      color: $dark-grey;
+
+      &:hover {
+        border-color: $grey;
+        background-color: transparent;
+        color: $dark-grey;
+        cursor: default;
+      }
+    }
+  }
+
+  &.btn-text {
+    background-color: transparent;
+    border-color: transparent;
+    color: $text-color;
+
+    &:hover {
+      background-color: transparent;
+      border-color: transparent;
+    }
+  }
+
+  &.btn-center {
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+  }
+
+  &.btn-fullwidth {
+    width: 100%;
+  }
+
+  &.error {
+    color: $error;
+  }
+
+  &.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .icon-wrap {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      position: relative;
+
+      svg.icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: inline-block;
+        width: 1.2rem;
+        height: 1.2rem;
+        stroke: currentColor;
+        fill: transparent;
+      }
+    }
+
+    .icon-wrap + .text,
+    .text + .icon-wrap {
+      margin-left: 0.55rem;
+    }
+  }
+}
+
+.button-group {
+  display: flex;
+
+  .btn + .btn {
+    margin-left: 1rem;
+  }
+}
