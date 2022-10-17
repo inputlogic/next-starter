@@ -4,6 +4,8 @@ export default function withSession(handler) {
   return withIronSessionApiRoute(handler, {
     password: process.env.SESSION_SECRET,
     cookieName: 'session',
-    cookieOptions: {},
+    cookieOptions: {
+      secure: process.env.NODE_ENV === 'production',
+    },
   })
 }

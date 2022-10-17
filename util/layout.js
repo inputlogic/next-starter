@@ -7,13 +7,11 @@ import { protectedUrls, adminUrls } from 'util/urls'
 import { useUser } from 'hooks/use-user'
 
 import BaseLayout from 'components/layouts/base-layout'
-import AdminLayout from 'components/layouts/admin-layout'
 
 const queryClient = new QueryClient()
 
 const LAYOUTS = {
   BaseLayout: BaseLayout,
-  AdminLayout: AdminLayout,
 }
 
 export function buildLayout(layouts, Component, pageProps) {
@@ -36,9 +34,6 @@ const AuthedContent = ({ pageProps, layouts, Component }) => {
   const pathIsProtected = protectedUrls.filter((url) => {
     return router?.pathname?.startsWith(url)
   })
-  const pathIsAdmin = adminUrls.filter((url) => {
-    return router?.pathname?.startsWith(url)
-  })
 
   if (userIsLoading) {
     return <InlineLoader text="Loading" />
@@ -48,10 +43,7 @@ const AuthedContent = ({ pageProps, layouts, Component }) => {
     return <ErrorDisplay error={userError} />
   }
 
-  if (
-    (pathIsAdmin.length && !user?.isAdmin) ||
-    (pathIsProtected.length && !user)
-  ) {
+  if (pathIsProtected.length && !user) {
     router.push('/')
     return <></>
   }

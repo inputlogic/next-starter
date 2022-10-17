@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { useUser } from '@/hooks/use-user'
 import { useStore } from 'util/store'
 import { FetchingIndicator } from 'components/loading'
+import { Stylesheet } from '@/components/stylesheet'
 
 const Index = () => {
   const setModal = useStore((state) => state.setModal)
@@ -12,9 +13,10 @@ const Index = () => {
   return (
     <>
       <Head>
-        <title>Next Starter</title>
+        <title>Replayz</title>
       </Head>
       <h2>Home</h2>
+      <Stylesheet />
       {userIsFetching && <FetchingIndicator text="Refreshing" />}
       {user && !userIsLoading && <p>Hello {user?.user?.email}</p>}
       {user && !userIsLoading ? (

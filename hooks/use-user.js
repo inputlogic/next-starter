@@ -91,6 +91,7 @@ export function useUser() {
 
 // Fetch current logged-in user from API route with iron-session
 export async function fetchUser() {
+  return {} // @TODO: remove once backend is created
   const user = await get('/api/user')
   if (user?.token) {
     return user
