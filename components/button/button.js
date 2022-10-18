@@ -34,8 +34,6 @@ export const Button = ({
     `btn-${href ? 'link' : 'button'}`,
     className,
     icon ? 'btn-icon' : null,
-    small ? 'btn-small' : null,
-    wide ? 'btn-wide' : null,
   ])
 
   const InnerMarkup = () => {

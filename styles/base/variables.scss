@@ -5,9 +5,9 @@ Variables
 
 /* General
 =================================================== */
-$gutter: 16px;
-$gutterR: 1rem;
-$gutterE: 1em;
+$gutter: 24px;
+$gutterR: 1.5rem;
+$gutterE: 1.5em;
 $border-radius: 12px;
 $container-width: 1280px;
 $container-width-inner: 800px;
@@ -18,7 +18,8 @@ $drop-shadow: drop-shadow($box-shadow);
 
 /* Typography
 =================================================== */
-$font-family: 'Helvetica', arial, sans-serif;
+$base-font: 'Inter', 'Helvetica', arial, sans-serif;
+$heading-font: 'FaroLucky', 'Helvetica', arial, sans-serif;
 $line-height: 1.6;
 $font-size: 16px;
 
@@ -29,7 +30,6 @@ $colors: (
     default: #22dd8f,
     800: #0b4a30,
     700: #137b4f,
-    600: #1bac6f,
     500: #22dd8f,
     400: #53e4a8,
     300: #84ecc1,
@@ -42,9 +42,7 @@ $colors: (
     900: #000c1a,
     800: #00234d,
     700: #003b80,
-    600: #006ae6,
     500: #1a84ff,
-    400: #4d9fff,
     300: #b3d6ff,
     200: #c9e2ff,
     100: #e5f1ff,

@@ -15,7 +15,7 @@ export const Tabs = ({ tabs }) => {
       opacity: 0,
       maxHeight: 0,
       transition: {
-        duration: 0.2,
+        duration: 0,
       },
     },
     animate: {

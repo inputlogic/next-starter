@@ -1,3 +1,42 @@
 /* =============================================================================
 Font declarations
 ============================================================================= */
+$fontsDirectory: '/fonts';
+
+/* Inter regular */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+    url('#{$fontsDirectory}/inter-v12-latin-regular.woff2') format('woff2'),
+    url('#{$fontsDirectory}/inter-v12-latin-regular.woff') format('woff');
+}
+/* Inter semibold */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  src: local(''),
+    url('#{$fontsDirectory}/inter-v12-latin-600.woff2') format('woff2'),
+    url('#{$fontsDirectory}/inter-v12-latin-600.woff') format('woff');
+}
+
+/* Faro Lucky semibold */
+@font-face {
+  font-family: 'FaroLucky';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+    url('#{$fontsDirectory}/FaroWeb-SemiBoldLucky.woff2') format('woff2'),
+    url('#{$fontsDirectory}/FaroWeb-SemiBoldLucky.woff') format('woff');
+}
+/* Faro Lucky bold */
+@font-face {
+  font-family: 'FaroLucky';
+  font-style: normal;
+  font-weight: 600;
+  src: local(''),
+    url('#{$fontsDirectory}/FaroWeb-BoldLucky.woff2') format('woff2'),
+    url('#{$fontsDirectory}/FaroWeb-BoldLucky.woff') format('woff');
+}

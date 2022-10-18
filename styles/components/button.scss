@@ -7,31 +7,36 @@ Component - Button
   margin: 0;
   padding: 0;
   cursor: pointer;
-  font-family: $font-family;
+  font-family: $base-font;
   line-height: 1;
   background-color: transparent;
 }
 
+// Base / primary
 .btn {
   @extend .button-reset;
-  padding: 0.7rem 1.1rem;
+  padding: 10px 22px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: color(greens);
-  border: solid 1px color(greens);
-  border-radius: $border-radius;
-  color: $white;
-  font-size: 0.75rem;
+  background-color: color(greens, 800);
+  border: solid 1px color(greens, 800);
+  border-radius: calc(#{$border-radius} / 2);
+  color: color(greys, 50);
+  font-size: 1rem;
   font-weight: 600;
+  font-family: $heading-font;
   text-align: center;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
   position: relative;
-  // To remedy text shift during transform animation
-  transform: perspective(1px) translateZ(0);
-  backface-visibility: hidden;
-  will-change: auto;
+  line-height: 1.25rem;
+
+  &:disabled,
+  &.disabled {
+    cursor: default;
+    pointer-events: none;
+  }
 
   .icon-wrap {
     display: inline-block;
@@ -61,102 +66,174 @@ Component - Button
     min-width: 7.75rem;
   }
 
-  /* States
-  =================================================== */
-  &.disabled,
-  &:disabled {
-    border-color: color(greys, 300);
-    background-color: color(greys, 300);
-    color: color(greys, 700);
-
-    &:hover {
-      border-color: color(greys, 300);
-      background-color: color(greys, 300);
-      color: color(greys, 700);
-      cursor: default;
-    }
-  }
-
-  &:hover {
-    background-color: color(greens), 10%;
-    border-color: color(greens), 10%;
-    color: $white;
-    text-decoration: none;
-  }
-
   &:active {
-    opacity: 0.9;
     transform: translate(0, 0.125rem);
   }
 
-  /* Variations
+  /* Primary
   =================================================== */
+  &.btn-primary:disabled,
+  &.btn-primary.disabled {
+    background-color: color(nuetrals, 200);
+    border-color: color(nuetrals, 200);
+    color: color(greys, 600);
+    cursor: default;
+  }
 
-  &.btn-small {
-    padding: 0.5rem 1.1rem;
-    font-weight: 500;
-    font-size: 0.735rem;
+  @media (hover: hover) {
+    &.btn-primary {
+      &:hover {
+        background-color: color(greens, 700);
+        border-color: color(greens, 700);
+        color: $white;
+        text-decoration: none;
+      }
 
-    .icon-wrap {
-      svg.icon {
-        width: 1rem;
-        height: 1rem;
+      &:disabled,
+      &.disabled {
+        &:hover {
+          background-color: color(nuetrals, 200);
+          border-color: color(nuetrals, 200);
+          color: color(greys, 600);
+        }
       }
     }
   }
 
-  &.btn-wide {
-    padding-right: 3rem;
-    padding-left: 3rem;
-  }
-
+  /* Secondary
+  =================================================== */
   &.btn-secondary {
-    background-color: color(blues);
-    border-color: color(blues);
+    background-color: color(greens, 400);
+    border-color: color(greens, 400);
+    color: color(greens, 800);
 
-    &:hover {
-      background-color: color(blues), 10%;
-      border-color: color(blues), 10%;
+    &:disabled,
+    &.disabled {
+      color: color(greys, 600);
+      background-color: color(greens, 200);
+      border-color: color(greens, 200);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: color(greens, 500);
+        border-color: color(greens, 500);
+      }
+
+      &:disabled,
+      &.disabled {
+        &:hover {
+          color: color(greys, 600);
+          background-color: color(greens, 200);
+          border-color: color(greens, 200);
+        }
+      }
     }
   }
 
-  &.btn-outline {
-    background-color: transparent;
-    border-color: currentColor;
-    color: color(blues);
+  /* Primary Outline
+  =================================================== */
 
-    &:hover {
-      background-color: transparent;
-      border-color: currentColor;
-      color: color(greens);
-    }
+  &.btn-primary-outline {
+    background-color: transparent;
+    border-color: color(greys, 500);
+    color: color(greys, 900);
+    border-width: 1.5px;
 
     &.disabled,
     &:disabled {
-      border-color: color(greys);
+      border-color: color(nuetrals, 400);
       background-color: transparent;
-      color: color(greys, 700);
+      color: color(greys, 500);
+    }
 
+    @media (hover: hover) {
       &:hover {
-        border-color: color(greys);
         background-color: transparent;
-        color: color(greys, 700);
-        cursor: default;
+        border-color: color(greens, 500);
+        color: color(greys, 900);
+      }
+
+      &:disabled,
+      .disabled {
+        &:hover {
+          border-color: color(nuetrals, 400);
+          background-color: transparent;
+          color: color(greys, 500);
+        }
       }
     }
   }
+
+  /* Secondary Outline
+  =================================================== */
+
+  &.btn-secondary-outline {
+    background-color: transparent;
+    border-color: color(nuetrals, 400);
+    color: color(greys, 900);
+    border-width: 1.5px;
+
+    &.disabled,
+    &:disabled {
+      border-color: color(nuetrals, 400);
+      background-color: transparent;
+      color: color(greys, 500);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: transparent;
+        border-color: color(greys, 600);
+        color: color(greys, 900);
+      }
+
+      &:disabled,
+      .disabled {
+        &:hover {
+          border-color: color(nuetrals, 400);
+          background-color: transparent;
+          color: color(greys, 500);
+        }
+      }
+    }
+  }
+
+  /* Text
+  =================================================== */
 
   &.btn-text {
     background-color: transparent;
     border-color: transparent;
-    color: $text-color;
+    color: color(greys, 700);
 
-    &:hover {
+    &:disabled,
+    &.disabled {
       background-color: transparent;
       border-color: transparent;
+      color: color(greys, 500);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: transparent;
+        border-color: transparent;
+        color: color(greys, 800);
+      }
+
+      &:disabled,
+      &.disabled {
+        &:hover {
+          background-color: transparent;
+          border-color: transparent;
+          color: color(greys, 500);
+        }
+      }
     }
   }
 
+  /* Helpers
+  =================================================== */
   &.btn-center {
     margin-right: auto;
     margin-left: auto;
@@ -167,15 +244,18 @@ Component - Button
     width: 100%;
   }
 
-  &.error {
-    color: $error;
-  }
-
+  /* Icon
+=================================================== */
   &.btn-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     position: relative;
+
+    .btn-wrap {
+      display: flex;
+      align-items: center;
+    }
 
     .icon-wrap {
       display: inline-block;
@@ -189,10 +269,8 @@ Component - Button
         left: 50%;
         transform: translate(-50%, -50%);
         display: inline-block;
-        width: 1.2rem;
-        height: 1.2rem;
-        stroke: currentColor;
-        fill: transparent;
+        width: 1.3rem;
+        height: 1.3rem;
       }
     }
 
@@ -201,8 +279,38 @@ Component - Button
       margin-left: 0.55rem;
     }
   }
+
+  /* Small
+=================================================== */
+  &.btn-small {
+    padding: 5px 18px;
+    font-size: 0.875rem;
+
+    .icon-wrap {
+      svg.icon {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+
+  /* x-Small
+=================================================== */
+  &.btn-xsmall {
+    padding: 2px 18px;
+    font-size: 0.75rem;
+
+    .icon-wrap {
+      svg.icon {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
 }
 
+/* Group layout
+=================================================== */
 .button-group {
   display: flex;
 

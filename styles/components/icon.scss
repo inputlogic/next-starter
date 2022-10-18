@@ -10,7 +10,17 @@ Component - Icon
     display: block;
     width: 100%;
     height: 100%;
-    stroke: currentColor;
-    fill: transparent;
+
+    &.stroked,
+    &.stroked path {
+      stroke: currentColor;
+      fill: none;
+    }
+
+    &.filled,
+    &.filled path {
+      stroke: none;
+      fill: currentColor;
+    }
   }
 }
