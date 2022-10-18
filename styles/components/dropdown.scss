@@ -47,7 +47,7 @@ Component - Dropdown
         padding: 0.7rem 1rem;
 
         &:hover {
-          background-color: $light-green;
+          background-color: color(greens, 300);
         }
       }
     }

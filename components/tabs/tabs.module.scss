@@ -1,0 +1,30 @@
+/* =============================================================================
+Tabs
+============================================================================= */
+@import '/styles/base/variables.scss';
+
+.tabs-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.tab {
+  border-radius: $border-radius $border-radius 0 0;
+  padding: 12px 18px 29px;
+  background: color(nuetrals, 0);
+  color: color(greys, 900);
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+
+  &.active {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+  }
+}
+
+// correct panel border-radius when tabbed
+.tabs :global(.panel) {
+  border-top-left-radius: 0;
+}

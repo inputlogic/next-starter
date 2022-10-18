@@ -19,7 +19,7 @@ Component - textarea
     resize: none;
 
     &:focus {
-      border: 1px solid $brand-color-2;
+      border: 1px solid color(blues);
     }
   }
 }

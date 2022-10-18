@@ -28,7 +28,7 @@ Component - Text input
     width: 100%;
     padding: 0.8em;
     outline: none;
-    border: solid 1px $middle-grey;
+    border: solid 1px color(greys);
     border-radius: $border-radius;
     background-color: $white;
     font-size: 0.9em;
@@ -46,8 +46,8 @@ Component - Text input
     }
 
     &:read-only {
-      background-color: $light-grey;
-      color: $dark-grey;
+      background-color: color(greys, 300);
+      color: color(greys, 700);
     }
 
     &.error {

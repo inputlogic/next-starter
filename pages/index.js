@@ -15,10 +15,15 @@ const Index = () => {
       <Head>
         <title>Replayz</title>
       </Head>
-      <h2>Home</h2>
+      <h2>
+        Welcome,
+        {user && !userIsLoading && user?.user
+          ? `${user?.user?.email}`
+          : 'Username'}
+      </h2>
       <Stylesheet />
       {userIsFetching && <FetchingIndicator text="Refreshing" />}
-      {user && !userIsLoading && <p>Hello {user?.user?.email}</p>}
+
       {user && !userIsLoading ? (
         <button onClick={() => logoutUser.mutate()}>Logout</button>
       ) : (

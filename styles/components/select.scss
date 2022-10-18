@@ -18,7 +18,7 @@ Component - Select field
   overflow: hidden;
   background: $white url(/images/controls/arrow-down.svg) no-repeat center;
   background-size: 0.65em 0.35em;
-  border: solid 1px $middle-grey;
+  border: solid 1px color(greys);
   border-radius: $border-radius;
   width: 100%;
 }
@@ -39,8 +39,8 @@ Component - Select field
   padding-right: 2.5em;
 
   &[readonly] {
-    background-color: $light-grey;
-    color: $dark-grey;
+    background-color: color(greys, 300);
+    color: color(greys, 700);
   }
 
   @media #{$phone} {

@@ -33,7 +33,7 @@ $check-size: 1.35rem;
 .checkbox-component:hover {
   input[type='checkbox'] + label::before,
   [type='checkbox'] + label::after {
-    border-color: $brand-color-1;
+    border-color: color(greens);
   }
 }
 
@@ -45,7 +45,7 @@ $check-size: 1.35rem;
   top: 50%;
   transform: translateY(-50%);
   background-color: $white;
-  border: 1px solid $middle-grey;
+  border: 1px solid color(greys);
   width: $check-size;
   height: $check-size;
   border-radius: 4px;
@@ -57,10 +57,10 @@ $check-size: 1.35rem;
   background-image: url(/images/controls/check-white.svg);
   background-repeat: no-repeat;
   background-size: 75% 75%;
-  background-color: $brand-color-1;
+  background-color: color(greens);
   transition: all 0.2s;
   background-position: center center;
-  border-color: $brand-color-1;
+  border-color: color(greens);
 }
 
 .checkbox-component input[type='checkbox']:not(:checked) + label::after {

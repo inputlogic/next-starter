@@ -18,8 +18,8 @@ Component - Button
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: $brand-color-1;
-  border: solid 1px $brand-color-1;
+  background-color: color(greens);
+  border: solid 1px color(greens);
   border-radius: $border-radius;
   color: $white;
   font-size: 0.75rem;
@@ -65,21 +65,21 @@ Component - Button
   =================================================== */
   &.disabled,
   &:disabled {
-    border-color: $light-grey;
-    background-color: $light-grey;
-    color: $dark-grey;
+    border-color: color(greys, 300);
+    background-color: color(greys, 300);
+    color: color(greys, 700);
 
     &:hover {
-      border-color: $light-grey;
-      background-color: $light-grey;
-      color: $dark-grey;
+      border-color: color(greys, 300);
+      background-color: color(greys, 300);
+      color: color(greys, 700);
       cursor: default;
     }
   }
 
   &:hover {
-    background-color: lighten($brand-color-1, 10%);
-    border-color: lighten($brand-color-1, 10%);
+    background-color: color(greens), 10%;
+    border-color: color(greens), 10%;
     color: $white;
     text-decoration: none;
   }
@@ -111,36 +111,36 @@ Component - Button
   }
 
   &.btn-secondary {
-    background-color: $brand-color-2;
-    border-color: $brand-color-2;
+    background-color: color(blues);
+    border-color: color(blues);
 
     &:hover {
-      background-color: lighten($brand-color-2, 10%);
-      border-color: lighten($brand-color-2, 10%);
+      background-color: color(blues), 10%;
+      border-color: color(blues), 10%;
     }
   }
 
   &.btn-outline {
     background-color: transparent;
     border-color: currentColor;
-    color: $brand-color-2;
+    color: color(blues);
 
     &:hover {
       background-color: transparent;
       border-color: currentColor;
-      color: $brand-color-1;
+      color: color(greens);
     }
 
     &.disabled,
     &:disabled {
-      border-color: $grey;
+      border-color: color(greys);
       background-color: transparent;
-      color: $dark-grey;
+      color: color(greys, 700);
 
       &:hover {
-        border-color: $grey;
+        border-color: color(greys);
         background-color: transparent;
-        color: $dark-grey;
+        color: color(greys, 700);
         cursor: default;
       }
     }

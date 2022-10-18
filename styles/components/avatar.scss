@@ -8,7 +8,7 @@ Component - Avatar
     border-radius: 50%;
     overflow: hidden;
     display: flex;
-    background-color: $brand-color-1;
+    background-color: color(greens);
     color: $white;
 
     &.hasImage {

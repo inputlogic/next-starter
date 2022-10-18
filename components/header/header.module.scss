@@ -4,4 +4,9 @@ Header (Main sidebar nav)
 @import '/styles/base/variables.scss';
 
 .wrapper {
+  flex: 0 0 calc((100% / 12) * 2);
+  margin-right: $gutter;
+  padding: $gutter 20px;
+  background: color(nuetrals, 0);
+  border-radius: $border-radius;
 }
