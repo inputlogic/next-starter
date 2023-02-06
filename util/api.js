@@ -11,6 +11,11 @@ export const get = (url, payload = {}) => {
   return _fetch(url, payload)
 }
 
+export const options = (url, payload = {}) => {
+  payload['method'] = 'OPTIONS'
+  return _fetch(url, payload)
+}
+
 /**
  * Utility function for making a JSON POST request. The `data` argument should be a standard
  * object that is JSON serializable.

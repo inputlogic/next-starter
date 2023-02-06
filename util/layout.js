@@ -33,10 +33,11 @@ const AuthedContent = ({ pageProps, layouts, Component }) => {
   const { user, userIsLoading, userIsError, userError } = useUser()
   const router = useRouter()
 
-  const pathIsProtected = protectedUrls.filter((url) => {
+  const pathIsProtected = !!protectedUrls.find((url) => {
     return router?.pathname?.startsWith(url)
   })
-  const pathIsAdmin = adminUrls.filter((url) => {
+
+  const pathIsAdmin = !!adminUrls.find((url) => {
     return router?.pathname?.startsWith(url)
   })
 
@@ -48,10 +49,7 @@ const AuthedContent = ({ pageProps, layouts, Component }) => {
     return <ErrorDisplay error={userError} />
   }
 
-  if (
-    (pathIsAdmin.length && !user?.isAdmin) ||
-    (pathIsProtected.length && !user)
-  ) {
+  if ((pathIsAdmin && !user?.user?.isAdmin) || (pathIsProtected && !user)) {
     router.push('/')
     return <></>
   }
