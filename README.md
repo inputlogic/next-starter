@@ -39,3 +39,15 @@ To learn more, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial
 - [React useState](https://reactjs.org/docs/hooks-state.html) - learn about the useState hook in React
 - [React useEffect](https://reactjs.org/docs/hooks-effect.html) - learn about the useEffect hook in React
+
+## Storybook
+
+Next Starter supports Storybook, a component documentation tool. Adding stories for components is entirely optional, but it is encouraged for any components that are reused in many locations.
+
+run storybook:
+
+```
+npm run storybook
+```
+
+see [https://storybook.js.org/](https://storybook.js.org/) for more info.

@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@hookform/resolvers": "2.9.10",
@@ -24,6 +26,14 @@
     "eslint-config-next": "^13.1.6",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "prettier": "^2.8.4"
+    "prettier": "^2.8.4",
+    "@storybook/addon-essentials": "^7.0.0-beta.43",
+    "@storybook/addon-interactions": "^7.0.0-beta.43",
+    "@storybook/addon-links": "^7.0.0-beta.43",
+    "@storybook/blocks": "^7.0.0-beta.43",
+    "@storybook/nextjs": "^7.0.0-beta.43",
+    "@storybook/react": "^7.0.0-beta.43",
+    "@storybook/testing-library": "^0.0.14-next.1",
+    "storybook": "^7.0.0-beta.43"
   }
 }
