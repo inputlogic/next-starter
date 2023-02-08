@@ -3,6 +3,8 @@ import { useUser } from '@/hooks/use-user'
 import { useStore } from 'util/store'
 import { FetchingIndicator } from 'components/loading'
 
+import { FirebasePermission } from 'components/firebase-permission'
+
 const Index = () => {
   const setModal = useStore((state) => state.setModal)
   const setNotification = useStore((state) => state.setNotification)
@@ -15,6 +17,7 @@ const Index = () => {
         <title>Next Starter</title>
       </Head>
       <h2>Home</h2>
+      <FirebasePermission />
       {userIsFetching && <FetchingIndicator text="Refreshing" />}
       {user && !userIsLoading && <p>Hello {user?.user?.email}</p>}
       {user && !userIsLoading ? (
