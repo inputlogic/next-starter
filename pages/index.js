@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useUser } from '@/hooks/use-user'
+import { useUser } from 'hooks/use-user'
 import { useStore } from 'util/store'
 import { FetchingIndicator } from 'components/loading'
 

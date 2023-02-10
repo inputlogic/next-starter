@@ -2,9 +2,9 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
-import { useUser } from '@/hooks/use-user'
+import { useUser } from 'hooks/use-user'
 import { Modal } from 'components/modals'
-import { useStore } from '@/util/store'
+import { useStore } from 'util/store'
 
 export function LoginModal() {
   const router = useRouter()
