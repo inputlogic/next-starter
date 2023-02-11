@@ -10,7 +10,10 @@ export const requireAuth = (
 ) => {
   return (props) => {
     const router = useRouter()
-    const { userIsLoading, user, userIsError, userError } = useUser()
+    const [
+      user,
+      {isLoading: userIsLoading, isError: userIsError, error: userError}
+    ] = useUser()
 
     useEffect(() => {
       if (redirectUrl && !userIsLoading && user == null) {

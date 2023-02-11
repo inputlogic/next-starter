@@ -1,13 +1,16 @@
 import Head from 'next/head'
-import { useUser } from 'hooks/use-user'
+import { useUser, useLogoutUserMutation } from 'hooks/use-user'
 import { useStore } from 'util/store'
 import { FetchingIndicator } from 'components/loading'
 
 const Index = () => {
   const setModal = useStore((state) => state.setModal)
   const setNotification = useStore((state) => state.setNotification)
-  const { user, userIsLoading, userIsError, logoutUser, userIsFetching } =
-    useUser()
+  const [
+    user,
+    {isLoading: userIsLoading, isError: userIsError, isFetching: userIsFetching}
+  ] = useUser()
+  const logoutUserMutation = useLogoutUserMutation()
 
   return (
     <>
@@ -18,7 +21,7 @@ const Index = () => {
       {userIsFetching && <FetchingIndicator text="Refreshing" />}
       {user && !userIsLoading && <p>Hello {user?.user?.email}</p>}
       {user && !userIsLoading ? (
-        <button onClick={() => logoutUser.mutate()}>Logout</button>
+        <button onClick={() => logoutUserMutation.mutate()}>Logout</button>
       ) : (
         <button onClick={() => setModal('SignupModal')}>Signup</button>
       )}

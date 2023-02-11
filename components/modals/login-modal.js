@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
-import { useUser } from 'hooks/use-user'
+import { useLoginUserMutation } from 'hooks/use-user'
 import { Modal } from 'components/modals'
 import { useStore } from 'util/store'
 
@@ -22,13 +22,13 @@ export function LoginModal() {
       })
     ),
   })
-  const { loginUser } = useUser()
+  const loginUserMutation = useLogoutUserMutation()
   const setModal = useStore((state) => state.setModal)
 
   const onSubmit = async (data) => {
     try {
       clearErrors()
-      const login = await loginUser.mutateAsync(data)
+      const login = await loginUserMutation.mutateAsync(data)
       setModal(null)
       router.push('/account')
     } catch (error) {

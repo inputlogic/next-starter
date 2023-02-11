@@ -30,7 +30,10 @@ export function buildLayout(layouts, Component, pageProps) {
 }
 
 const AuthedContent = ({ pageProps, layouts, Component }) => {
-  const { user, userIsLoading, userIsError, userError } = useUser()
+  const [
+    user,
+    {isLoading: userIsLoading, isError: userIsError, error: userError}
+  ] = useUser()
   const router = useRouter()
 
   const pathIsProtected = protectedUrls.filter((url) => {
