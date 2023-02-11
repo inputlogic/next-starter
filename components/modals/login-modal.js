@@ -22,13 +22,13 @@ export function LoginModal() {
       })
     ),
   })
-  const loginUserMutation = useLogoutUserMutation()
+  const loginUserMutation = useLoginUserMutation()
   const setModal = useStore((state) => state.setModal)
 
   const onSubmit = async (data) => {
     try {
       clearErrors()
-      const login = await loginUserMutation.mutateAsync(data)
+      await loginUserMutation.mutateAsync(data)
       setModal(null)
       router.push('/account')
     } catch (error) {

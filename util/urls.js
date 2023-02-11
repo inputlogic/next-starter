@@ -8,8 +8,12 @@ export function url(pathName, args = {}) {
   return u
 }
 
-export function apiUrl(pathName) {
-  return settings.apiUrl + apiUrls[pathName]
+export const apiUrl = (pathName, args = {}) => {
+  let u = settings.apiUrl + apiUrls[pathName]
+  for (const [k, v] of Object.entries(args)) {
+    u = u.replace(`:${k}`, v)
+  }
+  return u
 }
 
 /**
