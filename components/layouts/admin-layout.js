@@ -1,4 +1,4 @@
-const AdminLayout = ({ user, children }) => (
+export const AdminLayout = ({ user, children }) => (
   <>
     <h2>Admin</h2>
     {children}

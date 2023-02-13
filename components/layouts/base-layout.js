@@ -7,7 +7,7 @@ import { SignupModal } from 'components/modals/signup-modal'
 import { useStore } from 'util/store'
 import { useUser, useLogoutUserMutation } from 'hooks/use-user'
 
-const BaseLayout = ({ children }) => {
+export const BaseLayout = ({ children }) => {
   const setModal = useStore((state) => state.setModal)
   const [user] = useUser()
   const logoutUserMutation = useLogoutUserMutation()
