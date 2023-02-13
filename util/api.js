@@ -1,5 +1,4 @@
 import { apiUrl } from 'util/urls'
-import { useStore } from 'util/store'
 
 /**
  * Utility function for making a GET request.
@@ -83,7 +82,7 @@ async function _fetch(url, payload = {}) {
   // Otherwise, if there is no http defined, assume named api url (see /util/urls.js)
   if (url.startsWith('/'))
     url = window.location.protocol + '//' + window.location.host + url
-  else if (url.indexOf('http') < 0) url = apiUrl(url)
+  else if (url.indexOf('http') < 0) url = apiUrl(url, payload.args)
 
   // Remove params from payload and add to url
   if (payload.params) {
