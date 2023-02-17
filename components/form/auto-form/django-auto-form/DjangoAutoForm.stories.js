@@ -25,4 +25,40 @@ SignupForm.args = {
 AdminUserForm.args = {
   name: 'adminUsers',
   method: 'post',
+  inputs: (inputs) =>
+    inputs.map((input) => {
+      if (input.name !== 'password') {
+        return input
+      }
+      return {
+        ...input,
+        component: (props) => (
+          <div>
+            password: {props.value}
+            <a href="#">set password</a>
+          </div>
+        ),
+      }
+    }),
+}
+
+AdminUserEditForm.args = {
+  name: 'adminUser',
+  args: { id: 1 },
+  method: 'post',
+  inputs: (inputs) =>
+    inputs.map((input) => {
+      if (input.name !== 'password') {
+        return input
+      }
+      return {
+        ...input,
+        component: (props) => (
+          <div>
+            password: {props.value}
+            <a href="#">set password</a>
+          </div>
+        ),
+      }
+    }),
 }

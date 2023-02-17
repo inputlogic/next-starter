@@ -59,7 +59,6 @@ const getComponent = (input) => {
 }
 
 const metaToInputs = (meta, method) => {
-  console.log('hi', meta)
   const fields = meta.actions[method.toUpperCase()]
   return Object.keys(fields).map((k) => ({
     name: k,
@@ -67,18 +66,32 @@ const metaToInputs = (meta, method) => {
   }))
 }
 
-export const DjangoAutoForm = ({ name, args, method, prepareData }) => {
+export const DjangoAutoForm = ({
+  name,
+  args,
+  method,
+  prepareData,
+  inputs: customizeInputs,
+}) => {
   const [user] = useUser()
   const { data: meta } = useQuery(['test'], () => {
-    const res = options(name, { token: user?.token })
+    const res = options(name, { args, token: user?.token })
     return res
   })
-  const inputs = meta && metaToInputs(meta, method)
+  const inputsFromMeta = (meta && metaToInputs(meta, method)) || []
+  const inputs = customizeInputs
+    ? typeof customizeInputs === 'function'
+      ? customizeInputs(inputsFromMeta)
+      : customizeInputs
+    : inputsFromMeta
+  console.log('inputs', inputs)
   const mutation = useMutation(
     async (data) => {
       try {
         const fetchFunction = { get, post, patch }[method.toLowerCase()]
-        const res = await fetchFunction(name, prepareData?.(data) || data)
+        const res = await fetchFunction(name, prepareData?.(data) || data, {
+          token: user?.token,
+        })
         return res
       } catch (err) {
         const updated = djangoErrorToFormError(err)
@@ -96,7 +109,7 @@ export const DjangoAutoForm = ({ name, args, method, prepareData }) => {
   )
   return (
     <AutoForm
-      inputs={inputs || []}
+      inputs={inputs}
       onSubmit={async (data) => {
         await mutation.mutateAsync(data)
       }}
