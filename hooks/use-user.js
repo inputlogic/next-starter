@@ -2,10 +2,18 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { get, post } from 'util/api'
 import { useStore } from 'util/store'
 
+const useUserStorybook = () => {
+  const token = localStorage.getItem('token')
+  return [{ token }, {}]
+}
+
+const isStorybook =
+  typeof window !== 'undefined' && window.location.port === '6006'
+
 /**
  * Authenticate current user against server session.
  */
-export const useUser = () => {
+export const useUserMain = () => {
   const reactQuery = useQuery('user', async () => {
     const user = await get('/api/user')
     if (user?.token) {
@@ -61,6 +69,7 @@ export const useSignupUserMutation = () => {
     }
   )
 }
+
 export const useLoginUserMutation = () => {
   const setNotification = useStore((state) => state.setNotification)
   const queryClient = useQueryClient()
@@ -88,3 +97,5 @@ export const useLoginUserMutation = () => {
     }
   )
 }
+
+export const useUser = isStorybook ? useUserStorybook : useUserMain

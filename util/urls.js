@@ -33,6 +33,7 @@ const apiUrls = {
   forgotPassword: '/auth/forgot-password',
   resetPassword: '/auth/reset-password',
   me: '/me',
+  adminUsers: '/api/admin/users',
 }
 
 /**

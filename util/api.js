@@ -11,6 +11,16 @@ export const get = (url, payload = {}) => {
 }
 
 /**
+ * Utility function for making a OPTIONS request.
+ *
+ * returns a standard fetch promise or throws a normalized error
+ **/
+export const options = (url, payload = {}) => {
+  payload['method'] = 'OPTIONS'
+  return _fetch(url, payload)
+}
+
+/**
  * Utility function for making a JSON POST request. The `data` argument should be a standard
  * object that is JSON serializable.
  *
