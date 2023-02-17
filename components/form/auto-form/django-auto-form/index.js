@@ -1,4 +1,5 @@
 import { useQuery, useMutation } from 'react-query'
+import { useDjangoResource } from 'util/hooks'
 import { forwardRef } from 'react'
 import { options, get, post, patch } from 'util/api'
 import { useUser } from 'hooks/use-user'
@@ -31,20 +32,23 @@ const getComponent = (input) => {
       : input.name.includes('password')
       ? 'password'
       : 'text'
-    return forwardRef((props, ref) => (
-      <div>
-        <div>
-          <label>{input.label}</label>
-        </div>
-        <input
-          type={inputType}
-          placeholder={input.placeholder}
-          ref={ref}
-          {...props}
-        />
-        {props.error && <div>{props.error}</div>}
-      </div>
-    ))
+    return forwardRef(
+      (props, ref) =>
+        console.log('input props', props) || (
+          <div>
+            <div>
+              <label>{input.label}</label>
+            </div>
+            <input
+              type={inputType}
+              placeholder={input.placeholder}
+              ref={ref}
+              {...props}
+            />
+            {props.error && <div>{props.error}</div>}
+          </div>
+        )
+    )
   }
   if (input.type === 'boolean') {
     return forwardRef((props, ref) => (
@@ -59,7 +63,10 @@ const getComponent = (input) => {
 }
 
 const metaToInputs = (meta, method) => {
-  const fields = meta.actions[method.toUpperCase()]
+  const fields =
+    meta.actions[
+      method.toLowerCase() === 'patch' ? 'PUT' : method.toUpperCase()
+    ]
   return Object.keys(fields).map((k) => ({
     name: k,
     ...fields[k],
@@ -74,10 +81,13 @@ export const DjangoAutoForm = ({
   inputs: customizeInputs,
 }) => {
   const [user] = useUser()
-  const { data: meta } = useQuery(['test'], () => {
+  const isEdit = ['patch', 'put'].includes(method.toLowerCase())
+  const { data: meta } = useQuery([`meta-${name}`], () => {
     const res = options(name, { args, token: user?.token })
     return res
   })
+  const [initial] = useDjangoResource(name, { args }, { enabled: isEdit })
+  console.log('yoooo', initial)
   const inputsFromMeta = (meta && metaToInputs(meta, method)) || []
   const inputs = customizeInputs
     ? typeof customizeInputs === 'function'
@@ -107,8 +117,12 @@ export const DjangoAutoForm = ({
       },
     }
   )
+  if (isEdit && !initial) {
+    return 'Loading...'
+  }
   return (
     <AutoForm
+      defaultValues={initial}
       inputs={inputs}
       onSubmit={async (data) => {
         await mutation.mutateAsync(data)

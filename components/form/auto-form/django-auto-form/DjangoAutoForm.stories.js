@@ -11,6 +11,7 @@ const Template = (props) => <DjangoAutoForm {...props} />
 export const SignupForm = Template.bind({})
 export const LoginForm = Template.bind({})
 export const AdminUserForm = Template.bind({})
+export const AdminUserEditForm = Template.bind({})
 
 LoginForm.args = {
   name: 'login',
@@ -45,7 +46,7 @@ AdminUserForm.args = {
 AdminUserEditForm.args = {
   name: 'adminUser',
   args: { id: 1 },
-  method: 'post',
+  method: 'patch',
   inputs: (inputs) =>
     inputs.map((input) => {
       if (input.name !== 'password') {
@@ -53,12 +54,13 @@ AdminUserEditForm.args = {
       }
       return {
         ...input,
-        component: (props) => (
-          <div>
-            password: {props.value}
-            <a href="#">set password</a>
-          </div>
-        ),
+        component: (props) => {
+          return (
+            <div>
+              password: <a href="#">set password</a>
+            </div>
+          )
+        },
       }
     }),
 }
