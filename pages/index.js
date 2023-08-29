@@ -3,6 +3,7 @@ import { useUser, useLogoutUserMutation } from 'hooks/use-user'
 import { useStore } from 'util/store'
 import { FetchingIndicator } from 'components/loading'
 import { OpenAPIForm } from 'components/openapi-form'
+import { OpenAPIToolkit } from 'components/openapi-toolkit'
 
 const Index = () => {
   const setModal = useStore((state) => state.setModal)
@@ -23,6 +24,7 @@ const Index = () => {
         <title>Next Starter</title>
       </Head>
       <h2>Home</h2>
+      <OpenAPIToolkit />
       <OpenAPIForm />
       {userIsFetching && <FetchingIndicator text="Refreshing" />}
       {user && !userIsLoading && <p>Hello {user?.user?.email}</p>}
