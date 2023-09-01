@@ -12,3 +12,5 @@ export const toTitleCase = (str) =>
     .split(' ')
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(' ')
+
+export const capitalize = (str) => str[0].toUpperCase() + str.slice(1)
