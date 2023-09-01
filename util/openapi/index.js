@@ -174,7 +174,7 @@ const buildOpenApiMutationHooks = (openapiDoc, toolkit) => {
                       ...(!setError
                         ? {}
                         : {
-                            onError: drfErrorHandler(setError),
+                            onError: errorHandler(setError),
                           }),
                       ...rest,
                     }
@@ -197,7 +197,7 @@ const buildOpenApiMutationHooks = (openapiDoc, toolkit) => {
                       ...(!setError
                         ? {}
                         : {
-                            onError: drfErrorHandler(setError),
+                            onError: errorHandler(setError),
                           }),
                       ...rest,
                     }

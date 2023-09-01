@@ -1,5 +1,6 @@
 import { useForm, FormProvider, useFormContext } from 'react-hook-form'
 import { capitalize } from 'util/case'
+import { FormHelper } from './form-helper'
 
 export const buildOpenApiForms = (openapiDoc, toolkit) => ({
   forms: Object.entries(openapiDoc.paths).reduce(
@@ -48,17 +49,17 @@ export const buildOpenApiForm = ({
     toolkit,
     openapiDoc,
   })
-  const AutoForm = ({ useInitialData, initialDataArgs, ...props }) => {
+  const AutoForm = ({ useInitialData, id, ...props }) => {
     useInitialData = useInitialData
       ? useInitialData
       : method === 'patch'
       ? () =>
           toolkit.queries[`use${capitalize(toolkit.pathToName(path))}`]({
-            args: initialDataArgs,
+            args: { id },
           })[0]
       : () => ({})
     return (
-      <Form useInitialData={useInitialData}>
+      <Form id={id} useInitialData={useInitialData}>
         {Object.entries(fields).map(([name, Field]) => (
           <Field key={name} />
         ))}
@@ -80,20 +81,46 @@ const buildFormComponent = ({
   toolkit,
   openapiDoc,
 }) => {
-  const Form = ({ initialData, ...props }) => {
+  const Form = ({ initialData, id, children, ...props }) => {
     const methods = useForm({ defaultValues: initialData })
+
+    console.log(
+      'mutation name',
+      method,
+      `use${capitalize(toolkit.pathToName(path))}${
+        method === 'patch' ? 'Edit' : ''
+      }Mutation`
+    )
+    const useMutation =
+      toolkit.mutations[
+        `use${capitalize(toolkit.pathToName(path))}${
+          method === 'patch' ? 'Edit' : ''
+        }Mutation`
+      ]
+    const mutation = useMutation({ setError: methods.setError, args: { id } })
 
     const onSubmit = async (data) => {
       // TODO: add naming utils to toolkit
       // const httpMethod =
       //   toolkit.http[`${toolkit.pathToName(path)}${toTitleCase(method)}`]
       // const response = await post(`${server.url}${path}`, data)
-      console.log('TODO SUBMIT', data)
+      // console.log('TODO SUBMIT', data)
+      const response = await mutation.mutateAsync(data)
+      console.log('response!', response)
     }
 
     return (
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)} {...props} />
+        <form onSubmit={methods.handleSubmit(onSubmit)} {...props}>
+          <FormHelper
+            reset={methods.reset}
+            example={
+              endpoint.requestBody.content['application/json'].examples.example1
+                .value
+            }
+          />
+          {children}
+        </form>
       </FormProvider>
     )
   }
@@ -119,15 +146,21 @@ const buildOpenApiFields = ({
     (acc, [name, details]) => ({
       ...acc,
       [name]: ({}) => {
-        const { register } = useFormContext() // retrieve all hook methods
+        const {
+          register,
+          formState: { errors },
+        } = useFormContext() // retrieve all hook methods
         return (
-          <label key={name}>
-            {name}
-            <input
-              type={['password', 'email'].includes(name) ? name : 'text'}
-              {...register(name)}
-            />
-          </label>
+          <fieldset>
+            <label key={name}>
+              {name}
+              <input
+                type={['password', 'email'].includes(name) ? name : 'text'}
+                {...register(name)}
+              />
+              {errors[name] && <div>{errors[name]}</div>}
+            </label>
+          </fieldset>
         )
       },
     }),

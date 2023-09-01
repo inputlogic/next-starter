@@ -37,6 +37,12 @@ export const OpenAPIToolkit = () => {
   const StallForm =
     openapi.forms.mapAdminInfrastructureStallPricesDetail.patch.AutoForm
 
+  const VehicleForm = openapi.forms.userPaymentMyVehiclesDetail.patch.AutoForm
+
+  const myVehicles = openapi.queries.useUserPaymentMyVehicles()
+
+  console.log(myVehicles)
+
   // console.log('yo', lot)
 
   // const OpenForm = useOpenAPIForm({ path, method })
@@ -61,7 +67,7 @@ export const OpenAPIToolkit = () => {
         <li>pages</li>
       </ul>
       <LoginForm />
-      <StallForm initialDataArgs={{ id: 934 }} />
+      <VehicleForm id={114} />
       <button
         onClick={async () => {
           console.log('testing')
