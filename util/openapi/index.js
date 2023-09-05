@@ -5,10 +5,11 @@ import { get, post, patch, del } from 'util/api'
 import { errorHandler } from 'util/drf/error-handler'
 import { useDjangoList, useDjangoResource } from 'util/drf/hooks'
 import { buildOpenApiForms } from './forms'
+import { buildOpenApiTables } from './tables'
 
 import doc from './openapi-doc.json'
 
-const buildOpenApiUrls = (openapiDoc, toolkit) => {
+const buildOpenApiStrings = () => {
   const pathToName = (path) => {
     const baseName = kebabCaseToCamelCase(path.replace(/\//g, '-')).replace(
       /(.+)-\{id\}/g,
@@ -19,10 +20,39 @@ const buildOpenApiUrls = (openapiDoc, toolkit) => {
 
   const pathToJSPath = (path) => path.replace(/(.+)\{(.+)\}/g, '$1:$2')
 
+  const pathAndMethodToHttp = (path, method) =>
+    `${pathToName(path)}${toTitleCase(method)}`
+
+  const pathToQueryHook = (path) => `use${toTitleCase(pathToName(path))}`
+
+  const pathAndMethodToMutationHook = (path, method) => {
+    const isEdit = method.toLowerCase() === 'patch'
+    const isDelete = method.toLowerCase() === 'delete'
+    return [
+      'use',
+      toTitleCase(pathToName(path)),
+      ...(isEdit ? ['Edit'] : []),
+      ...(isDelete ? ['Delete'] : []),
+      'Mutation',
+    ].join('')
+  }
+
+  return {
+    strings: {
+      pathToName,
+      pathToJSPath,
+      pathAndMethodToHttp,
+      pathToQueryHook,
+      pathAndMethodToMutationHook,
+    },
+  }
+}
+
+const buildOpenApiUrls = (openapiDoc, toolkit) => {
   const urls = Object.keys(openapiDoc.paths).reduce(
     (acc, path) => ({
       ...acc,
-      [pathToName(path)]: pathToJSPath(path),
+      [toolkit.strings.pathToName(path)]: toolkit.strings.pathToJSPath(path),
     }),
     {}
   )
@@ -40,7 +70,6 @@ const buildOpenApiUrls = (openapiDoc, toolkit) => {
   return {
     urls,
     url,
-    pathToName,
   }
 }
 
@@ -49,7 +78,7 @@ const buildOpenApiHttpMethods = (openapiDoc, toolkit) => {
     http: Object.entries(openapiDoc.paths).reduce((acc, [path, methods]) => ({
       ...acc,
       ...Object.keys(methods).reduce((acc, method) => {
-        const name = toolkit.pathToName(path)
+        const name = toolkit.strings.pathToName(path)
         if (!['get', 'post', 'patch', 'delete'].includes(method)) {
           return acc
         }
@@ -93,7 +122,7 @@ const buildOpenApiQueryHooks = (openapiDoc, toolkit) => {
   return {
     queries: Object.entries(openapiDoc.paths).reduce((acc, [path, methods]) => {
       if (!methods.get) return acc
-      const name = toolkit.pathToName(path)
+      const name = toolkit.strings.pathToName(path)
 
       const properties =
         methods.get.responses[200].content['application/json'].schema.properties
@@ -124,7 +153,7 @@ const buildOpenApiMutationHooks = (openapiDoc, toolkit) => {
   return {
     mutations: Object.entries(openapiDoc.paths).reduce(
       (acc, [path, methods]) => {
-        const name = toolkit.pathToName(path)
+        const name = toolkit.strings.pathToName(path)
         const canCreate = methods.post
         const canEdit = methods.patch
         const canDelete = methods.delete
@@ -217,12 +246,13 @@ const buildOpenApiToolkit = (openapiDoc) => {
   }
 
   const toolBuilders = [
+    buildOpenApiStrings,
     buildOpenApiUrls,
     buildOpenApiHttpMethods,
     buildOpenApiQueryHooks,
     buildOpenApiMutationHooks,
     buildOpenApiForms,
-    // buildOpenApiTables,
+    buildOpenApiTables,
   ]
 
   return toolBuilders.reduce(
@@ -231,6 +261,7 @@ const buildOpenApiToolkit = (openapiDoc) => {
       ...toolBuilder(openapiDoc, acc),
     }),
     {
+      doc,
       context: {
         server,
       },

@@ -125,7 +125,6 @@ async function _fetch(url, payload = {}) {
 
   try {
     const resp = await fetch(url, payload)
-    console.log('response', resp)
     const result = await resp.json()
     if (![200, 201, 203, 204].includes(resp.status)) {
       throw {

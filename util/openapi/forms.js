@@ -1,12 +1,11 @@
 import { useForm, FormProvider, useFormContext } from 'react-hook-form'
-import { capitalize } from 'util/case'
 import { FormHelper } from './form-helper'
 
 export const buildOpenApiForms = (openapiDoc, toolkit) => ({
   forms: Object.entries(openapiDoc.paths).reduce(
     (acc, [path, methods]) => ({
       ...acc,
-      [toolkit.pathToName(path)]: Object.entries(methods).reduce(
+      [toolkit.strings.pathToName(path)]: Object.entries(methods).reduce(
         (acc, [method, endpoint]) => ({
           ...acc,
           ...(!['post', 'patch'].includes(method)
@@ -54,7 +53,7 @@ export const buildOpenApiForm = ({
       ? useInitialData
       : method === 'patch'
       ? () =>
-          toolkit.queries[`use${capitalize(toolkit.pathToName(path))}`]({
+          toolkit.queries[toolkit.strings.pathToQueryHook(path)]({
             args: { id },
           })[0]
       : () => ({})
@@ -83,30 +82,15 @@ const buildFormComponent = ({
 }) => {
   const Form = ({ initialData, id, children, ...props }) => {
     const methods = useForm({ defaultValues: initialData })
-
-    console.log(
-      'mutation name',
-      method,
-      `use${capitalize(toolkit.pathToName(path))}${
-        method === 'patch' ? 'Edit' : ''
-      }Mutation`
-    )
     const useMutation =
       toolkit.mutations[
-        `use${capitalize(toolkit.pathToName(path))}${
-          method === 'patch' ? 'Edit' : ''
-        }Mutation`
+        toolkit.strings.pathAndMethodToMutationHook(path, method)
       ]
     const mutation = useMutation({ setError: methods.setError, args: { id } })
 
     const onSubmit = async (data) => {
       // TODO: add naming utils to toolkit
-      // const httpMethod =
-      //   toolkit.http[`${toolkit.pathToName(path)}${toTitleCase(method)}`]
-      // const response = await post(`${server.url}${path}`, data)
-      // console.log('TODO SUBMIT', data)
       const response = await mutation.mutateAsync(data)
-      console.log('response!', response)
     }
 
     return (
@@ -158,7 +142,7 @@ const buildOpenApiFields = ({
                 type={['password', 'email'].includes(name) ? name : 'text'}
                 {...register(name)}
               />
-              {errors[name] && <div>{errors[name]}</div>}
+              {errors[name] && <div>{errors[name]?.message}</div>}
             </label>
           </fieldset>
         )

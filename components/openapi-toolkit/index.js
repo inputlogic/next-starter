@@ -39,9 +39,7 @@ export const OpenAPIToolkit = () => {
 
   const VehicleForm = openapi.forms.userPaymentMyVehiclesDetail.patch.AutoForm
 
-  const myVehicles = openapi.queries.useUserPaymentMyVehicles()
-
-  console.log(myVehicles)
+  const VehiclesTable = openapi.tables.userPaymentMyVehicles.Table
 
   // console.log('yo', lot)
 
@@ -68,6 +66,7 @@ export const OpenAPIToolkit = () => {
       </ul>
       <LoginForm />
       <VehicleForm id={114} />
+      <VehiclesTable />
       <button
         onClick={async () => {
           console.log('testing')
