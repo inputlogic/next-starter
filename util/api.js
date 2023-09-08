@@ -120,8 +120,8 @@ async function _fetch(url, payload = {}) {
     payload.body = JSON.stringify(payload.body)
   }
 
-  console.log(`${payload.method}: ${url}`)
-  console.log(payload)
+  // console.log(`${payload.method}: ${url}`)
+  // console.log(payload)
 
   try {
     const resp = await fetch(url, payload)

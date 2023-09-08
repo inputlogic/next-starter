@@ -19,7 +19,6 @@ const Edit = ({ params }) => {
   const id = params[params.length - 1]
   const openapiPath = ['', ...params.slice(1, -1), '{id}'].join('/')
   const name = openapi.strings.pathToName(openapiPath)
-  console.log(openapiPath, name, openapi)
   const Form = openapi.forms[name].patch?.AutoForm
   if (Form) {
     return <Form id={id} />
@@ -28,7 +27,6 @@ const Edit = ({ params }) => {
 
 const Page = () => {
   const router = useRouter()
-  console.log(router.query)
   const params = router.query.params
   const path = `/${params.join('/')}`
   const isListPage = isNaN(parseInt(params[params.length - 1]))

@@ -27,6 +27,11 @@ export const buildOpenApiForms = (openapiDoc, toolkit) => ({
   ),
 })
 
+const flattenFields = (fields) =>
+  Object.entries(fields).flatMap(([name, Field]) =>
+    typeof Field === 'function' ? <Field key={name} /> : flattenFields(Field)
+  )
+
 export const buildOpenApiForm = ({
   path,
   method,
@@ -59,9 +64,10 @@ export const buildOpenApiForm = ({
       : () => ({})
     return (
       <Form id={id} useInitialData={useInitialData}>
-        {Object.entries(fields).map(([name, Field]) => (
-          <Field key={name} />
-        ))}
+        {flattenFields(fields)}
+        {/* {Object.entries(fields).map(([name, Field]) => ( */}
+        {/*   <Field key={name} /> */}
+        {/* ))} */}
         <button>Submit</button>
       </Form>
     )
@@ -111,9 +117,64 @@ const buildFormComponent = ({
   const FormWithInitialData = ({ useInitialData = () => ({}), ...props }) => {
     const initialData = useInitialData()
     if (!initialData) return 'Loading...'
+    console.log('initialData', initialData)
     return <Form initialData={initialData} {...props} />
   }
   return FormWithInitialData
+}
+
+const defaultField =
+  ({ name }) =>
+  () => {
+    const {
+      register,
+      formState: { errors },
+    } = useFormContext() // retrieve all hook methods
+    return (
+      <fieldset>
+        <label key={name}>
+          {name}
+          <input
+            type={['password', 'email'].includes(name) ? name : 'text'}
+            {...register(name)}
+          />
+          {errors[name] && <div>{errors[name]?.message}</div>}
+        </label>
+      </fieldset>
+    )
+  }
+
+const getField = (name, details) => {
+  // TODO: handle custom field types
+  if (details.type === 'object') {
+    if (!details.properties) {
+      console.warn('TODO: handle empty json object field')
+    }
+    return Object.entries(details.properties || {}).reduce(
+      (acc, [nestedName, nestedDetails]) => ({
+        ...acc,
+        [nestedName]: getField(nestedName, nestedDetails),
+      }),
+      {}
+    )
+  }
+  if (details.type === 'boolean') {
+    return () => {
+      const {
+        register,
+        formState: { errors },
+      } = useFormContext() // retrieve all hook methods
+      return (
+        <fieldset>
+          <label>
+            {name}:
+            <input type="checkbox" name={name} {...register(name)} />
+          </label>
+        </fieldset>
+      )
+    }
+  }
+  return defaultField({ name })
 }
 
 const buildOpenApiFields = ({
@@ -126,28 +187,12 @@ const buildOpenApiFields = ({
   const requestBody = endpoint.requestBody.content['application/json']
   const schema = requestBody.schema.properties
   const examples = requestBody.examples
-  return Object.entries(schema).reduce(
-    (acc, [name, details]) => ({
+  console.log('yoooo', path, method, schema)
+  return Object.entries(schema).reduce((acc, [name, details]) => {
+    const field = getField(name, details)
+    return {
       ...acc,
-      [name]: ({}) => {
-        const {
-          register,
-          formState: { errors },
-        } = useFormContext() // retrieve all hook methods
-        return (
-          <fieldset>
-            <label key={name}>
-              {name}
-              <input
-                type={['password', 'email'].includes(name) ? name : 'text'}
-                {...register(name)}
-              />
-              {errors[name] && <div>{errors[name]?.message}</div>}
-            </label>
-          </fieldset>
-        )
-      },
-    }),
-    {}
-  )
+      [name]: field,
+    }
+  }, {})
 }
