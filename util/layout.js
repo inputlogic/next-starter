@@ -2,7 +2,7 @@ import { QueryClientProvider, QueryClient } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { useRouter } from 'next/router'
 import { ErrorDisplay } from 'components/error'
-import { InlineLoader } from 'components/loading'
+import { Loading } from 'components/loading'
 import { protectedUrls, adminUrls } from 'util/urls'
 import { useUser } from 'hooks/use-user'
 
@@ -32,7 +32,7 @@ export function buildLayout(layouts, Component, pageProps) {
 const AuthedContent = ({ pageProps, layouts, Component }) => {
   const [
     user,
-    {isLoading: userIsLoading, isError: userIsError, error: userError}
+    { isLoading: userIsLoading, isError: userIsError, error: userError },
   ] = useUser()
   const router = useRouter()
 
@@ -44,7 +44,7 @@ const AuthedContent = ({ pageProps, layouts, Component }) => {
   })
 
   if (userIsLoading) {
-    return <InlineLoader text="Loading" />
+    return <Loading />
   }
 
   if (userIsError) {
