@@ -1,0 +1,125 @@
+.admin {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+}
+
+.main {
+  padding: 2em;
+}
+
+.nav {
+  flex-shrink: 0;
+  padding: 1em;
+  border-right: 1px solid #efefef;
+  max-width: 17em;
+  width: 17em;
+
+  .navSection {
+    display: flex;
+    flex-flow: column nowrap;
+
+    h3 {
+      font-size: 11px;
+      font-weight: 300;
+      color: #666;
+      padding-bottom: 6px;
+    }
+
+    a {
+      font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background 200ms;
+      margin-bottom: 5px;
+
+      &:hover {
+        background: #fafafa;
+      }
+
+      &.active {
+        background: #f5f5f5;
+      }
+    }
+
+    .nested {
+      display: flex;
+      flex-flow: column nowrap;
+      padding-left: 1em;
+    }
+  }
+}
+
+.table {
+  text-align: left;
+  position: relative;
+  overflow: scroll;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+
+  thead tr {
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #fafafa;
+
+    th {
+      font-size: 14px;
+      color: #999;
+      position: sticky;
+      top: 0;
+    }
+  }
+
+  th, td {
+    padding: 10px 25px 10px 10px;
+  }
+
+  tbody tr:not(:last-child) {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  tbody td {
+    font-size: 14px;
+  }
+
+  &.hasCheckbox {
+    td:first-child, th:first-child {
+      padding-right: 10px;
+    }
+  }
+
+}
+
+.pagination {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.5em;
+  a {
+    cursor: pointer;
+    text-decoration: none;
+    color: #aaa;
+    padding: 8px 12px;
+    min-width: 40px;
+    border-radius: 8px;
+    transition: background 200ms;
+    text-align: center;
+
+    &.paginationActive {
+      color: black;
+      background-color: #f5f5f5;
+    }
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  }
+  div {
+    display: flex;
+    align-items: flex-end;
+    span {
+      color: #aaa;
+      padding-bottom: 8px;
+    }
+  }
+}

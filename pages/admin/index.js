@@ -1,8 +1,10 @@
+import { Admin } from 'components/admin'
+
 const AdminIndex = () => (
   <>
-    <p>If you're seeing this page, you're special</p>
+    <Admin />
   </>
 )
 
-AdminIndex.Layouts = ['BaseLayout', 'AdminLayout']
+AdminIndex.Layouts = ['AdminLayout']
 export default AdminIndex

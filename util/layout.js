@@ -7,7 +7,7 @@ import { protectedUrls, adminUrls } from 'util/urls'
 import { useUser } from 'hooks/use-user'
 
 import BaseLayout from 'components/layouts/base-layout'
-import AdminLayout from 'components/layouts/admin-layout'
+import { Layout as AdminLayout } from 'components/admin/layout'
 
 const queryClient = new QueryClient()
 

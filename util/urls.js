@@ -39,4 +39,4 @@ const apiUrls = {
  * Protected URLS that are gated by auth
  */
 export const protectedUrls = ['/account']
-export const adminUrls = ['/admin']
+export const adminUrls = [] // ['/admin']
