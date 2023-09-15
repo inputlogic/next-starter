@@ -1,14 +1,13 @@
-import { InlineLoader } from 'components/loading/inline'
+import { Loading } from 'components/loading'
 
 export default {
   title: 'Components/Loading',
-  component: InlineLoader,
+  component: Loading,
   tags: ['autodocs'],
 }
 
-const Template = (props) => <InlineLoader {...props} />
+const Template = (props) => <Loading {...props} />
 
 export const Basic = Template.bind({})
-Basic.args = {
-  text: 'Loading...',
-}
+export const NoPadding = Template.bind({})
+NoPadding.args = { noPadding: true }
