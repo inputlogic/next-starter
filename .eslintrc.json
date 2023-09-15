@@ -9,6 +9,7 @@
   },
   "plugins": ["react", "unused-imports"],
   "rules": {
+    "import/no-anonymous-default-export": "off",
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [

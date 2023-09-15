@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Loading from 'components/loading/'
 import { useUser } from 'hooks/use-user'
 
 export const requireAuth = (
@@ -12,7 +11,7 @@ export const requireAuth = (
     const router = useRouter()
     const [
       user,
-      {isLoading: userIsLoading, isError: userIsError, error: userError}
+      { isLoading: userIsLoading, isError: userIsError, error: userError },
     ] = useUser()
 
     useEffect(() => {
