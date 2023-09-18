@@ -59,6 +59,10 @@
   border-radius: 10px;
   border: 1px solid #e0e0e0;
 
+  table {
+    width: 100%;
+  }
+
   thead tr {
     border-bottom: 1px solid #e0e0e0;
     background-color: #fafafa;
@@ -71,7 +75,7 @@
     }
   }
 
-  th, td {
+  td, .th {
     padding: 10px 25px 10px 10px;
   }
 
@@ -81,12 +85,66 @@
 
   tbody td {
     font-size: 14px;
+
+    a {
+      font-weight: 600;
+      text-decoration: none;
+    }
   }
 
   &.hasCheckbox {
     td:first-child, th:first-child {
       padding-right: 10px;
     }
+  }
+
+  .orderable {
+
+  }
+
+  .tableOrder {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    height: 100%;
+
+    svg {
+      opacity: 0.3;
+      &.activeOrderIcon {
+        opacity: 1;
+      }
+    }
+
+    > svg:first-child {
+      margin-bottom: -4px;
+    }
+
+    > svg:last-child {
+      margin-top: -4px;
+    }
+  }
+
+  .orderable {
+    transition: background 200ms;
+    cursor: pointer;
+
+    &:hover {
+      background: #eee;
+    }
+
+    &.activeOrder {
+      background: #eee;
+    }
+  }
+
+  .th {
+    padding: 10px 10px 10px 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    white-space: nowrap;
   }
 
 }
@@ -113,6 +171,10 @@
     &:hover {
       background-color: #f5f5f5;
     }
+
+    svg {
+      margin-bottom: -2px;
+    }
   }
   div {
     display: flex;
@@ -122,4 +184,78 @@
       padding-bottom: 8px;
     }
   }
+}
+
+.filters {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1em;
+  align-items: center;
+  margin-bottom: 1em;
+
+  button {
+    background: none;
+    border: 1px solid #ddd;
+    outline: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &.clear {
+      border: none;
+
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  input {
+    border: 1px solid #ddd;
+    padding: 6px 10px;
+    border-radius: 5px;
+    outline: none;
+  }
+
+  .filterActive {
+    border-color: #8b8bff;
+    background: #f2f2ff;
+  }
+
+}
+
+
+.formError {
+  color: red;
+}
+
+.fieldError {
+  color: red;
+  font-size: 14px;
+}
+
+.input {
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+
+.label {
+  font-size: 14px;
+}
+
+.submit {
+  padding: 6px 10px;
+  outline: none;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.form {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1em;
 }
