@@ -3,6 +3,9 @@ import { useUser, useLogoutUserMutation } from 'hooks/use-user'
 import { useStore } from 'util/store'
 import { Loading } from 'components/loading'
 import { Placeholder } from 'components/placeholder'
+import { FetchingIndicator } from 'components/loading'
+import { OpenAPIForm } from 'components/openapi-form'
+import { OpenAPIToolkit } from 'components/openapi-toolkit'
 
 const Index = () => {
   const setModal = useStore((state) => state.setModal)
@@ -24,6 +27,9 @@ const Index = () => {
       </Head>
       <h2>Home</h2>
       {userIsFetching && <Loading />}
+      <OpenAPIToolkit />
+      <OpenAPIForm />
+      {userIsFetching && <FetchingIndicator text="Refreshing" />}
       {user && !userIsLoading && <p>Hello {user?.user?.email}</p>}
       {user && !userIsLoading ? (
         <button onClick={() => logoutUserMutation.mutate()}>Logout</button>

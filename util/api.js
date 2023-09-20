@@ -41,6 +41,15 @@ export const patch = (url, data = {}, payload = {}) => {
 }
 
 /**
+ * Same as `post` but as DELETE
+ **/
+export const del = (url, data = {}, payload = {}) => {
+  payload['method'] = 'PATCH'
+  payload['body'] = data
+  return _fetch(url, payload)
+}
+
+/**
  * Gets a signed S3 file url from Django API for direct S3 file uploads.
  **/
 export const getSignedFile = async (file, token) => {
@@ -111,8 +120,8 @@ async function _fetch(url, payload = {}) {
     payload.body = JSON.stringify(payload.body)
   }
 
-  console.log(`${payload.method}: ${url}`)
-  console.log(payload)
+  // console.log(`${payload.method}: ${url}`)
+  // console.log(payload)
 
   try {
     const resp = await fetch(url, payload)
