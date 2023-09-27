@@ -1,53 +1,13 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  TriangleUpIcon,
-  TriangleDownIcon,
-} from '@radix-ui/react-icons'
-import { classnames } from 'util/classnames'
+import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
+import { Nav } from './nav'
+import { Table } from './table'
 import styles from './admin.module.scss'
 
 const Checkbox = () => <input style={{ margin: '0' }} type="checkbox" />
 
-const fakeUsers = [
-  [
-    <Checkbox key="check" />,
-    <a key="link" href="#">
-      1
-    </a>,
-    'john@example.com',
-    'John',
-    'Doe',
-    '{}',
-  ],
-  [
-    <Checkbox key="check" />,
-    <a key="link" href="#">
-      2
-    </a>,
-    'dale@example.com',
-    'Dale',
-    'Cooper',
-    '{}',
-  ],
-]
-
 export const Admin = () => (
   <div className={styles.admin}>
-    <nav className={styles.nav}>
-      <div className={styles.navSection}>
-        <h3>Favourites</h3>
-        <a href="#">Dashboard</a>
-        <a href="#" className={styles.active}>
-          Users
-        </a>
-        <div className={styles.nested}>
-          <a href="#"> List </a>
-          <a href="#"> Create </a>
-          <a href="#"> Other </a>
-        </div>
-      </div>
-    </nav>
+    <Nav />
     <div className={styles.main}>
       <div className={styles.filters}>
         <input placeholder="Search..." className={styles.filterActive} />
@@ -57,51 +17,7 @@ export const Admin = () => (
           Clear
         </button>
       </div>
-      <div className={classnames(styles.table, styles.hasCheckbox)}>
-        <table>
-          <thead>
-            <tr>
-              {[
-                <Checkbox key="check" />,
-                'id',
-                'email',
-                'first name',
-                'last name',
-                'data',
-              ].map((title, i) => (
-                <th
-                  key={title}
-                  className={classnames(
-                    styles.orderable,
-                    i == 2 && styles.activeOrder
-                  )}
-                >
-                  <div className={styles.th}>
-                    {title}
-                    {i !== 0 && (
-                      <div className={styles.tableOrder}>
-                        <TriangleUpIcon
-                          className={i == 2 && styles.activeOrderIcon}
-                        />
-                        <TriangleDownIcon />
-                      </div>
-                    )}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {fakeUsers.map((user, i) => (
-              <tr key={i}>
-                {user.map((value, i) => (
-                  <td key={i}>{typeof value === 'Object' ? '{}' : value}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <Table />
       <br />
       <div className={styles.pagination}>
         <a>

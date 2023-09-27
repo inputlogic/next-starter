@@ -1,3 +1,10 @@
 .layout {
   min-height: 100vh;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+
+  .body {
+    padding: 2em;
+  }
 }

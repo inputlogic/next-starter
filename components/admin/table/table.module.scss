@@ -1,0 +1,97 @@
+
+.table {
+  text-align: left;
+  position: relative;
+  overflow: scroll;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+
+  table {
+    width: 100%;
+  }
+
+  thead tr {
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #fafafa;
+
+    th {
+      font-size: 14px;
+      color: #999;
+      position: sticky;
+      top: 0;
+    }
+  }
+
+  td, .th {
+    padding: 10px 25px 10px 10px;
+  }
+
+  tbody tr:not(:last-child) {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  tbody td {
+    font-size: 14px;
+
+    a {
+      font-weight: 600;
+      text-decoration: none;
+    }
+  }
+
+  &.hasCheckbox {
+    td:first-child, th:first-child {
+      padding-right: 10px;
+    }
+  }
+
+  .orderable {
+
+  }
+
+  .tableOrder {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    height: 100%;
+
+    svg {
+      opacity: 0.3;
+      &.activeOrderIcon {
+        opacity: 1;
+      }
+    }
+
+    > svg:first-child {
+      margin-bottom: -4px;
+    }
+
+    > svg:last-child {
+      margin-top: -4px;
+    }
+  }
+
+  .orderable {
+    transition: background 200ms;
+    cursor: pointer;
+
+    &:hover {
+      background: #eee;
+    }
+
+    &.activeOrder {
+      background: #eee;
+    }
+  }
+
+  .th {
+    padding: 10px 10px 10px 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+}
