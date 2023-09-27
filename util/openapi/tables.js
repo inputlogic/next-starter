@@ -1,7 +1,17 @@
 import { useRouter } from 'next/router'
 import { Pagination } from 'components/admin/pagination'
 import { Table as BaseTable, Th, Checkbox } from 'components/admin/table'
+import { Input } from 'components/admin/input'
 import { Loading } from 'components/loading'
+
+const noNulls = (obj) =>
+  Object.entries(obj).reduce((acc, [k, v]) => {
+    if (v === null || v === '') {
+      return acc
+    }
+    acc[k] = v
+    return acc
+  }, {})
 
 export const buildOpenApiTables = (openApiDoc, toolkit) => ({
   tables: Object.entries(openApiDoc.paths).reduce(
@@ -21,6 +31,21 @@ export const buildOpenApiTables = (openApiDoc, toolkit) => ({
   ),
 })
 
+const parseQuery = (id, query) =>
+  Object.entries(query).reduce((acc, [k, v]) => {
+    if (k.startsWith(`${id}.`)) {
+      if (k.startsWith(`${id}.f.`)) {
+        acc.filters = {
+          ...(acc.filters || {}),
+          [k.slice(id.length + 3)]: v,
+        }
+      } else {
+        acc[k.slice(id.length + 1)] = v
+      }
+    }
+    return acc
+  }, {})
+
 export const buildOpenApiTable = ({
   args,
   queries,
@@ -32,20 +57,23 @@ export const buildOpenApiTable = ({
     hasCheckbox = false,
     customHeading,
     customCell,
+    id = 'table',
     pageSize = 10,
   }) => {
     const router = useRouter()
-    const page = router.query.page || 1
-    const ordering = router.query.ordering
     const useResources = toolkit.queries[toolkit.strings.pathToQueryHook(path)]
+    const query = parseQuery(id, router.query)
+    const page = query.page || 1
+    const ordering = query.ordering
     const [_data, { count }] = useResources({
       args,
-      query: { ...queries, offset: 0, limit: 0 },
+      query: { ...queries, ...(query.filters || {}), offset: 0, limit: 0 },
     })
     const [data] = useResources({
       args,
       query: {
         ...queries,
+        ...(query.filters || {}),
         ordering,
         limit: pageSize,
         offset: Math.max(pageSize * (page - 1), 0),
@@ -55,8 +83,29 @@ export const buildOpenApiTable = ({
       endpoint.responses[200].content['application/json'].schema.properties
         .resources.items.properties
     const keys = Object.keys(resourceSchema)
+    const onChangeQuery = (name, value) => {
+      router.replace({
+        pathname: router.pathname,
+        query: noNulls({
+          ...router.query,
+          [`${id}.page`]: 1,
+          [`${id}.f.${name}`]: value,
+        }),
+      })
+    }
     return (
       <>
+        <div>
+          <Input
+            value={query.filters?.search || ''}
+            placeholder="Search..."
+            onChange={(ev) => {
+              ev.preventDefault()
+              onChangeQuery('search', ev.target.value)
+            }}
+          />
+        </div>
+        <br />
         <BaseTable>
           <thead>
             <tr>
@@ -74,15 +123,15 @@ export const buildOpenApiTable = ({
                   onClick={() => {
                     router.replace({
                       pathname: router.pathname,
-                      query: {
+                      query: noNulls({
                         ...router.query,
-                        ordering:
+                        [`${id}.ordering`]:
                           ordering === key
                             ? `-${key}`
                             : ordering === `-${key}`
                             ? ''
                             : key,
-                      },
+                      }),
                     })
                   }}
                 >
@@ -96,6 +145,20 @@ export const buildOpenApiTable = ({
               <tr>
                 <td colSpan={1000}>
                   <Loading />
+                </td>
+              </tr>
+            )}
+            {data?.length === 0 && (
+              <tr>
+                <td
+                  colSpan={1000}
+                  style={{
+                    textAlign: 'center',
+                    fontStyle: 'italic',
+                    opacity: '0.5',
+                  }}
+                >
+                  No results
                 </td>
               </tr>
             )}
@@ -129,13 +192,13 @@ export const buildOpenApiTable = ({
           </tbody>
         </BaseTable>
         <br />
-        {count && (
+        {!!count && (
           <Pagination
             pageCount={Math.ceil(count / pageSize)}
             page={page}
             hrefForPage={(page) => ({
               pathname: router.pathname,
-              query: { ...router.query, page },
+              query: { ...router.query, [`${id}.page`]: page },
             })}
           />
         )}

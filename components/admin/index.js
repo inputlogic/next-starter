@@ -1,6 +1,7 @@
 import { Nav } from './nav'
 import { Table } from './table'
 import { Pagination } from './pagination'
+import { Input } from './input'
 import styles from './admin.module.scss'
 
 export const Admin = () => (
@@ -30,12 +31,7 @@ export const Admin = () => (
               Email
             </label>
           </div>
-          <input
-            className={styles.input}
-            id="email"
-            type="email"
-            placeholder="Email"
-          />
+          <Input id="email" type="email" placeholder="Email" />
           <div className={styles.fieldError}>
             <span>This field is required</span>
           </div>
