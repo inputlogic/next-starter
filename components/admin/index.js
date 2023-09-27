@@ -1,9 +1,7 @@
-import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { Nav } from './nav'
 import { Table } from './table'
+import { Pagination } from './pagination'
 import styles from './admin.module.scss'
-
-const Checkbox = () => <input style={{ margin: '0' }} type="checkbox" />
 
 export const Admin = () => (
   <div className={styles.admin}>
@@ -19,25 +17,7 @@ export const Admin = () => (
       </div>
       <Table />
       <br />
-      <div className={styles.pagination}>
-        <a>
-          <ChevronLeftIcon />
-        </a>
-        <a>1</a>
-        <div>
-          <span>...</span>
-        </div>
-        <a>9</a>
-        <a className={styles.paginationActive}>10</a>
-        <a>11</a>
-        <div>
-          <span>...</span>
-        </div>
-        <a>21</a>
-        <a>
-          <ChevronRightIcon />
-        </a>
-      </div>
+      <Pagination />
       <br />
       <div>
         <h3>Form</h3>

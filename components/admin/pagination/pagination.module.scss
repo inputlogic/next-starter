@@ -1,0 +1,42 @@
+
+.pagination {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.5em;
+  a {
+    cursor: pointer;
+    text-decoration: none;
+    color: #aaa;
+    padding: 8px 12px;
+    min-width: 40px;
+    border-radius: 8px;
+    transition: background 200ms;
+    text-align: center;
+
+    &.paginationActive {
+      color: black;
+      background-color: #f5f5f5;
+    }
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+
+    svg {
+      margin-bottom: -2px;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: initial;
+    }
+  }
+  div {
+    display: flex;
+    align-items: flex-end;
+    span {
+      color: #aaa;
+      padding-bottom: 8px;
+    }
+  }
+}
