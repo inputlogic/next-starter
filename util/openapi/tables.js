@@ -2,6 +2,8 @@ import { useRouter } from 'next/router'
 import { Pagination } from 'components/admin/pagination'
 import { Table as BaseTable, Th, Checkbox } from 'components/admin/table'
 import { Input } from 'components/admin/input'
+import { Filters } from 'components/admin/filters'
+import { Clear } from 'components/admin/filters/clear'
 import { Loading } from 'components/loading'
 
 const noNulls = (obj) =>
@@ -95,7 +97,7 @@ export const buildOpenApiTable = ({
     }
     return (
       <>
-        <div>
+        <Filters>
           <Input
             value={query.filters?.search || ''}
             placeholder="Search..."
@@ -104,7 +106,23 @@ export const buildOpenApiTable = ({
               onChangeQuery('search', ev.target.value)
             }}
           />
-        </div>
+          {Object.keys(query.filters || {}).length > 0 && (
+            <Clear
+              onClick={() => {
+                router.replace({
+                  pathname: router.pathname,
+                  query: Object.entries(router.query).reduce(
+                    (acc, [k, v]) =>
+                      k.startsWith(`${id}.f.`) ? acc : { ...acc, [k]: v },
+                    {}
+                  ),
+                })
+              }}
+            >
+              clear
+            </Clear>
+          )}
+        </Filters>
         <br />
         <BaseTable>
           <thead>
