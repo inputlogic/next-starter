@@ -28,9 +28,15 @@ export const buildOpenApiTable = ({
   endpoint,
   toolkit,
 }) => {
-  const Table = ({ customHeading, customCell, pageSize = 10 }) => {
+  const Table = ({
+    hasCheckbox = false,
+    customHeading,
+    customCell,
+    pageSize = 10,
+  }) => {
     const router = useRouter()
     const page = router.query.page || 1
+    const ordering = router.query.ordering
     const useResources = toolkit.queries[toolkit.strings.pathToQueryHook(path)]
     const [_data, { count }] = useResources({
       args,
@@ -40,6 +46,7 @@ export const buildOpenApiTable = ({
       args,
       query: {
         ...queries,
+        ordering,
         limit: pageSize,
         offset: Math.max(pageSize * (page - 1), 0),
       },
@@ -50,40 +57,35 @@ export const buildOpenApiTable = ({
     const keys = Object.keys(resourceSchema)
     return (
       <>
-        <BaseTable
-          headings={keys.map((key) => (
-            <Th key={key} isOrderable>
-              {customHeading?.[key] || key}
-            </Th>
-          ))}
-          rows={data?.map((result) =>
-            keys.map((key, i) => {
-              if (i === 0) {
-                return (
-                  <a href="#" key={i}>
-                    {result[key]}
-                  </a>
-                )
-              }
-              const render =
-                customCell?.[key] ||
-                ((value) =>
-                  typeof value === 'object'
-                    ? value === null
-                      ? '-'
-                      : JSON.stringify(value)
-                    : value)
-              return render(result[key])
-            })
-          )}
-        >
+        <BaseTable>
           <thead>
             <tr>
-              <Th>
-                <Checkbox key="check" />
-              </Th>
+              {hasCheckbox && (
+                <Th>
+                  <Checkbox key="check" />
+                </Th>
+              )}
               {keys.map((key) => (
-                <Th key={key} isOrderable>
+                <Th
+                  key={key}
+                  isOrderable
+                  isActiveUp={ordering === key}
+                  isActiveDown={ordering === `-${key}`}
+                  onClick={() => {
+                    router.replace({
+                      pathname: router.pathname,
+                      query: {
+                        ...router.query,
+                        ordering:
+                          ordering === key
+                            ? `-${key}`
+                            : ordering === `-${key}`
+                            ? ''
+                            : key,
+                      },
+                    })
+                  }}
+                >
                   {customHeading?.[key] || key}
                 </Th>
               ))}
@@ -92,16 +94,18 @@ export const buildOpenApiTable = ({
           <tbody>
             {!data && (
               <tr>
-                <td colspan={1000}>
+                <td colSpan={1000}>
                   <Loading />
                 </td>
               </tr>
             )}
             {data?.map((result, i) => (
               <tr key={i}>
-                <td>
-                  <Checkbox key="check" />
-                </td>
+                {hasCheckbox && (
+                  <td key="checkbox">
+                    <Checkbox key="check" />
+                  </td>
+                )}
                 {keys.map((key, i) => {
                   if (i === 0) {
                     return (

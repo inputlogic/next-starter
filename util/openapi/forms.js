@@ -187,7 +187,6 @@ const buildOpenApiFields = ({
   const requestBody = endpoint.requestBody.content['application/json']
   const schema = requestBody.schema.properties
   const examples = requestBody.examples
-  console.log('yoooo', path, method, schema)
   return Object.entries(schema).reduce((acc, [name, details]) => {
     const field = getField(name, details)
     return {

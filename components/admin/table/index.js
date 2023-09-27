@@ -4,20 +4,29 @@ import styles from './table.module.scss'
 
 export const Checkbox = () => <input style={{ margin: '0' }} type="checkbox" />
 
-export const Th = ({ children, isOrderable, isActiveUp, isActiveDown }) => (
+export const Th = ({
+  children,
+  isOrderable,
+  isActiveUp,
+  isActiveDown,
+  ...props
+}) => (
   <th
     className={classnames(
-      styles.orderable,
+      isOrderable && styles.orderable,
       (isActiveUp || isActiveDown) && styles.activeOrder
     )}
+    {...props}
   >
     <div className={styles.th}>
       {children}
       {isOrderable && (
         <div className={styles.tableOrder}>
-          <TriangleUpIcon className={isActiveUp && styles.activeOrderIcon} />
+          <TriangleUpIcon
+            className={classnames(isActiveUp && styles.activeOrderIcon)}
+          />
           <TriangleDownIcon
-            className={isActiveDown && styles.activeOrderIcon}
+            className={classnames(isActiveDown && styles.activeOrderIcon)}
           />
         </div>
       )}

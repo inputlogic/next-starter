@@ -1,11 +1,9 @@
 import { openapi } from 'util/openapi'
 
-console.log(openapi)
-
 export const Page = () => {
   const Table = openapi.tables.adminUsers.Table
   return (
-    <div>
+    <div style={{ padding: '2em' }}>
       <h1>Table</h1>
       <Table />
     </div>

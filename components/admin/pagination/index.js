@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { classnames } from 'util/classnames'
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 
 import styles from './pagination.module.scss'
@@ -17,7 +18,7 @@ export const Pagination = ({ pageCount, page, hrefForPage }) => {
     <Link
       href={hrefForPage?.(page) || '#'}
       onClick={(ev) => disabled && ev.preventDefault()}
-      className={disabled && styles.disabled}
+      className={classnames(disabled && styles.disabled)}
       replace
     >
       {children || page}
