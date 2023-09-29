@@ -1,0 +1,12 @@
+.fieldError {
+  font-size: 12px;
+  color: red;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.4em;
+  align-items: center;
+
+  svg {
+    flex-shrink: 0;
+  }
+}

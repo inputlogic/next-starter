@@ -1,0 +1,12 @@
+.autoform {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1em;
+  container-type: inline-size;
+}
+
+@container (width > 30em) {
+  .autoform button {
+    align-self: flex-start;
+  }
+}

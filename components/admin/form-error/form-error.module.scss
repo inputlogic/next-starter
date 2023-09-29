@@ -1,0 +1,13 @@
+.formError {
+  color: red;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.7em;
+  align-items: flex-start;
+
+  svg {
+    margin-top: 0.3em;
+    flex-shrink: 0;
+  }
+
+}
