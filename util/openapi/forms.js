@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from 'react'
 import { useForm, FormProvider, useFormContext } from 'react-hook-form'
 import { Input } from 'components/admin/input'
 import { Label } from 'components/admin/label'
@@ -6,12 +7,22 @@ import { Button } from 'components/admin/button'
 import { FieldError } from 'components/admin/field-error'
 import { FormError as BaseFormError } from 'components/admin/form-error'
 import { toTitleCase } from 'util/case'
-import { FormHelper } from './form-helper'
 import styles from './forms.module.scss'
+
+const useIsMounted = () => {
+  const isMounted = useRef(true)
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
+
+  return isMounted
+}
 
 const FormError = (props) => {
   const form = useFormContext() // retrieve all hook methods
-  console.log(form.formState.errors)
   if (Object.keys(form.formState.errors).length) {
     return (
       <BaseFormError error={form.formState.errors.root?.raw?.message}>
@@ -23,7 +34,15 @@ const FormError = (props) => {
 
 const SubmitButton = (props) => {
   const form = useFormContext() // retrieve all hook methods
-  return <Button isLoading={form.formState.isSubmitting} {...props} />
+  console.log('form context', form.metaData)
+  return (
+    <Button
+      disabled={form.formState.isSubmitting || form.metaData.success}
+      isLoading={form.formState.isSubmitting}
+      isSuccess={form.metaData.success}
+      {...props}
+    />
+  )
 }
 
 export const buildOpenApiForms = (openapiDoc, toolkit) => ({
@@ -120,19 +139,28 @@ const buildFormComponent = ({
 }) => {
   const Form = ({ initialData, id, children, ...props }) => {
     const methods = useForm({ defaultValues: initialData })
+    const [metaData, setMetaData] = useState({})
     const useMutation =
       toolkit.mutations[
         toolkit.strings.pathAndMethodToMutationHook(path, method)
       ]
     const mutation = useMutation({ setError: methods.setError, args: { id } })
 
+    const isMounted = useIsMounted()
+
     const onSubmit = async (data) => {
       // TODO: add naming utils to toolkit
       const response = await mutation.mutateAsync(data)
+      setMetaData((curr) => ({ ...curr, success: true }))
+      setTimeout(() => {
+        if (isMounted.current) {
+          setMetaData((curr) => ({ ...curr, success: false }))
+        }
+      }, 2000)
     }
 
     return (
-      <FormProvider {...methods}>
+      <FormProvider {...methods} metaData={metaData}>
         <form
           onSubmit={(ev) => {
             methods.clearErrors('root')
@@ -140,13 +168,13 @@ const buildFormComponent = ({
           }}
           {...props}
         >
-          <FormHelper
-            reset={methods.reset}
-            example={
-              endpoint.requestBody.content['application/json'].examples.example1
-                .value
-            }
-          />
+          {/* <FormHelper */}
+          {/*   reset={methods.reset} */}
+          {/*   example={ */}
+          {/*     endpoint.requestBody.content['application/json'].examples.example1 */}
+          {/*       .value */}
+          {/*   } */}
+          {/* /> */}
           {children}
         </form>
       </FormProvider>

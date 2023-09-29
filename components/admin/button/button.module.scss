@@ -22,4 +22,28 @@
     font-size: 14px;
     transform: scale(0.8);
   }
+
+  .success {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  .main.isSuccess {
+    opacity: 0;
+  }
+
+  &:disabled {
+    cursor: initial;
+  }
 }
