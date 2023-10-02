@@ -1,58 +1,24 @@
-import { useRef, useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { Loading } from 'components/loading'
 import { useForm, FormProvider, useFormContext } from 'react-hook-form'
-import { Input } from 'components/admin/input'
-import { Label } from 'components/admin/label'
-import { Field } from 'components/admin/field'
 import { Button } from 'components/admin/button'
-import { FieldError } from 'components/admin/field-error'
 import { FormError as BaseFormError } from 'components/admin/form-error'
-import { toTitleCase, capitalize } from 'util/case'
+import { capitalize } from 'util/case'
+import { useIsMounted } from 'hooks/use-is-mounted'
 import styles from './forms.module.scss'
 
-const useIsMounted = () => {
-  const isMounted = useRef(true)
-
-  useEffect(() => {
-    return () => {
-      isMounted.current = false
-    }
-  }, [])
-
-  return isMounted
-}
-
-const FormError = (props) => {
-  const form = useFormContext() // retrieve all hook methods
-  if (Object.keys(form.formState.errors).length) {
-    return (
-      <BaseFormError error={form.formState.errors.root?.raw?.message}>
-        {form.formState.errors.root?.message?.message}
-      </BaseFormError>
-    )
-  }
-}
-
-const SubmitButton = (props) => {
-  const form = useFormContext() // retrieve all hook methods
-  return (
-    <Button
-      disabled={form.formState.isSubmitting || form.metaData.success}
-      isLoading={form.formState.isSubmitting}
-      isSuccess={form.metaData.success}
-      {...props}
-    />
-  )
-}
+export const buildOpenApiUseForm = (openapiDoc, toolkit) => ({
+  useForm: buildUseForm({ openapiDoc, toolkit }),
+})
 
 const buildUseForm = ({ openapiDoc, toolkit }) => {
   const useForm = (
     name,
     method,
-    { theme = 'default', anyTheme = false, options } = {}
+    { theme: selectedTheme = 'default', anyTheme = false } = {}
   ) => {
     return useMemo(() => {
-      theme = capitalize(theme)
+      const theme = capitalize(selectedTheme)
       const [path, methods] =
         Object.entries(openapiDoc.paths).find(
           ([path]) => toolkit.strings.pathToName(path) === name
@@ -62,9 +28,6 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
         return
       }
       const endpoint = methods[method]
-      // const [_method, endpoint] =
-      //   Object.entries(methods).find(([method]) => method === method) || []
-      // console.log('hiiiiiii', method, methods, _method, endpoint)
       if (!endpoint) {
         console.warn('No endpoint named', name, 'with method', method)
         return
@@ -113,7 +76,7 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
         className,
         resourceId,
         children,
-        ...props
+        submitText = 'Submit',
       }) => {
         useInitialData = useInitialData
           ? useInitialData
@@ -133,7 +96,7 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
             {children}
             {!children &&
               flattenFields(defaultFields, `${name}.${method}.${resourceId}`)}
-            {!children && <SubmitButton>Submit</SubmitButton>}
+            {!children && <SubmitButton>{submitText}</SubmitButton>}
           </Form>
         )
       }
@@ -144,99 +107,40 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
         SubmitButton,
         AllFields: allFields,
       }
-    }, [name, method, theme])
+    }, [name, method, selectedTheme, anyTheme])
   }
   return useForm
 }
 
-export const buildOpenApiForms = (openapiDoc, toolkit) => ({
-  // useForm: buildUseForm({ openapiDoc, toolkit }),
-  forms: Object.entries(openapiDoc.paths).reduce(
-    (acc, [path, methods]) => ({
-      ...acc,
-      [toolkit.strings.pathToName(path)]: Object.entries(methods).reduce(
-        (acc, [method, endpoint]) => ({
-          ...acc,
-          ...(!['post', 'patch'].includes(method)
-            ? {}
-            : {
-                [method]: buildOpenApiForm({
-                  path,
-                  method,
-                  endpoint,
-                  toolkit,
-                  openapiDoc,
-                }),
-              }),
-        }),
-        {}
-      ),
-    }),
-    {}
-  ),
-})
+const FormError = (props) => {
+  const form = useFormContext() // retrieve all hook methods
+  if (Object.keys(form.formState.errors).length) {
+    return (
+      <BaseFormError error={form.formState.errors.root?.raw?.message}>
+        {form.formState.errors.root?.message?.message}
+      </BaseFormError>
+    )
+  }
+}
+
+const SubmitButton = (props) => {
+  const form = useFormContext() // retrieve all hook methods
+  return (
+    <Button
+      disabled={form.formState.isSubmitting || form.metaData.success}
+      isLoading={form.formState.isSubmitting}
+      isSuccess={form.metaData.success}
+      {...props}
+    />
+  )
+}
 
 const flattenFields = (fields, id) =>
   Object.entries(fields).flatMap(([name, Field]) =>
     typeof Field === 'function' ? <Field key={name} /> : flattenFields(Field)
   )
 
-export const buildOpenApiForm = ({
-  path,
-  method,
-  endpoint,
-  toolkit,
-  openapiDoc,
-}) => {
-  const fields2 = buildFields({ endpoint, toolkit })
-  const fields = buildOpenApiFields({
-    path,
-    method,
-    endpoint,
-    toolkit,
-    openapiDoc,
-  })
-  const Form = buildFormComponent({
-    path,
-    method,
-    endpoint,
-    toolkit,
-    openapiDoc,
-  })
-  const AutoForm = ({ useInitialData, id = 'form', ...props }) => {
-    useInitialData = useInitialData
-      ? useInitialData
-      : method === 'patch'
-      ? () =>
-          toolkit.queries[toolkit.strings.pathToQueryHook(path)]({
-            args: { id },
-          })
-      : () => [{}]
-    return (
-      <Form className={styles.autoform} id={id} useInitialData={useInitialData}>
-        <FormError />
-        {flattenFields(fields, id)}
-        {/* {Object.entries(fields).map(([name, Field]) => ( */}
-        {/*   <Field key={name} /> */}
-        {/* ))} */}
-        <SubmitButton>Submit</SubmitButton>
-      </Form>
-    )
-  }
-  return {
-    fields,
-    Form,
-    AutoForm,
-  }
-}
-
-const buildFormComponent = ({
-  path,
-  method,
-  endpoint,
-  toolkit,
-  openapiDoc,
-}) => {
+const buildFormComponent = ({ path, method, toolkit }) => {
   const Form = ({ initialData, resourceId, children, ...props }) => {
     const name = `${toolkit.strings.pathToName(path)}.${method}`
     const methods = useForm({ defaultValues: initialData })
@@ -301,76 +205,6 @@ const buildFormComponent = ({
     return <Form initialData={initialData} {...props} />
   }
   return FormWithInitialData
-}
-
-const defaultField =
-  ({ name }) =>
-  ({ id }) => {
-    const {
-      register,
-      formState: { errors },
-    } = useFormContext() // retrieve all hook methods
-    return (
-      <Field>
-        <Label htmlFor={id}>{toTitleCase(name)}</Label>
-        <Input
-          id={id}
-          type={['password', 'email'].includes(name) ? name : 'text'}
-          {...register(name)}
-        />
-        {errors[name] && <FieldError>{errors[name]?.message}</FieldError>}
-      </Field>
-    )
-  }
-
-const getField = (name, details) => {
-  // TODO: handle custom field types
-  if (details.type === 'object') {
-    if (!details.properties) {
-      console.warn('TODO: handle empty json object field')
-    }
-    return Object.entries(details.properties || {}).reduce(
-      (acc, [nestedName, nestedDetails]) => ({
-        ...acc,
-        [nestedName]: getField(nestedName, nestedDetails),
-      }),
-      {}
-    )
-  }
-  if (details.type === 'boolean') {
-    return ({ id }) => {
-      const {
-        register,
-        formState: { errors },
-      } = useFormContext() // retrieve all hook methods
-      return (
-        <fieldset>
-          <input type="checkbox" name={name} id={id} {...register(name)} />
-          <Label htmlFor={id}>{name}</Label>
-        </fieldset>
-      )
-    }
-  }
-  return defaultField({ name })
-}
-
-const buildOpenApiFields = ({
-  path,
-  method,
-  endpoint,
-  toolkit,
-  openapiDoc,
-}) => {
-  const requestBody = endpoint.requestBody.content['application/json']
-  const schema = requestBody.schema.properties
-  const examples = requestBody.examples
-  return Object.entries(schema).reduce((acc, [name, details]) => {
-    const field = getField(name, details)
-    return {
-      ...acc,
-      [name]: field,
-    }
-  }, {})
 }
 
 const getFieldComponentsForField = (name, details, fields) => {

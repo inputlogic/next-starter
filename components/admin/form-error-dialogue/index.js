@@ -5,6 +5,7 @@ import { Button } from 'components/admin/button'
 import styles from './form-error-dialogue.module.scss'
 
 const generalErrorMessage = (error) => {
+  if (!error) return
   const { code } = error
   switch (code) {
     case 500:

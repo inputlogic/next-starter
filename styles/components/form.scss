@@ -65,22 +65,22 @@ label {
   }
 }
 
-fieldset {
-  padding: 0;
-  margin: 0;
-  margin-bottom: $gutterE * 1;
-  margin-top: $gutterE * 2;
+// fieldset {
+//   padding: 0;
+//   margin: 0;
+//   margin-bottom: $gutterE * 1;
+//   margin-top: $gutterE * 2;
 
-  legend {
-    font-weight: 600;
-    color: $text-color;
-    font-size: 0.889em;
-    margin-bottom: $gutterE * 2.5;
-    padding-bottom: $gutterE;
-    border-bottom: solid 1px $border-color;
-    width: 100%;
-  }
-}
+//   legend {
+//     font-weight: 600;
+//     color: $text-color;
+//     font-size: 0.889em;
+//     margin-bottom: $gutterE * 2.5;
+//     padding-bottom: $gutterE;
+//     border-bottom: solid 1px $border-color;
+//     width: 100%;
+//   }
+// }
 
 .form-row {
   display: flex;
