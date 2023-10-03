@@ -2,6 +2,9 @@ import { capitalize } from 'util/case'
 
 const toFormErrorMessage = (error) => {
   if (error.code === 400) {
+    if (error.data?.non_field_errors) {
+      return error.data.non_field_errors
+    }
     return 'Please fix the errors below and try again.'
   } else if (error.code === 401) {
     return "Looks like you don't have permission to do this."

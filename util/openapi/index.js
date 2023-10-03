@@ -46,7 +46,8 @@ export const openapi = buildOpenApiToolkit(doc, {
       {
         name: 'TextField',
         priority: 1,
-        predicate: (name, details) => details.type === 'string',
+        predicate: (name, details) =>
+          ['string', 'number', 'integer'].includes(details.type),
         component: (name, details) => (props) =>
           (
             <AdminFormTextField

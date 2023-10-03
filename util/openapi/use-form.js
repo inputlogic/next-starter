@@ -34,35 +34,37 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
       }
       const allFields = buildFields({ endpoint, toolkit })
       const defaultFields = Object.fromEntries(
-        Object.entries(allFields).map(([name, components]) => {
-          const orderedByPriority = Object.entries(components).sort(
-            ([name1, component1], [name2, component2]) =>
-              component1.priority > component2.priority ? -1 : 1
-          )
-          const topPriorityWithTheme = orderedByPriority.filter(([name]) =>
-            name.startsWith(theme)
-          )[0]
-          const topPriorityIgnoreTheme = orderedByPriority[0]
-          if (!topPriorityIgnoreTheme) {
-            console.warn(
-              'Field',
-              name,
-              'does not have a matching field component. Please provide one.'
+        Object.entries(allFields)
+          .map(([name, components]) => {
+            const orderedByPriority = Object.entries(components).sort(
+              ([name1, component1], [name2, component2]) =>
+                component1.priority > component2.priority ? -1 : 1
             )
-            return
-          }
-          if (!topPriorityWithTheme && !anyTheme) {
-            console.warn(
-              'Field',
-              name,
-              'does not have a component for theme',
-              theme,
-              '. Either provide one, change the theme, or try setting anyTheme to `true` to fall back to a component based on a different theme'
-            )
-            return
-          }
-          return [name, topPriorityWithTheme[1] || topPriorityIgnoreTheme[1]]
-        })
+            const topPriorityWithTheme = orderedByPriority.filter(([name]) =>
+              name.startsWith(theme)
+            )[0]
+            const topPriorityIgnoreTheme = orderedByPriority[0]
+            if (!topPriorityIgnoreTheme) {
+              console.warn(
+                'Field',
+                name,
+                'does not have a matching field component. Please provide one.'
+              )
+              return
+            }
+            if (!topPriorityWithTheme && !anyTheme) {
+              console.warn(
+                'Field',
+                name,
+                'does not have a component for theme',
+                theme,
+                '. Either provide one, change the theme, or try setting anyTheme to `true` to fall back to a component based on a different theme'
+              )
+              return
+            }
+            return [name, topPriorityWithTheme[1] || topPriorityIgnoreTheme[1]]
+          })
+          .filter(Boolean)
       )
       const Form = buildFormComponent({
         path,
@@ -76,6 +78,8 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
         className,
         resourceId,
         children,
+        onSuccess,
+        onSubmit,
         submitText = 'Submit',
       }) => {
         useInitialData = useInitialData
@@ -85,12 +89,14 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
               toolkit.queries[toolkit.strings.pathToQueryHook(path)]({
                 args: { id: resourceId },
               })
-          : () => [{}]
+          : () => [{}, {}]
         return (
           <Form
             className={className || styles.autoform}
             resourceId={resourceId}
             useInitialData={useInitialData}
+            onSubmit={onSubmit}
+            onSuccess={onSuccess}
           >
             <FormError />
             {children}
@@ -102,8 +108,7 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
       }
       return {
         Fields: defaultFields,
-        Form,
-        AutoForm,
+        Form: AutoForm,
         SubmitButton,
         AllFields: allFields,
       }
@@ -141,7 +146,14 @@ const flattenFields = (fields, id) =>
   )
 
 const buildFormComponent = ({ path, method, toolkit }) => {
-  const Form = ({ initialData, resourceId, children, ...props }) => {
+  const Form = ({
+    initialData,
+    resourceId,
+    children,
+    onSubmit: customOnSubmit,
+    onSuccess: customOnSuccess,
+    ...props
+  }) => {
     const name = `${toolkit.strings.pathToName(path)}.${method}`
     const methods = useForm({ defaultValues: initialData })
     const [metaData, setMetaData] = useState({})
@@ -156,9 +168,7 @@ const buildFormComponent = ({ path, method, toolkit }) => {
 
     const isMounted = useIsMounted()
 
-    const onSubmit = async (data) => {
-      // TODO: add naming utils to toolkit
-      const response = await mutation.mutateAsync(data)
+    const onSuccess = () => {
       setMetaData((curr) => ({ ...curr, success: true }))
       setTimeout(() => {
         if (isMounted.current) {
@@ -166,6 +176,14 @@ const buildFormComponent = ({ path, method, toolkit }) => {
         }
       }, 2000)
     }
+
+    const onSubmit =
+      customOnSubmit ||
+      (async (data) => {
+        // TODO: add naming utils to toolkit
+        const response = await mutation.mutateAsync(data)
+        await customOnSuccess?.(response)
+      })
 
     return (
       <FormProvider
@@ -177,7 +195,8 @@ const buildFormComponent = ({ path, method, toolkit }) => {
         <form
           onSubmit={(ev) => {
             methods.clearErrors('root')
-            return methods.handleSubmit(onSubmit)(ev)
+            methods.handleSubmit(onSubmit)(ev)
+            onSuccess()
           }}
           {...props}
         >
@@ -207,8 +226,8 @@ const buildFormComponent = ({ path, method, toolkit }) => {
   return FormWithInitialData
 }
 
-const getFieldComponentsForField = (name, details, fields) => {
-  return fields?.reduce((acc, field) => {
+const getFieldComponentsForField = (name, details, toolkit) => {
+  return toolkit.context?.form?.fields?.reduce((acc, field) => {
     if (field.predicate(name, details)) {
       const component = field.component(name, details)
       const theme = field.theme ? capitalize(field.theme) : 'Default'
@@ -221,13 +240,26 @@ const getFieldComponentsForField = (name, details, fields) => {
 
 const buildFields = ({ endpoint, toolkit }) => {
   const requestBody = endpoint.requestBody.content['application/json']
-  const schema = requestBody.schema.properties
-  return Object.entries(schema).reduce((acc, [name, details]) => {
-    acc[capitalize(name)] = getFieldComponentsForField(
-      name,
-      details,
-      toolkit.context?.form?.fields
-    )
-    return acc
-  }, {})
+  const schema = requestBody.schema
+
+  const fieldsFromSchema = (schema, toolkit, prefixes = []) => {
+    return Object.entries(schema.properties).reduce((acc, [name, details]) => {
+      if (details.type === 'object') {
+        return {
+          ...acc,
+          ...fieldsFromSchema(details, toolkit, [...prefixes, name]),
+        }
+      } else {
+        acc[prefixes.map(capitalize).join('') + capitalize(name)] =
+          getFieldComponentsForField(
+            [...prefixes, name].join('.'),
+            details,
+            toolkit
+          )
+      }
+      return acc
+    }, {})
+  }
+
+  return fieldsFromSchema(schema, toolkit)
 }

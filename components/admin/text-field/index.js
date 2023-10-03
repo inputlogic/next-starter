@@ -4,23 +4,28 @@ import { Input } from 'components/admin/input'
 import { Label } from 'components/admin/label'
 import { Field } from 'components/admin/field'
 import { FieldError } from 'components/admin/field-error'
-import { toTitleCase } from 'util/case'
+import { camelCaseToTitleCase } from 'util/case'
 
-export const TextField = forwardRef(({ id, name, error, ...props }, ref) => {
-  return (
-    <Field>
-      <Label htmlFor={id}>{toTitleCase(name)}</Label>
-      <Input
-        id={id}
-        type={['password', 'email'].includes(name) ? name : 'text'}
-        name={name}
-        {...props}
-        ref={ref}
-      />
-      {error && <FieldError>{error}</FieldError>}
-    </Field>
-  )
-})
+const defaultLabel = (name) =>
+  camelCaseToTitleCase(name.split('.').reverse()[0])
+
+export const TextField = forwardRef(
+  ({ id, label, name, error, ...props }, ref) => {
+    return (
+      <Field>
+        <Label htmlFor={id}>{label || defaultLabel(name)}</Label>
+        <Input
+          id={id}
+          type={['password', 'email'].includes(name) ? name : 'text'}
+          name={name}
+          {...props}
+          ref={ref}
+        />
+        {error && <FieldError>{error}</FieldError>}
+      </Field>
+    )
+  }
+)
 
 export const FormTextField = ({ id, name, ...props }) => {
   const {
