@@ -10,33 +10,26 @@ export const Layout = ({ children }) => (
           links: [
             {
               name: 'Home',
-              href: '/auto-admin-2/',
+              href: '/admin/dashboard',
             },
             {
               name: 'Users',
-              href: '/auto-admin-2/users',
+              href: '/admin/users',
             },
-            {
-              name: 'Posts',
-              href: '/auto-admin-2/posts',
-            },
-            {
-              name: 'Something Nested',
-              href: '/auto-admin-2/nested',
-              links: [
-                {
-                  name: 'A nested one',
-                  href: '#',
-                },
-              ],
-            },
+            //            {
+            //              name: 'Something Nested',
+            //              href: '/auto-admin-2/nested',
+            //              links: [
+            //                {
+            //                  name: 'A nested one',
+            //                  href: '#',
+            //                },
+            //              ],
+            //            },
           ],
         },
       ]}
     />
-    <div className={styles.body}>
-      Layout
-      {children}
-    </div>
+    <div className={styles.body}>{children}</div>
   </div>
 )

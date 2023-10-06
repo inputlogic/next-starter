@@ -1,10 +1,17 @@
 import { useState, useMemo } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as y from 'yup'
 import { Loading } from 'components/loading'
-import { useForm, FormProvider, useFormContext } from 'react-hook-form'
+import {
+  useForm as useReactHookForm,
+  FormProvider,
+  useFormContext,
+} from 'react-hook-form'
 import { Button } from 'components/admin/button'
 import { FormError as BaseFormError } from 'components/admin/form-error'
 import { capitalize } from 'util/case'
 import { useIsMounted } from 'hooks/use-is-mounted'
+import { errorHandler } from 'util/drf/error-handler'
 import styles from './forms.module.scss'
 
 export const buildOpenApiUseForm = (openapiDoc, toolkit) => ({
@@ -43,6 +50,7 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
             const topPriorityWithTheme = orderedByPriority.filter(([name]) =>
               name.startsWith(theme)
             )[0]
+            console.log('top priority with theme', topPriorityWithTheme)
             const topPriorityIgnoreTheme = orderedByPriority[0]
             if (!topPriorityIgnoreTheme) {
               console.warn(
@@ -50,7 +58,15 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
                 name,
                 'does not have a matching field component. Please provide one.'
               )
-              return
+              return [
+                name,
+                () => (
+                  <div>
+                    Warning: field {name} does not have a matching field
+                    component. Please provide one.
+                  </div>
+                ),
+              ]
             }
             if (!topPriorityWithTheme && !anyTheme) {
               console.warn(
@@ -60,9 +76,22 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
                 theme,
                 '. Either provide one, change the theme, or try setting anyTheme to `true` to fall back to a component based on a different theme'
               )
-              return
+              return [
+                name,
+                () => (
+                  <div>
+                    Warning: field {name} does not have a matching component for
+                    the theme {selectedTheme}. Either provide one, change the
+                    theme, or try setting anyTheme to true to fall back to
+                    components with other themes.
+                  </div>
+                ),
+              ]
             }
-            return [name, topPriorityWithTheme[1] || topPriorityIgnoreTheme[1]]
+            return [
+              name,
+              topPriorityWithTheme?.[1] || topPriorityIgnoreTheme?.[1],
+            ]
           })
           .filter(Boolean)
       )
@@ -80,15 +109,20 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
         children,
         onSuccess,
         onSubmit,
-        submitText = 'Submit',
+        showFormError = true,
+        submitText = 'Save',
+        ...props
       }) => {
         useInitialData = useInitialData
           ? useInitialData
           : method === 'patch'
           ? () =>
-              toolkit.queries[toolkit.strings.pathToQueryHook(path)]({
-                args: { id: resourceId },
-              })
+              toolkit.queries[toolkit.strings.pathToQueryHook(path)](
+                {
+                  args: { id: resourceId },
+                },
+                { cacheTime: 0 }
+              )
           : () => [{}, {}]
         return (
           <Form
@@ -97,8 +131,9 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
             useInitialData={useInitialData}
             onSubmit={onSubmit}
             onSuccess={onSuccess}
+            {...props}
           >
-            <FormError />
+            {showFormError && <FormError />}
             {children}
             {!children &&
               flattenFields(defaultFields, `${name}.${method}.${resourceId}`)}
@@ -109,6 +144,7 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
       return {
         Fields: defaultFields,
         Form: AutoForm,
+        FormError,
         SubmitButton,
         AllFields: allFields,
       }
@@ -119,7 +155,7 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
 
 const FormError = (props) => {
   const form = useFormContext() // retrieve all hook methods
-  if (Object.keys(form.formState.errors).length) {
+  if (form.formState.errors.root) {
     return (
       <BaseFormError error={form.formState.errors.root?.raw?.message}>
         {form.formState.errors.root?.message?.message}
@@ -152,10 +188,17 @@ const buildFormComponent = ({ path, method, toolkit }) => {
     children,
     onSubmit: customOnSubmit,
     onSuccess: customOnSuccess,
+    validation,
     ...props
   }) => {
     const name = `${toolkit.strings.pathToName(path)}.${method}`
-    const methods = useForm({ defaultValues: initialData })
+    console.log('validation', validation)
+    const methods = useReactHookForm({
+      defaultValues: initialData,
+      ...(validation
+        ? { resolver: yupResolver(y.object().shape(validation)) }
+        : {}),
+    })
     const [metaData, setMetaData] = useState({})
     const useMutation =
       toolkit.mutations[
@@ -180,7 +223,6 @@ const buildFormComponent = ({ path, method, toolkit }) => {
     const onSubmit =
       customOnSubmit ||
       (async (data) => {
-        // TODO: add naming utils to toolkit
         const response = await mutation.mutateAsync(data)
         await customOnSuccess?.(response)
       })
@@ -193,10 +235,17 @@ const buildFormComponent = ({ path, method, toolkit }) => {
         metaData={metaData}
       >
         <form
-          onSubmit={(ev) => {
+          onSubmit={async (ev) => {
             methods.clearErrors('root')
-            methods.handleSubmit(onSubmit)(ev)
-            onSuccess()
+            try {
+              await methods.handleSubmit((...args) => {
+                onSubmit?.(...args)
+                onSuccess()
+              })(ev)
+            } catch (error) {
+              // TODO: extra error handler
+              errorHandler(methods.setError)(error)
+            }
           }}
           {...props}
         >
@@ -243,22 +292,34 @@ const buildFields = ({ endpoint, toolkit }) => {
   const schema = requestBody.schema
 
   const fieldsFromSchema = (schema, toolkit, prefixes = []) => {
-    return Object.entries(schema.properties).reduce((acc, [name, details]) => {
-      if (details.type === 'object') {
-        return {
-          ...acc,
-          ...fieldsFromSchema(details, toolkit, [...prefixes, name]),
-        }
-      } else {
-        acc[prefixes.map(capitalize).join('') + capitalize(name)] =
-          getFieldComponentsForField(
-            [...prefixes, name].join('.'),
-            details,
-            toolkit
-          )
+    if (!schema.properties) {
+      return {
+        [prefixes.map(capitalize).join('')]: {
+          [`Default${prefixes.map(capitalize).join('')}`]: () => (
+            <div>TODO: Arbitrary Json {prefixes.join(' ')}</div>
+          ),
+        },
       }
-      return acc
-    }, {})
+    }
+    return Object.entries(schema.properties || {}).reduce(
+      (acc, [name, details]) => {
+        if (details.type === 'object') {
+          return {
+            ...acc,
+            ...fieldsFromSchema(details, toolkit, [...prefixes, name]),
+          }
+        } else {
+          acc[prefixes.map(capitalize).join('') + capitalize(name)] =
+            getFieldComponentsForField(
+              [...prefixes, name].join('.'),
+              details,
+              toolkit
+            )
+        }
+        return acc
+      },
+      {}
+    )
   }
 
   return fieldsFromSchema(schema, toolkit)

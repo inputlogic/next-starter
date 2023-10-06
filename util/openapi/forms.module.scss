@@ -5,7 +5,7 @@
   container-type: inline-size;
 }
 
-@container (width > 30em) {
+@container (width > 15em) {
   .autoform button {
     align-self: flex-start;
   }

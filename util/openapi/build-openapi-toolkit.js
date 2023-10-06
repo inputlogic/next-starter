@@ -1,9 +1,8 @@
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useUser } from 'hooks/use-user'
 import { kebabCaseToCamelCase, toTitleCase } from 'util/case'
 import { get, post, patch, del } from 'util/api'
 import { errorHandler } from 'util/drf/error-handler'
-import { useDjangoList, useDjangoResource } from 'util/drf/hooks'
 import { buildOpenApiForms } from './forms'
 import { buildOpenApiUseForm } from './use-form'
 import { buildOpenApiTables } from './tables'
@@ -131,13 +130,100 @@ const buildOpenApiQueryHooks = (openapiDoc, toolkit) => {
 
       return {
         ...acc,
-        [toHookName(name)]: ({ args, query } = {}, reactQueryArgs) => {
-          const url = toolkit.url(name, { args, query })
-          return isList
-            ? useDjangoList(url, reactQueryArgs)
-            : useDjangoResource(url, reactQueryArgs)
-        },
+        [toHookName(name)]: isList
+          ? ({ args = {}, query = {} } = {}, reactQueryArgs) => {
+              const [user] = useUser()
+              const reactQuery = useQuery(
+                [
+                  name,
+                  ...Object.entries(args).flatMap((x) => x),
+                  ...Object.entries(query).flatMap((x) => x),
+                ],
+                () =>
+                  get(toolkit.url(name, { args, query }), {
+                    token: user?.token,
+                  }),
+                reactQueryArgs
+              )
+              return [
+                reactQuery.data?.results,
+                { ...reactQuery, count: reactQuery.data?.count },
+              ]
+            }
+          : ({ args = {}, query = {} } = {}, reactQueryArgs) => {
+              const [user] = useUser()
+              const reactQuery = useQuery(
+                [
+                  name,
+                  ...Object.entries(args).flatMap((x) => x),
+                  ...Object.entries(query).flatMap((x) => x),
+                ],
+                () =>
+                  get(toolkit.url(name, { args, query }), {
+                    token: user?.token,
+                  }),
+                reactQueryArgs
+              )
+              return [reactQuery.data, reactQuery]
+            },
+        ...(!isList
+          ? {}
+          : {
+              [`${toHookName(name)}Infinite`]: (
+                { args = {}, query: { limit = 25, ...query } = {} },
+                reactQueryArgs
+              ) => {
+                const [user] = useUser()
+                const reactQuery = useInfiniteQuery(
+                  [
+                    name,
+                    ...Object.entries(args).flatMap((x) => x),
+                    ...Object.entries(query).flatMap((x) => x),
+                    'infinite',
+                  ],
+                  async ({ pageParam = 0 }) => {
+                    const result = await get(
+                      toolkit.url(name, {
+                        args,
+                        query: {
+                          ...query,
+                          limit,
+                          offset: pageParam * limit,
+                        },
+                      }),
+                      { token: user?.token }
+                    )
+                    return { result, pageParam }
+                  },
+                  {
+                    ...reactQueryArgs,
+                    getNextPageParam: ({ pageParam, result }) => pageParam + 1,
+                    getPreviousPageParam: ({ pageParam, result }) =>
+                      pageParam === 0 ? undefined : pageParam - 1,
+                  }
+                )
+                return [
+                  reactQuery.data?.pages?.flatMap(
+                    (page) => page.result.results
+                  ),
+                  {
+                    ...reactQuery,
+                    count: reactQuery.data?.pages?.[0]?.result?.count,
+                  },
+                ]
+              },
+            }),
       }
+
+      // return {
+      //   ...acc,
+      //   [toHookName(name)]: ({ args, query } = {}, reactQueryArgs) => {
+      //     const url = toolkit.url(name, { args, query })
+      //     return isList
+      //       ? useDjangoList(url, reactQueryArgs)
+      //       : useDjangoResource(url, reactQueryArgs)
+      //   },
+      // }
     }, {}),
   }
 }

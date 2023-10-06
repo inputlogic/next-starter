@@ -1,0 +1,18 @@
+.adminLogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  form {
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 1em;
+    width: 20em;
+    margin: 1em;
+
+    button {
+      margin-top: 1em;
+    }
+  }
+}

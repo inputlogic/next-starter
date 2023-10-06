@@ -1,12 +1,16 @@
 import { useFormContext } from 'react-hook-form'
 import { forwardRef } from 'react'
+import { camelCaseToTitleCase } from 'util/case'
 import { Label } from 'components/admin/label'
 
+const defaultLabel = (name) =>
+  camelCaseToTitleCase(name.split('.').reverse()[0])
+
 export const CheckboxField = forwardRef(
-  ({ id, name, error, ...props }, ref) => (
+  ({ id, name, label, error, ...props }, ref) => (
     <fieldset>
       <input type="checkbox" name={name} id={id} {...props} ref={ref} />
-      <Label htmlFor={id}>{name}</Label>
+      <Label htmlFor={id}>{label || defaultLabel(name)}</Label>
       {error && <div>{error}</div>}
     </fieldset>
   )

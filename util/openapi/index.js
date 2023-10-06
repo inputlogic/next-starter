@@ -70,6 +70,14 @@ export const openapi = buildOpenApiToolkit(doc, {
         component: (name, details) => (props) =>
           <AdminFormCheckboxField name={name} {...props} />,
       },
+      {
+        name: 'CheckboxField',
+        priority: 1,
+        theme: 'fancy',
+        predicate: (name, details) => details.type === 'boolean',
+        component: (name, details) => (props) =>
+          <div>Fancy Checkbox for {name}</div>,
+      },
     ],
   },
 })

@@ -1,4 +1,6 @@
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+import { camelCaseToSnakeCase } from 'util/case'
 import { Pagination } from 'components/admin/pagination'
 import { Table as BaseTable, Th, Checkbox } from 'components/admin/table'
 import { Input } from 'components/admin/input'
@@ -59,6 +61,7 @@ export const buildOpenApiTable = ({
     hasCheckbox = false,
     customHeading,
     customCell,
+    detailRoute,
     id = 'table',
     pageSize = 10,
   }) => {
@@ -139,16 +142,17 @@ export const buildOpenApiTable = ({
                   isActiveUp={ordering === key}
                   isActiveDown={ordering === `-${key}`}
                   onClick={() => {
+                    const snakeKey = camelCaseToSnakeCase(key)
                     router.replace({
                       pathname: router.pathname,
                       query: noNulls({
                         ...router.query,
                         [`${id}.ordering`]:
-                          ordering === key
-                            ? `-${key}`
-                            : ordering === `-${key}`
+                          ordering === snakeKey
+                            ? `-${snakeKey}`
+                            : ordering === `-${snakeKey}`
                             ? ''
-                            : key,
+                            : snakeKey,
                       }),
                     })
                   }}
@@ -191,7 +195,7 @@ export const buildOpenApiTable = ({
                   if (i === 0) {
                     return (
                       <td key={i}>
-                        <a href="#">{result[key]}</a>
+                        <Link href={detailRoute(result)}>{result[key]}</Link>
                       </td>
                     )
                   }
@@ -202,6 +206,10 @@ export const buildOpenApiTable = ({
                         ? value === null
                           ? '-'
                           : JSON.stringify(value)
+                        : typeof value === 'boolean'
+                        ? value
+                          ? 'Yes'
+                          : 'No'
                         : value)
                   return <td key={i}>{render(result[key])}</td>
                 })}

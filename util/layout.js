@@ -52,8 +52,8 @@ const AuthedContent = ({ pageProps, layouts, Component }) => {
   }
 
   if (
-    (pathIsAdmin.length && !user?.isAdmin) ||
-    (pathIsProtected.length && !user)
+    (pathIsAdmin.length && !user?.user?.isSuperuser) ||
+    (pathIsProtected.length && !user?.user)
   ) {
     router.push('/')
     return <></>
