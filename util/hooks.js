@@ -1,31 +1,39 @@
 import { useUser } from '@/hooks/use-user'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { get } from './api'
 
-export const useDjangoList = (name, {args, query, namespace} = {}, reactQueryArgs = {}) => {
+export const useDjangoList = (
+  name,
+  { args, query, namespace } = {},
+  reactQueryArgs = {}
+) => {
   const [user] = useUser()
-  const reactQuery = useQuery(
-    [
+  const reactQuery = useQuery({
+    queryKey: [
       name,
       ...Object.entries(args || {}).flat(),
       ...Object.entries(query || {}).flat(),
-			...(namespace ? [namespace] : [])
+      ...(namespace ? [namespace] : []),
     ],
-    () => get(name, { token: user?.token, args, params: query }),
-    reactQueryArgs
-  )
-  return [reactQuery.data?.results, { ...reactQuery, count: reactQuery.data?.count }]
+    queryFn: () => get(name, { token: user?.token, args, params: query }),
+    ...reactQueryArgs,
+  })
+  return [
+    reactQuery.data?.results,
+    { ...reactQuery, count: reactQuery.data?.count },
+  ]
 }
 
-export const useDjangoResource = (name, {args, namespace} = {}, reactQueryArgs = {}) => {
+export const useDjangoResource = (
+  name,
+  { args, namespace } = {},
+  reactQueryArgs = {}
+) => {
   const [user] = useUser()
-  const reactQuery = useQuery(
-    [
-      name,
-      ...Object.entries(args || {}).flat(),
-    ],
-    () => get(name, { token: user?.token, args }),
-    reactQueryArgs
-  )
+  const reactQuery = useQuery({
+    queryKey: [name, ...Object.entries(args || {}).flat()],
+    queryFn: () => get(name, { token: user?.token, args }),
+    ...reactQueryArgs,
+  })
   return [reactQuery.data, reactQuery]
 }
