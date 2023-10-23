@@ -1,5 +1,5 @@
-import { QueryClientProvider, QueryClient } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useRouter } from 'next/router'
 import { ErrorDisplay } from 'components/error'
 import { Loading } from 'components/loading'

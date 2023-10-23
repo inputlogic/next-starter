@@ -34,12 +34,12 @@ export const BaseLayout = ({ children }) => {
             <Link href="/account">My Account</Link> |{' '}
           </span>
         )}
-        {user?.isAdmin && (
+        {user?.user?.isAdmin && (
           <span>
             <Link href="/admin">Admin</Link> |{' '}
           </span>
         )}
-        {user && (
+        {user?.user && (
           <a href="#" onClick={() => logoutUserMutation.mutate()}>
             Logout ({user?.user?.email})
           </a>
