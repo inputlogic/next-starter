@@ -195,7 +195,9 @@ export const buildOpenApiTable = ({
                   if (i === 0) {
                     return (
                       <td key={i}>
-                        <Link href={detailRoute(result)}>{result[key]}</Link>
+                        <Link href={detailRoute?.(result) || '#'}>
+                          {result[key]}
+                        </Link>
                       </td>
                     )
                   }

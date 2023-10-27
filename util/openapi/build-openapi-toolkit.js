@@ -1,5 +1,4 @@
-import { useMutation, useQuery } from 'react-query'
-import { useUser } from 'hooks/use-user'
+import { useMutation, useQuery, useInfiniteQuery } from 'react-query'
 import { kebabCaseToCamelCase, toTitleCase } from 'util/case'
 import { get, post, patch, del } from 'util/api'
 import { errorHandler } from 'util/drf/error-handler'
@@ -132,7 +131,7 @@ const buildOpenApiQueryHooks = (openapiDoc, toolkit) => {
         ...acc,
         [toHookName(name)]: isList
           ? ({ args = {}, query = {} } = {}, reactQueryArgs) => {
-              const [user] = useUser()
+              const token = toolkit.context.useToken()
               const reactQuery = useQuery(
                 [
                   name,
@@ -141,7 +140,7 @@ const buildOpenApiQueryHooks = (openapiDoc, toolkit) => {
                 ],
                 () =>
                   get(toolkit.url(name, { args, query }), {
-                    token: user?.token,
+                    token,
                   }),
                 reactQueryArgs
               )
@@ -151,7 +150,7 @@ const buildOpenApiQueryHooks = (openapiDoc, toolkit) => {
               ]
             }
           : ({ args = {}, query = {} } = {}, reactQueryArgs) => {
-              const [user] = useUser()
+              const token = toolkit.context.useToken()
               const reactQuery = useQuery(
                 [
                   name,
@@ -160,7 +159,7 @@ const buildOpenApiQueryHooks = (openapiDoc, toolkit) => {
                 ],
                 () =>
                   get(toolkit.url(name, { args, query }), {
-                    token: user?.token,
+                    token,
                   }),
                 reactQueryArgs
               )
@@ -170,10 +169,10 @@ const buildOpenApiQueryHooks = (openapiDoc, toolkit) => {
           ? {}
           : {
               [`${toHookName(name)}Infinite`]: (
-                { args = {}, query: { limit = 25, ...query } = {} },
+                { args = {}, query: { limit = 25, ...query } = {} } = {},
                 reactQueryArgs
               ) => {
-                const [user] = useUser()
+                const token = toolkit.context.useToken()
                 const reactQuery = useInfiniteQuery(
                   [
                     name,
@@ -191,7 +190,7 @@ const buildOpenApiQueryHooks = (openapiDoc, toolkit) => {
                           offset: pageParam * limit,
                         },
                       }),
-                      { token: user?.token }
+                      { token }
                     )
                     return { result, pageParam }
                   },
@@ -251,13 +250,13 @@ const buildOpenApiMutationHooks = (openapiDoc, toolkit) => {
             ? {}
             : {
                 [toHookName(name)]: ({ args, setError, ...rest } = {}) => {
-                  const [user] = useUser()
+                  const token = toolkit.context.useToken()
                   return useMutation(
                     (data) =>
                       toolkit.http[`${name}Post`]({
                         data,
                         args,
-                        token: user?.token,
+                        token,
                       }),
                     {
                       ...(!setError
@@ -278,13 +277,13 @@ const buildOpenApiMutationHooks = (openapiDoc, toolkit) => {
                   setError,
                   ...rest
                 } = {}) => {
-                  const [user] = useUser()
+                  const token = toolkit.context.useToken()
                   return useMutation(
                     (data) =>
                       toolkit.http[`${name}Patch`]({
                         data,
                         args,
-                        token: user?.token,
+                        token,
                       }),
                     {
                       ...(!setError
@@ -305,10 +304,9 @@ const buildOpenApiMutationHooks = (openapiDoc, toolkit) => {
                   setError,
                   ...rest
                 } = {}) => {
-                  const [user] = useUser()
+                  const token = toolkit.context.useToken()
                   return useMutation(
-                    () =>
-                      del(toolkit.url(name, { args }), { token: user?.token }),
+                    () => del(toolkit.url(name, { args }), { token }),
                     {
                       ...(!setError
                         ? {}

@@ -44,13 +44,12 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
         Object.entries(allFields)
           .map(([name, components]) => {
             const orderedByPriority = Object.entries(components).sort(
-              ([name1, component1], [name2, component2]) =>
+              ([_name1, component1], [_name2, component2]) =>
                 component1.priority > component2.priority ? -1 : 1
             )
             const topPriorityWithTheme = orderedByPriority.filter(([name]) =>
               name.startsWith(theme)
             )[0]
-            console.log('top priority with theme', topPriorityWithTheme)
             const topPriorityIgnoreTheme = orderedByPriority[0]
             if (!topPriorityIgnoreTheme) {
               console.warn(
@@ -94,6 +93,13 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
             ]
           })
           .filter(Boolean)
+      )
+      const genericFields = toolkit.context?.form?.fields?.reduce(
+        (acc, field) => {
+          acc[`${theme}${field.name}`] = field.component('', {})
+          return acc
+        },
+        {}
       )
       const Form = buildFormComponent({
         path,
@@ -147,6 +153,7 @@ const buildUseForm = ({ openapiDoc, toolkit }) => {
         FormError,
         SubmitButton,
         AllFields: allFields,
+        GenericFields: genericFields,
       }
     }, [name, method, selectedTheme, anyTheme])
   }
@@ -192,7 +199,6 @@ const buildFormComponent = ({ path, method, toolkit }) => {
     ...props
   }) => {
     const name = `${toolkit.strings.pathToName(path)}.${method}`
-    console.log('validation', validation)
     const methods = useReactHookForm({
       defaultValues: initialData,
       ...(validation
@@ -238,8 +244,8 @@ const buildFormComponent = ({ path, method, toolkit }) => {
           onSubmit={async (ev) => {
             methods.clearErrors('root')
             try {
-              await methods.handleSubmit((...args) => {
-                onSubmit?.(...args)
+              await methods.handleSubmit(async (...args) => {
+                await onSubmit?.(...args)
                 onSuccess()
               })(ev)
             } catch (error) {

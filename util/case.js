@@ -5,7 +5,7 @@ export const camelCaseToTitleCase = (str) =>
   `${str[0].toUpperCase()}${str.slice(1).replace(/([a-z])([A-Z])/g, '$1 $2')}`
 
 export const kebabCaseToCamelCase = (str) =>
-  str.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase())
+  str.replace(/-([a-z0-9])/gi, (match, letter) => letter.toUpperCase())
 
 export const toTitleCase = (str) =>
   str

@@ -1,4 +1,4 @@
-import { FormInspector } from 'util/openapi/form-inspector'
+import { FormInspector } from 'util/openapi/inspector/form-inspector'
 
 export default () => (
   <div style={{ padding: '1em' }}>
