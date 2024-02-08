@@ -28,15 +28,9 @@ const urls = {
  * URLs specific to the API; the host is determined by environment in settings.js
  */
 const apiUrls = {
-  login: '/auth/login',
+  login: '/public/user/login',
   signup: '/auth/signup',
   forgotPassword: '/auth/forgot-password',
   resetPassword: '/auth/reset-password',
-  me: '/me',
+  me: '/user/my-profile',
 }
-
-/**
- * Protected URLS that are gated by auth
- */
-export const protectedUrls = ['/account']
-export const adminUrls = ['/admin']
