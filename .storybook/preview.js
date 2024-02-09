@@ -1,4 +1,4 @@
-import { QueryClientProvider, QueryClient } from 'react-query'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
 import 'styles/index.scss'
 
