@@ -14,7 +14,7 @@
     "@tanstack/react-query": "^5.0.0",
     "@tanstack/react-query-devtools": "^5.0.3",
     "iron-session": "6.3.1",
-    "next": "13.0.6",
+    "next": "14.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.40.0",
@@ -23,18 +23,18 @@
     "zustand": "4.1.5"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^7.0.0-beta.43",
-    "@storybook/addon-interactions": "^7.0.0-beta.43",
-    "@storybook/addon-links": "^7.0.0-beta.43",
-    "@storybook/blocks": "^7.0.0-beta.43",
-    "@storybook/nextjs": "^7.0.0-beta.43",
-    "@storybook/react": "^7.0.0-beta.43",
+    "@storybook/addon-essentials": "^7.6.13",
+    "@storybook/addon-interactions": "^7.6.13",
+    "@storybook/addon-links": "^7.6.13",
+    "@storybook/blocks": "^7.6.13",
+    "@storybook/nextjs": "^7.6.13",
+    "@storybook/react": "^7.6.13",
     "@storybook/testing-library": "^0.0.14-next.1",
     "eslint": "^8.34.0",
     "eslint-config-next": "^13.1.6",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "prettier": "^2.8.4",
-    "storybook": "^7.0.0-beta.43"
+    "storybook": "^7.6.13"
   }
 }
