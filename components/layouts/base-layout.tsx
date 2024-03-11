@@ -1,3 +1,4 @@
+import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import { Notification } from 'components/notification/'
 import { Modals } from 'components/modals'
@@ -5,12 +6,13 @@ import { ForgotPasswordModal } from 'components/modals/forgot-password-modal'
 import { LoginModal } from 'components/modals/login-modal'
 import { SignupModal } from 'components/modals/signup-modal'
 import { useStore } from 'util/store'
-import { useUser, useLogoutUserMutation } from 'hooks/use-user'
 
-export const BaseLayout = ({ children }) => {
+interface BaseLayoutProps {
+  children: ReactNode
+}
+
+const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
   const setModal = useStore((state) => state.setModal)
-  const [user] = useUser()
-  const logoutUserMutation = useLogoutUserMutation()
 
   return (
     <>
@@ -29,6 +31,7 @@ export const BaseLayout = ({ children }) => {
         <span>
           <Link href="/">Home</Link> |{' '}
         </span>
+        {/* Uncomment and adapt the following code based on your authentication logic and state management.
         {user && (
           <span>
             <Link href="/account">My Account</Link> |{' '}
@@ -48,7 +51,7 @@ export const BaseLayout = ({ children }) => {
           <a href="#" onClick={() => setModal('LoginModal')}>
             Login
           </a>
-        )}
+        )} */}
       </nav>
 
       <br />

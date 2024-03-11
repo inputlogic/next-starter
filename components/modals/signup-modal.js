@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
 import { Modal } from 'components/modals'
 import { useStore } from 'util/store'
-import { useSignupUserMutation } from 'hooks/use-user'
+// import { useSignupUserMutation } from 'hooks/use-user'
 
 export function SignupModal() {
   const router = useRouter()
@@ -24,12 +24,12 @@ export function SignupModal() {
   })
   const setUserAndToken = useStore((state) => state.setUserAndToken)
   const setModal = useStore((state) => state.setModal)
-  const signupUserMutation = useSignupUserMutation()
+  // const signupUserMutation = useSignupUserMutation()
 
   const onSubmit = async (data) => {
     try {
       clearErrors()
-      await signupUserMutation.mutateAsync(data)
+      // await signupUserMutation.mutateAsync(data)
       setModal(null)
       router.push('/admin')
     } catch (error) {
