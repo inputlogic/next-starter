@@ -7,7 +7,7 @@ import { SessionData, sessionOptions } from 'util/ironSession'
 
 export async function middleware(request: NextRequest) {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions)
-  const isAuthenticatedRoute = request.nextUrl.pathname.startsWith('/account')
+  const isAuthenticatedRoute = request.nextUrl.pathname.startsWith('/app')
   const isLoggedIn = session.isLoggedIn === true
 
   if (!isLoggedIn && isAuthenticatedRoute === true) {
@@ -16,11 +16,11 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!isAuthenticatedRoute && isLoggedIn) {
-    // For example: redirect authenticated users to the account page if they try to access the login page
-    return NextResponse.redirect(`${request.nextUrl.origin}/account`, 302)
+    // For example: redirect authenticated users to the dashboard page if they try to access the login page
+    return NextResponse.redirect(`${request.nextUrl.origin}/app/dashboard`, 302)
   }
 }
 
 export const config = {
-  matcher: ['/account/:path*'],
+  matcher: ['/app/:path*'],
 }

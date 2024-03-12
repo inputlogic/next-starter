@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
 import { Modal } from 'components/modals'
 import { useStore } from 'util/store'
+import { useMutation } from '@tanstack/react-query'
+import { loginSession } from 'hooks/session'
 
 export function LoginModal() {
   const router = useRouter()
@@ -28,11 +30,13 @@ export function LoginModal() {
     isLoading,
     isError,
     error,
-  } = useMutation(loginSession, {
+  } = useMutation({
+    queryKey: ['login'],
+    mutationFn: loginSession,
     onSuccess: (data) => {
       console.log('Login successful', data)
       setModal(null)
-      router.push('/account')
+      router.push('/app/dashboard')
     },
     onError: (error) => {
       console.error('Login error', error)
@@ -45,7 +49,7 @@ export function LoginModal() {
 
   const onSubmit = async (data) => {
     clearErrors()
-    loginUser({ email, password })
+    loginUser(data)
   }
 
   return (
