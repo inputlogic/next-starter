@@ -7,10 +7,31 @@ import { LoginModal } from 'components/modals/login-modal'
 import { SignupModal } from 'components/modals/signup-modal'
 import { useStore } from 'util/store'
 import { usePathname } from 'next/navigation'
+import { logoutSession } from 'hooks/session'
+import { useRouter } from 'next/router'
+import { useMutation } from '@tanstack/react-query'
 
 export const BaseLayout = ({ children }) => {
   const setModal = useStore((state) => state.setModal)
   const pathName = usePathname()
+  const router = useRouter()
+
+  const {
+    mutate: logoutSessionMutation,
+    isLoading,
+    isError,
+    error,
+  } = useMutation({
+    queryKey: ['logout'],
+    mutationFn: logoutSession,
+    onSuccess: (data) => {
+      console.log('Logout successful', data)
+      router.push('/')
+    },
+    onError: (error) => {
+      console.error('Logout error', error)
+    },
+  })
 
   return (
     <>
@@ -34,9 +55,9 @@ export const BaseLayout = ({ children }) => {
             <span>
               <Link href="/app/account">My Account</Link> |{' '}
             </span>
-            {/* <a href="#" onClick={() => logoutUserMutation.mutate()}>
+            <a href="#" onClick={() => logoutSessionMutation()}>
               Logout
-            </a> */}
+            </a>
           </>
         )}
 
