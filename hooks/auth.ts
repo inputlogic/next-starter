@@ -1,4 +1,4 @@
-import axiosClient from 'util/axiosClient'
+import { axiosClient } from 'util/axiosClient'
 
 export interface AuthCredentials {
   email: string

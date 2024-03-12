@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getSession } from 'hooks/session'
 
-const axiosClient = axios.create({
+export const axiosClient = axios.create({
   baseURL: process.env.API_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -46,5 +46,3 @@ axiosClient.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
-export default axiosClient
