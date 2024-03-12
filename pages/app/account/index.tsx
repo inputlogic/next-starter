@@ -1,5 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
-import { getUser } from 'hooks/getUser'
+import { useGetUser } from 'hooks/getUser'
 
 const AccountIndex = () => {
   const {
@@ -7,8 +6,7 @@ const AccountIndex = () => {
     isLoading: userIsLoading,
     isError: userIsError,
     error: userError,
-  } = useQuery({ queryKey: ['userProfile'], queryFn: getUser })
-
+  } = useGetUser()
   return (
     <>
       <h2>My Account</h2>
