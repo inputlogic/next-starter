@@ -10,14 +10,14 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   async function (config) {
+    // Before sending the request, this function checks if the request URL does not start with '/public'.
+    // If so, it retrieves the session data to add an Authorization header with the token to the request.
+
     if (config.url) {
       // Extract the path from config.url, accounting for both absolute and relative URLs
       const urlPath = new URL(config.url, process.env.API_URL).pathname
-      console.log('urlPath', urlPath)
 
       if (!urlPath.startsWith('/public')) {
-        console.log('starts with /public', urlPath)
-
         const sessionData = await getSession()
         const authToken = sessionData.token
 
@@ -28,13 +28,21 @@ axiosClient.interceptors.request.use(
     return config
   },
   function (error) {
+    // If an error occurs before the request is sent (e.g., during configuration),
+    // this function allows the error to be forwarded to the promise's .catch() handler.
     return Promise.reject(error)
   }
 )
 
 axiosClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // This function simply returns the response as is, without modification.
+    // It's a placeholder for potentially transforming response data in the future.
+    return response
+  },
   (error) => {
+    // This function catches any errors from the response.
+    // Similar to the request interceptor, it forwards the error to be handled by .catch().
     return Promise.reject(error)
   }
 )

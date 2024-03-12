@@ -21,7 +21,3 @@ export const sessionOptions: SessionOptions = {
     secure: process.env.NODE_ENV === 'production',
   },
 }
-
-export function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}

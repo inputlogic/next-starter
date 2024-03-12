@@ -3,7 +3,6 @@ import { BaseLayout } from './base-layout'
 const LAYOUTS = { BaseLayout }
 
 export const Layouts = ({ layouts, children, pageProps }) => {
-  console.log('layouts', layouts)
   if (layouts.length > 0) {
     const Layout = LAYOUTS[layouts[0]]
     if (!Layout) {
