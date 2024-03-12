@@ -1,4 +1,4 @@
-import { login } from 'hooks/login'
+import { login, signup } from 'hooks/auth'
 import { getIronSession } from 'iron-session'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { SessionData, defaultSession, sessionOptions } from 'util/ironSession'
@@ -11,10 +11,15 @@ export default async function handler(
 
   // POST request handling (for session creation)
   if (req.method === 'POST') {
-    // session.isLoggedIn = true;
+    const action = req.query.action as string
 
     try {
-      const loginResponse = await login(req.body)
+      let authResponse = null
+      if (action === 'signup') {
+        authResponse = await signup(req.body)
+      } else {
+        authResponse = await login(req.body)
+      }
 
       const session = await getIronSession<SessionData>(
         req,
@@ -22,12 +27,12 @@ export default async function handler(
         sessionOptions
       )
 
-      session.userId = loginResponse.userId
-      session.token = loginResponse.token
+      session.userId = authResponse.userId
+      session.token = authResponse.token
       session.isLoggedIn = true
       await session.save()
 
-      res.status(200).json({ userId: loginResponse.userId })
+      res.status(200).json({ userId: authResponse.userId })
     } catch (error) {
       console.error(error)
       res.status(500).send('Internal Server Error')
