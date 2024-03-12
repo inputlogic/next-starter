@@ -21,12 +21,6 @@ export default async function handler(
         authResponse = await login(req.body)
       }
 
-      const session = await getIronSession<SessionData>(
-        req,
-        res,
-        sessionOptions
-      )
-
       session.userId = authResponse.userId
       session.token = authResponse.token
       session.isLoggedIn = true
@@ -44,7 +38,6 @@ export default async function handler(
   // GET request handling
   if (req.method === 'GET') {
     const action = req.query.action as string
-    const session = await getIronSession<SessionData>(req, res, sessionOptions)
 
     // Handle logout
     if (action === 'logout') {
