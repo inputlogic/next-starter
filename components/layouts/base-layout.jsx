@@ -62,9 +62,14 @@ export const BaseLayout = ({ children }) => {
         )}
 
         {pathName === '/' && (
-          <a href="#" onClick={() => setModal('LoginModal')}>
-            Login
-          </a>
+          <>
+            <a href="#" onClick={() => setModal('LoginModal')}>
+              Login
+            </a>
+            <a href="#" onClick={() => setModal('SignupModal')}>
+              Signup
+            </a>
+          </>
         )}
       </nav>
 

@@ -1,7 +1,8 @@
 import { axiosClient } from 'util/axiosClient'
 
 export interface GetUserResponse {
-  userId: string
+  id: string
+  email: string
   firstName: string
   lastName: string
 }
