@@ -49,7 +49,14 @@ export default async function handler(
     if (session.isLoggedIn !== true) {
       res.status(200).json(defaultSession)
     } else {
-      res.status(200).json(session)
+      if (action === 'basic') {
+        // Don't expose the token to the client
+        const { token, ...basicSession } = session
+        res.status(200).json(basicSession)
+        return
+      } else {
+        res.status(200).json(session)
+      }
     }
     return
   }

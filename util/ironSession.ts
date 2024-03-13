@@ -6,6 +6,12 @@ export interface SessionData {
   isLoggedIn: boolean
 }
 
+// don't expose the token to the client
+export interface BasicSessionData {
+  userId: string
+  isLoggedIn: boolean
+}
+
 export const defaultSession: SessionData = {
   userId: '',
   token: '',
