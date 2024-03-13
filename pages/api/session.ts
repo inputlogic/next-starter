@@ -27,9 +27,16 @@ export default async function handler(
       await session.save()
 
       res.status(200).json({ userId: authResponse.userId })
-    } catch (error) {
-      console.error(error)
-      res.status(500).send('Internal Server Error')
+    } catch (error: any) {
+      if (error.response && error.response.status) {
+        res.status(error.response.status).json({
+          message:
+            error.response.statusText ||
+            'An error occurred during the operation.',
+        })
+      } else {
+        res.status(500).json({ message: 'Internal Server Error' })
+      }
     }
 
     return
