@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
 import { Modal } from 'components/modals'
+import { signupSession } from 'hooks/session'
 import { useStore } from 'util/store'
-import { useSignupUserMutation } from 'hooks/use-user'
+import { useMutation } from '@tanstack/react-query'
 
 export function SignupModal() {
   const router = useRouter()
@@ -22,23 +23,33 @@ export function SignupModal() {
       })
     ),
   })
-  const setUserAndToken = useStore((state) => state.setUserAndToken)
   const setModal = useStore((state) => state.setModal)
-  const signupUserMutation = useSignupUserMutation()
 
-  const onSubmit = async (data) => {
-    try {
-      clearErrors()
-      await signupUserMutation.mutateAsync(data)
+  const {
+    mutate: signupUserMutation,
+    isLoading,
+    isError,
+    error,
+  } = useMutation({
+    queryKey: ['signup'],
+    mutationFn: signupSession,
+    onSuccess: (data) => {
+      console.log('Signup successful', data)
       setModal(null)
-      router.push('/admin')
-    } catch (error) {
+      router.push('/app/dashboard')
+    },
+    onError: (error) => {
+      console.error('Signup error', error)
       setError('notification', {
         type: 'manual',
-        message: 'User already exists.',
+        message: 'Invalid Signup details.',
       })
-      if (error?.code !== 400) console.error(error)
-    }
+    },
+  })
+
+  const onSubmit = async (data) => {
+    clearErrors()
+    signupUserMutation(data)
   }
 
   return (

@@ -1,25 +1,21 @@
 import { BaseLayout } from './base-layout'
 
-const LAYOUTS = {BaseLayout}
+const LAYOUTS = { BaseLayout }
 
-export const Layouts = ({layouts, children, pageProps}) => {
+export const Layouts = ({ layouts, children, pageProps }) => {
   if (layouts.length > 0) {
     const Layout = LAYOUTS[layouts[0]]
     if (!Layout) {
       console.warn('Missing layout', layouts[0])
-      return <Layouts
-        layouts={layouts.slice(1)}
-        pageProps={pageProps}
-      >
-        {children}
-      </Layouts>
+      return (
+        <Layouts layouts={layouts.slice(1)} pageProps={pageProps}>
+          {children}
+        </Layouts>
+      )
     }
     return (
       <Layout {...pageProps}>
-        <Layouts
-          layouts={layouts.slice(1)}
-          pageProps={pageProps}
-        >
+        <Layouts layouts={layouts.slice(1)} pageProps={pageProps}>
           {children}
         </Layouts>
       </Layout>
@@ -27,4 +23,3 @@ export const Layouts = ({layouts, children, pageProps}) => {
   }
   return children
 }
-

@@ -2,9 +2,10 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
-import { useLoginUserMutation } from 'hooks/use-user'
 import { Modal } from 'components/modals'
 import { useStore } from 'util/store'
+import { useMutation } from '@tanstack/react-query'
+import { loginSession } from 'hooks/session'
 
 export function LoginModal() {
   const router = useRouter()
@@ -22,22 +23,33 @@ export function LoginModal() {
       })
     ),
   })
-  const loginUserMutation = useLoginUserMutation()
   const setModal = useStore((state) => state.setModal)
 
-  const onSubmit = async (data) => {
-    try {
-      clearErrors()
-      await loginUserMutation.mutateAsync(data)
+  const {
+    mutate: loginUser,
+    isLoading,
+    isError,
+    error,
+  } = useMutation({
+    queryKey: ['login'],
+    mutationFn: loginSession,
+    onSuccess: (data) => {
+      console.log('Login successful', data)
       setModal(null)
-      router.push('/account')
-    } catch (error) {
+      router.push('/app/dashboard')
+    },
+    onError: (error) => {
+      console.error('Login error', error)
       setError('notification', {
         type: 'manual',
         message: 'Invalid login details.',
       })
-      if (error?.code !== 400) console.error(error)
-    }
+    },
+  })
+
+  const onSubmit = async (data) => {
+    clearErrors()
+    loginUser(data)
   }
 
   return (
