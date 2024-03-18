@@ -14,14 +14,11 @@ axiosClient.interceptors.request.use(
     // If so, it retrieves the session data to add an Authorization header with the token to the request.
 
     if (config.url) {
-      console.log('config.url', config.url)
       // Extract the path from config.url, accounting for both absolute and relative URLs
       const urlPath = new URL(config.url, process.env.NEXT_PUBLIC_API_URL)
         .pathname
-      console.log('urlPath', urlPath)
 
       if (!config.url.startsWith('/public')) {
-        console.log('Adding token to request')
         const sessionData = await getSession()
         const authToken = sessionData.token
 
