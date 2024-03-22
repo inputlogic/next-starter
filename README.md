@@ -51,3 +51,36 @@ npm run storybook
 ```
 
 see [https://storybook.js.org/](https://storybook.js.org/) for more info.
+
+## Package Development
+
+If you are making changes to an npm package that is being used in this project, you might run into issues such as hot-reload not working, or peer dependency issues.
+Here are the steps that should make it a relatively pain-free process.
+
+1. Install [yalc](https://github.com/wclr/yalc)
+2. From the directory of the package you want to work on, run `yalc publish`
+3. In the next project, add the .env variable `DEV_PACKAGE_MODE=true`
+4. In the next project, run `yalc add <package_name>` where `<package_name>` is the value for `name` in your package's package.json file.
+5. Notice that package.json in this next project will have a yalc url for the package version. Make sure you don't merge this into production, it should always be switched back to a normal version number before the code is merged in.
+6. In your package's build process, you will want to make sure when the files change it bundles the code, and then calls `yalc push`. You could use nodemon for watching the files, or bunjs has a built in --watch command. Here is an example bun build script:
+
+```
+import dts from 'bun-plugin-dts'
+import 'index.ts'  // This is imported so that bun will watch for changes to the package
+
+await Bun.build({
+  entrypoints: ['./src/index.ts'],
+  outdir: './dist',
+  minify: true,
+  plugins: [dts()]
+})
+
+console.log('built', Date.now())
+
+await Bun.spawn(['yalc', 'push'])
+
+console.log('yalc push complete')
+
+```
+
+7. When you are done working on the package and changes are published to npm, remove the yalc version of the package `yalc remove <package_name>` then install the new package version eg. `npm install --save <package_name>`. If your package changes aren't ready for prime-time, you can publish with a tag (eg next) so that your changes are not considered the latest stable version.
