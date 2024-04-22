@@ -3,7 +3,7 @@ import { useStore } from 'util/store'
 import { Loading } from 'components/loading'
 import { Placeholder } from 'components/placeholder'
 import { useQuery } from '@tanstack/react-query'
-import { getUser } from 'hooks/getUser'
+import { useUser } from 'hooks/useUser'
 
 const Index = () => {
   const setModal = useStore((state) => state.setModal)

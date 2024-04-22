@@ -13,7 +13,7 @@ const getUser = async (): Promise<GetUserResponse> => {
   return data
 }
 
-export const useGetUser = () => {
+export const useUser = () => {
   return useQuery<GetUserResponse, Error>({
     queryKey: ['userProfile'],
     queryFn: getUser,

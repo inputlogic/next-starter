@@ -1,4 +1,4 @@
-import { useGetUser } from 'hooks/getUser'
+import { useUser } from 'hooks/useUser'
 
 const AccountIndex = () => {
   const {
@@ -6,7 +6,7 @@ const AccountIndex = () => {
     isLoading: userIsLoading,
     isError: userIsError,
     error: userError,
-  } = useGetUser()
+  } = useUser()
   return (
     <>
       <h2>My Account</h2>
