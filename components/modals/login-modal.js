@@ -36,7 +36,7 @@ export function LoginModal() {
     onSuccess: (data) => {
       console.log('Login successful', data)
       setModal(null)
-      router.push('/app/dashboard')
+      router.push('/dashboard')
     },
     onError: (error) => {
       console.error('Login error', error)

@@ -36,7 +36,7 @@ export function SignupModal() {
     onSuccess: (data) => {
       console.log('Signup successful', data)
       setModal(null)
-      router.push('/app/dashboard')
+      router.push('/dashboard')
     },
     onError: (error) => {
       console.error('Signup error', error)

@@ -59,10 +59,10 @@ export const BaseLayout = ({ children }) => {
         {pathName.startsWith('/app') && (
           <>
             <span>
-              <Link href="/app/dashboard">Dashboard</Link> |{' '}
+              <Link href="/dashboard">Dashboard</Link> |{' '}
             </span>
             <span>
-              <Link href="/app/account">My Account</Link> |{' '}
+              <Link href="/account">My Account</Link> |{' '}
             </span>
             <a href="#" onClick={() => logoutSessionMutation()}>
               Logout
@@ -75,10 +75,10 @@ export const BaseLayout = ({ children }) => {
             {basicSessionData && basicSessionData.isLoggedIn && (
               <>
                 <span>
-                  <Link href="/app/dashboard">Dashboard</Link> |{' '}
+                  <Link href="/dashboard">Dashboard</Link> |{' '}
                 </span>
                 <span>
-                  <Link href="/app/account">My Account</Link> |{' '}
+                  <Link href="/account">My Account</Link> |{' '}
                 </span>
                 <a
                   href="#"
