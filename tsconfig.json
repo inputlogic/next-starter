@@ -24,7 +24,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/layouts/base-layout.jsx"
+    "components/layouts/base-layout.js",
+    "pages/app/account/index.js"
   ],
   "exclude": ["node_modules"]
 }

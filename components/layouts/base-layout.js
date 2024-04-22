@@ -53,7 +53,7 @@ export const BaseLayout = ({ children }) => {
       />
       <Notification />
 
-      <h1>Next Starter</h1>
+      <h1>Next Starterss</h1>
 
       <nav>
         {pathName.startsWith('/app') && (
