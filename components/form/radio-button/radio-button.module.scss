@@ -55,7 +55,7 @@ $radio-size: 18px;
 }
 
 .radio-button-component [type='radio'] + label::after {
-  background-image: url(/images/icons/check-white.svg);
+  background-image: url(/images/controls/check-white.svg);
   background-repeat: no-repeat;
   background-size: 84% 84%;
   background-color: $brand-color-1;
