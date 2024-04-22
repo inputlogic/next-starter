@@ -8,7 +8,7 @@ import { SessionData, sessionOptions } from 'util/ironSession'
 export async function middleware(request: NextRequest) {
   const authenticatedRoutes = ['/dashboard', '/settings']
   const session = await getIronSession<SessionData>(cookies(), sessionOptions)
-  // const isAuthenticatedRoute = request.nextUrl.pathname.startsWith('/app')
+
   const nextUrlPathname = request.nextUrl.pathname
   const isAuthenticatedRoute = authenticatedRoutes.includes(nextUrlPathname)
 
