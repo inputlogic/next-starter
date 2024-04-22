@@ -6,7 +6,7 @@ Start by creating a `.env.local` file in the project root. You can use the [1Pas
 
 ```
 NEXT_PUBLIC_ENV=dev
-NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_API_URL=http://localhost:8000 or http://localhost:8000/api depending on your setup
 SESSION_SECRET=[RANDOM-32-CHARACTER-STRING]
 ```
 
