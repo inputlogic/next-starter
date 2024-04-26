@@ -1,7 +1,7 @@
 import { forwardRef, useState } from 'react'
 import { Icon } from 'components/icon'
 import { classnames } from 'util/classnames'
-import { ErrorMessage } from 'components/form/error-message'
+import { ErrorMessage } from 'components/inputs/error-message'
 import styles from './text-input.module.scss'
 
 export const TextInput = forwardRef(

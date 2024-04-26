@@ -6,7 +6,7 @@ import {
   RadioButton,
   Checkbox,
   FileUpload,
-} from 'components/form'
+} from 'components/inputs'
 import { Button } from 'components/button'
 import { Popover } from 'components/popover'
 import { Pagination } from 'components/pagination/pagination'

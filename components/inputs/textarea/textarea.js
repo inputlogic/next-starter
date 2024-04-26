@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 import { classnames } from 'util/classnames'
-import { ErrorMessage } from 'components/form/error-message'
+import { ErrorMessage } from 'components/inputs/error-message'
 import styles from './textarea.module.scss'
 
 export const Textarea = forwardRef(

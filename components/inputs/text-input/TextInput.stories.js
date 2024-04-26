@@ -1,17 +1,17 @@
-import { Textarea } from './textarea' // adjust the import path as needed
+import { TextInput } from './text-input'
 
 export default {
-  title: 'Components/Form/Textarea',
-  component: Textarea,
+  title: 'Components/Inputs/TextInput',
+  component: TextInput,
 }
 
-const Template = (args) => <Textarea {...args} />
+const Template = (args) => <TextInput {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  name: 'sample-textarea',
+  type: 'text',
+  name: 'sample-text-input',
   value: '',
-  rows: '6',
   label: 'Sample Label',
   placeholder: 'Enter some text',
   error: false,

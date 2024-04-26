@@ -1,7 +1,7 @@
 import { DatePickerSelect } from './date-picker'
 
 export default {
-  title: 'Components/Form/DatePickerSelect',
+  title: 'Components/Inputs/DatePickerSelect',
   component: DatePickerSelect,
 }
 

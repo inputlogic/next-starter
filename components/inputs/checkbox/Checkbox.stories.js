@@ -1,7 +1,7 @@
 import { Checkbox } from './checkbox'
 
 export default {
-  title: 'Components/Form/Checkbox',
+  title: 'Components/Inputs/Checkbox',
   component: Checkbox,
 }
 

@@ -1,6 +1,6 @@
 import { forwardRef, useState, useRef, useEffect } from 'react'
 import { Icon } from 'components/icon'
-import { ErrorMessage } from 'components/form/error-message'
+import { ErrorMessage } from 'components/inputs/error-message'
 import { classnames } from 'util/classnames'
 
 import styles from './select.module.scss'
