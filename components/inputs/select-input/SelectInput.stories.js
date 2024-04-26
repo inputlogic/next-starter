@@ -1,7 +1,7 @@
 import { SelectInput } from './select-input'
 
 export default {
-  title: 'Components/Form/SelectInput',
+  title: 'Components/Inputs/SelectInput',
   component: SelectInput,
 }
 
