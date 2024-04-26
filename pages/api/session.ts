@@ -29,11 +29,15 @@ export default async function handler(
       res.status(200).json({ userId: authResponse.userId })
     } catch (error: any) {
       if (error.response && error.response.status) {
-        res.status(error.response.status).json({
-          message:
-            error.response.statusText ||
-            'An error occurred during the operation.',
-        })
+        if (error.response.data) {
+          res.status(error.response.status).json(error.response.data)
+        } else {
+          res.status(error.response.status).json({
+            message:
+              error.response.statusText ||
+              'An error occurred during the operation.',
+          })
+        }
       } else {
         res.status(500).json({ message: 'Internal Server Error' })
       }

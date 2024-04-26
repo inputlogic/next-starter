@@ -1,14 +1,15 @@
-import { forwardRef } from 'react'
+import { forwardRef, useMemo } from 'react'
 import { classnames } from 'util/classnames'
 import { Icon } from 'components/icon'
 import styles from './checkbox.module.scss'
 
 export const Checkbox = forwardRef(
   (
-    { id, name, value, label, icon, iconVariation = 'filled', ...props },
+    { id: givenId, name, value, label, icon, iconVariation = 'filled', ...props },
     ref
-  ) => (
-    <div
+  ) => {
+    const id = useMemo(() => givenId || `${Math.random()}`, [givenId])
+    return <div
       className={classnames(
         styles['checkbox-component'],
         icon ? styles['has-icon'] : null
@@ -30,7 +31,7 @@ export const Checkbox = forwardRef(
       ) : null}
       <label htmlFor={id}>{label}</label>
     </div>
-  )
+  }
 )
 
 Checkbox.displayName = 'Checkbox'
