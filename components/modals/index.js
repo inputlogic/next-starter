@@ -34,26 +34,3 @@ export const Modals = ({ modals }) => {
   if (!Match) console.warn('no modal named ', modalName)
   return <Match />
 }
-
-export const Modal = ({ children, hideClose, variant }) => {
-  const setModal = useStore((state) => state.setModal)
-  return (
-    <div
-      className={`modal-container ${variant || ''}`}
-      onClick={(ev) => {
-        if (ev.target.classList.contains('modal-component-container')) {
-          setModal(null)
-        }
-      }}
-    >
-      <div className={`modal-content ${variant || ''}`}>
-        {!hideClose && (
-          <div className="close" onClick={() => setModal(null)}>
-            close
-          </div>
-        )}
-        {children}
-      </div>
-    </div>
-  )
-}

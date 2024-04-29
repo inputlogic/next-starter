@@ -2,26 +2,10 @@
 Main SCSS import file, don't add styles here
 ============================================================================= */
 
-/* Base
-=================================================== */
 @import 'base/reset';
 @import 'base/variables';
 @import 'base/fonts';
 @import 'base/base';
 @import 'base/typography';
 @import 'base/layout';
-@import 'base/animations.scss';
-
-/* Components
-=================================================== */
-@import 'components/form';
-@import 'components/button';
-@import 'components/radio-button';
-@import 'components/dropdown';
-@import 'components/select';
-@import 'components/text-input';
-@import 'components/textarea';
-@import 'components/checkbox';
-@import 'components/modals';
-@import 'components/avatar';
-@import 'components/icon';
+@import 'base/button';
