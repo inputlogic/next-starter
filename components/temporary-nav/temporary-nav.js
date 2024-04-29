@@ -51,12 +51,7 @@ export const TemporaryNav = () => {
         {basicSessionData && !basicSessionData.isLoggedIn ? (
           <>
             <li>
-              <button
-                className="button-reset"
-                onClick={() => setModal('LoginModal')}
-              >
-                Login
-              </button>
+              <Link href="/login">Login</Link>
             </li>
             <li>
               <button
