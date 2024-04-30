@@ -69,7 +69,6 @@ export const Button = forwardRef(
     )
 
     const classes = classnames([
-      'button-reset',
       styles.btn,
       icon ? styles['btn-has-icon'] : null,
       styles[`btn-${variation}`],

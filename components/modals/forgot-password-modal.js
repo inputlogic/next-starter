@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
 
-import { Modal } from 'components/modals'
+import { Modal } from 'components/modal'
 
 // import { post } from 'util/api'
 import { useStore } from 'util/store'

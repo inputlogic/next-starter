@@ -1,4 +1,5 @@
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { SvgDefs } from 'components/svg-defs'
 
 import 'styles/index.scss'
 
@@ -21,9 +22,12 @@ const queryClient = new QueryClient()
 export const decorators = [
   (Story) => {
     return (
-      <QueryClientProvider client={queryClient}>
-        <Story />
-      </QueryClientProvider>
+      <>
+        <QueryClientProvider client={queryClient}>
+          <Story />
+        </QueryClientProvider>
+        <SvgDefs />
+      </>
     )
   },
 ]
