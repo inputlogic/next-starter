@@ -6,5 +6,15 @@
   "javascript.preferences.quoteStyle": "single",
   "prettier.singleQuote": true,
   "editor.tabSize": 2,
-  "eslint.run": "onSave"
+  "eslint.run": "onSave",
+  "emmet.syntaxProfiles": {
+    "jsx": {
+      "markup.attributes": {
+        "class*": "className"
+      },
+      "markup.valuePrefix": {
+        "class*": "styles"
+      }
+    }
+  }
 }
