@@ -23,7 +23,7 @@ axiosClient.interceptors.request.use(
         const authToken = sessionData.token
 
         // Set the Authorization header for the request
-        config.headers['Authorization'] = `Token ${authToken}`
+        config.headers['Authorization'] = `Bearer ${authToken}`
       }
     }
     return config
