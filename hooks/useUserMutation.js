@@ -6,27 +6,5 @@ export const useUserMutation = (options) => {
   const queryClient = useQueryClient()
   const router = useRouter()
 
-  const {
-    mutate: logoutSessionMutation,
-    isLoading: logoutSessionIsLoading,
-    isError: logoutSessionIsError,
-    error: logoutSessionError,
-  } = useMutation({
-    queryKey: ['logout'],
-    mutationFn: logoutSession,
-    onSuccess: () => {
-      queryClient.invalidateQueries('basicSession')
-      router.push('/')
-    },
-    onError: (error) => {
-      console.error('Logout error', error)
-    },
-  })
-
-  return {
-    logoutSessionMutation,
-    logoutSessionIsLoading,
-    logoutSessionIsError,
-    logoutSessionError,
-  }
+  return {}
 }

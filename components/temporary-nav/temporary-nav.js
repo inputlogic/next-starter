@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { useStore } from 'util/store'
+import { useLogout } from 'hooks/useLogout'
 import { useUserMutation } from 'hooks/useUserMutation'
 import { useBasicSession } from 'hooks/session'
 
@@ -11,12 +12,7 @@ export const TemporaryNav = () => {
   const pathName = usePathname()
   const router = useRouter()
   const queryClient = useQueryClient()
-  const {
-    logoutSessionMutation,
-    logoutSessionIsLoading,
-    logoutSessionIsError,
-    logoutSessionError,
-  } = useUserMutation()
+  const { handleLogout } = useLogout()
 
   const {
     data: basicSessionData,
@@ -37,12 +33,7 @@ export const TemporaryNav = () => {
               <Link href="#">Authed area</Link> |{' '}
             </li>
             <li>
-              <button
-                className="button-reset"
-                onClick={() => {
-                  logoutSessionMutation()
-                }}
-              >
+              <button className="button-reset" onClick={handleLogout}>
                 Logout
               </button>
             </li>

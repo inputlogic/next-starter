@@ -7,6 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  res.setHeader('cache-control', 'no-store, max-age=0')
   const session = await getIronSession<SessionData>(req, res, sessionOptions)
 
   // POST request handling (for session creation)
@@ -53,8 +54,7 @@ export default async function handler(
     // Handle logout
     if (action === 'logout') {
       session.destroy()
-      res.status(200).json(defaultSession)
-      return
+      return res.status(200).json(defaultSession)
     }
 
     if (session.isLoggedIn !== true) {
