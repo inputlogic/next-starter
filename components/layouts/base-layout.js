@@ -1,3 +1,4 @@
+import ErrorBoundary from 'components/error-boundary'
 import { Notification } from 'components/notification/'
 import { Modals } from 'components/modals'
 import { ForgotPasswordModal } from 'components/modals/forgot-password-modal'
@@ -18,7 +19,7 @@ export const BaseLayout = ({ children }) => {
         }}
       />
       <Notification />
-      {children}
+      <ErrorBoundary>{children}</ErrorBoundary>
       <SvgDefs />
     </>
   )
