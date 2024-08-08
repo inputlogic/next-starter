@@ -1,3 +1,4 @@
+
 const DashboardIndex = () => (
   <>
     <h2>Dashboard</h2>

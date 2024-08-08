@@ -153,12 +153,15 @@ Component - Button
     =================================================== */
 
   &.btn-text {
-    padding: 6px 12px 10px;
+    font-familY: inherit;
+    font-size: inherit;
+    padding: 6px 0 10px;
 
     .btn-wrap {
       background-color: transparent;
       border-color: transparent;
       color: $text-color;
+      padding: 0;
     }
 
     &.btn-icon .btn-wrap :global(.icon-wrap) {
