@@ -1,6 +1,7 @@
 import { BaseLayout } from './base-layout'
+import { DemoLayout } from 'components/demo/layout'
 
-const LAYOUTS = { BaseLayout }
+const LAYOUTS = { BaseLayout, DemoLayout }
 
 export const Layouts = ({ layouts, children, pageProps }) => {
   if (layouts.length > 0) {

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Logout as LogoutForm } from 'components/forms/logout'
+import { LogoutForm } from 'components/forms/logout'
 import { useStore } from 'util/store'
 import { useQuery } from 'hooks/use-query'
 

@@ -2,7 +2,7 @@ import { Form, useForm, SubmitButton } from 'components/form'
 import { axiosClient } from 'util/axios-client'
 import { queryClient } from 'util/query-client'
 
-export const Logout = ({onSuccess, submitButton = {}, ...props}) => {
+export const LogoutForm = ({onSuccess, submitButton = {}, ...props}) => {
   const methods = useForm({
     onSubmit: async (data) => {
       await axiosClient.post('/user/logout', data)

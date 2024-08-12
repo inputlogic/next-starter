@@ -1,7 +1,7 @@
 import { useForm as useFormBase } from 'react-hook-form'
 import { useStore } from 'util/store'
 
-export const useForm = ({onSubmit, showErrorBanner = false, showErrorNotification = true, ...rest} = {}) => {
+export const useForm = ({onSubmit, showErrorBanner = true, showErrorNotification = false, ...rest} = {}) => {
   const methods = useFormBase(rest)
   const setNotification = useStore((state) => state.setNotification)
   return {
