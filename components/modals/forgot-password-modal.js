@@ -4,8 +4,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
 
 import { Modal } from 'components/modal'
-
-// import { post } from 'util/api'
 import { useStore } from 'util/store'
 
 export function ForgotPasswordModal() {
@@ -23,12 +21,10 @@ export function ForgotPasswordModal() {
       })
     ),
   })
-  const setModal = useStore((state) => state.setModal)
 
   const onSubmit = async (data) => {
     try {
       clearErrors()
-      // await post('forgotPassword', data)
       setShowSuccess(true)
     } catch (error) {
       setError('notification', {

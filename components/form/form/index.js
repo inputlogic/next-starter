@@ -21,7 +21,7 @@ import { FormProvider } from 'react-hook-form'
 export const Form = ({methods, children, ...props}) =>
   <FormProvider {...methods} >
     <form onSubmit={methods.onSubmit} {...props} >
-      {methods.formState.errors.formError && <h4>{methods.formState.errors.formError?.message}</h4>}
+      {methods.formState.errors.root?.formError && <h4>{methods.formState.errors.root?.formError?.message}</h4>}
       {children}
     </form>
   </FormProvider>

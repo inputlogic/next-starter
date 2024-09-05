@@ -6,10 +6,12 @@ const LoginPage = () => {
   return (
     <>
       <h2>Login</h2>
-      <LoginForm onSuccess={() => router.push('/')} />
+      <div style={{maxWidth: '20em'}}>
+        <LoginForm onSuccess={() => router.push('/demo')} />
+      </div>
     </>
   )
 }
 
-LoginPage.Layouts = ['BaseLayout']
+LoginPage.Layouts = ['DemoLayout']
 export default LoginPage

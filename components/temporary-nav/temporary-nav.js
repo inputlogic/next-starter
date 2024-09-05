@@ -1,25 +1,12 @@
-import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useQueryClient } from '@tanstack/react-query'
+import { LogoutForm } from 'components/forms/logout'
 import { useStore } from 'util/store'
-import { useLogout } from 'hooks/useLogout'
-import { useUserMutation } from 'hooks/useUserMutation'
-import { useBasicSession } from 'hooks/session'
+import { useQuery } from 'hooks/use-query'
 
 export const TemporaryNav = () => {
   const setModal = useStore((state) => state.setModal)
-  const pathName = usePathname()
-  const router = useRouter()
-  const queryClient = useQueryClient()
-  const { handleLogout } = useLogout()
-
-  const {
-    data: basicSessionData,
-    isLoading: basicSessionIsLoading,
-    isError: basicSessionIsError,
-    error: basicSessionError,
-  } = useBasicSession()
+  const {data, isSuccess} = useQuery({url: '/public/user/is-logged-in'})
+  const isLoggedIn = data?.isLoggedIn
 
   return (
     <nav>
@@ -27,19 +14,17 @@ export const TemporaryNav = () => {
         <li>
           <Link href="/stylesheet">Stylesheet</Link>
         </li>
-        {basicSessionData && basicSessionData.isLoggedIn ? (
+        {isLoggedIn ? (
           <>
             <li>
-              <Link href="#">Authed area</Link> |{' '}
+              <Link href="/dashboard">Authed area</Link> |{' '}
             </li>
             <li>
-              <button className="button-reset" onClick={handleLogout}>
-                Logout
-              </button>
+              <LogoutForm submitButton={{variation: 'text'}} onSuccess={() => window.location.href = '/' } />
             </li>
           </>
         ) : null}
-        {basicSessionData && !basicSessionData.isLoggedIn ? (
+        {(!isLoggedIn && isSuccess) ? (
           <>
             <li>
               <Link href="/login">Login</Link>
