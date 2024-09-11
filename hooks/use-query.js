@@ -4,10 +4,12 @@ import { axiosClient } from 'util/axios-client'
 export const useQuery = ({url, args, params, ...rest}) => useQueryBase({
   queryKey: [url, args, params],
   queryFn: async () => {
-    // TODO: apply args and params
-    const response = await axiosClient.get(url)
+    const response = await axiosClient.get(replacePathParams(url, args), {params})
     return response.data
   },
   ...rest
 })
+
+const replacePathParams = (path, args) => 
+  path.replace(/:([^/]+)/g, (_, key) => args[key])
 
