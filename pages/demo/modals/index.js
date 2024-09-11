@@ -17,14 +17,15 @@ export const ModalsPage = () => {
       <h1>Inline Modal Example</h1>
       <button onClick={() => modal.close()}>cancel</button>
     </Modal>
-    <ComponentModal {...modal2} />
+    <ComponentModal {...modal2} onClickOpenInlineModal={() => {modal.open()}} />
   </div>
 }
 
-const ComponentModal = props =>
+const ComponentModal = ({onClickOpenInlineModal, ...props}) =>
   <Modal {...props} >
     <h1>Component Modal Example</h1>
-    <button onClick={() => props.close()}>cancel</button>
+    <div><button onClick={() => props.close()}>cancel</button></div>
+    <div><button onClick={() => onClickOpenInlineModal()}>open inline modal</button></div>
   </Modal>
 
 ModalsPage.Layouts = ['DemoLayout']

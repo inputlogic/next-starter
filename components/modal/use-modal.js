@@ -15,6 +15,9 @@ export const useModal = (id) => {
     open: () => {
       const dialog = document.getElementById(id)
       if (!dialog) console.warn(WARNING)
+      document.querySelectorAll('dialog[open]').forEach(openDialog => {
+        openDialog !== dialog && openDialog.close()
+      })
       dialog?.showModal()
     },
     close: () => {
