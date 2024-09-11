@@ -1,11 +1,6 @@
 import Link from 'next/link'
-import { useQuery } from 'hooks/use-query'
+import { useIsLoggedIn } from 'hooks/use-is-logged-in'
 import styles from './header.module.scss'
-
-const useIsLoggedIn = () => {
-  const {data} = useQuery({url: '/public/user/is-logged-in'})
-  return data?.isLoggedIn
-}
 
 export const Header = () => {
   const isLoggedIn = useIsLoggedIn()
