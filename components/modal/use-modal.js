@@ -13,17 +13,17 @@ return <Modal {...modal}>
 export const useModal = (id) => {
   return {
     open: () => {
-      const dialog = document.getElementById(id)
-      if (!dialog) console.warn(WARNING)
-      document.querySelectorAll('dialog[open]').forEach(openDialog => {
-        openDialog !== dialog && openDialog.close()
+      const modal = document.getElementById(id)
+      if (!modal) console.warn(WARNING)
+      modal.classList.add('open')
+      document.querySelectorAll('.modal').forEach(openModal => {
+        openModal !== modal && openModal.classList.remove('open')
       })
-      dialog?.showModal()
     },
     close: () => {
-      const dialog = document.getElementById(id)
-      if (!dialog) console.warn(WARNING)
-      dialog?.close()
+      const modal = document.getElementById(id)
+      if (!modal) console.warn(WARNING)
+      modal.classList.remove('open')
     },
     id,
   }
