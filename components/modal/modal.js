@@ -10,23 +10,22 @@ export const Modal = ({
   children,
   ...props
 }) =>
-  <dialog
+  <div
     onClick={ev => {
       if (!closeOnClickBackdrop) return
-      const dialog = document.getElementById(props.id)
-      if (!isClickInsideDialog(dialog, ev)) close()
+      if (ev.target.classList.contains(styles['modal-backdrop'])) {
+        close()
+      }
     }}
-    className={classnames(styles.modal, !hideClose && styles['has-close'], className)}
+    className={classnames(
+      styles['modal-backdrop'],
+      'modal', // global class used for closing modals in use-modal
+      className
+    )}
     {...props}
   >
-    {!hideClose && <button className={styles.close} onClick={() => close()} />}
-    {children}
-  </dialog>
-
-const isClickInsideDialog = (dialog, event) => {
-  const rect = dialog.getBoundingClientRect()
-  return rect.top <= event.clientY
-    && event.clientY <= rect.top + rect.height
-    && rect.left <= event.clientX
-    && event.clientX <= rect.left + rect.width
-}
+    <div className={classnames(styles.modal, !hideClose && styles['has-close'])}> 
+      {!hideClose && <button className={styles.close} onClick={() => close()} />}
+      {children}
+    </div>
+  </div>
