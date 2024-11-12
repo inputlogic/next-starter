@@ -23,10 +23,18 @@ export default async (req, res) => {
   if (token) {
     req.headers['Authorization'] = `Bearer ${token}`
   }
-  return proxy.web(
+  return new Promise((resolve, reject) => proxy.web(
     req,
     res,
     { target: API_URL, changeOrigin: true },
-  )
+    (error) => {
+      if (error) {
+        console.error('Proxy error:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+        reject(error)
+      }
+      resolve()
+    }
+  ))
 }
 
