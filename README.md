@@ -84,3 +84,7 @@ console.log('yalc push complete')
 ```
 
 7. When you are done working on the package and changes are published to npm, remove the yalc version of the package `yalc remove <package_name>` then install the new package version eg. `npm install --save <package_name>`. If your package changes aren't ready for prime-time, you can publish with a tag (eg next) so that your changes are not considered the latest stable version.
+
+## BILLING
+
+[Loom](https://www.loom.com/share/b3de864e9c0a4d0db4f9fd44fb88ac5c)
