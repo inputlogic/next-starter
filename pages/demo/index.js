@@ -8,6 +8,7 @@ export const DemoPage = () => {
     <div className={styles.links} >
       <Link href='/demo/modals'>Modals</Link>
       <Link href='/demo/sentry'>Sentry Error Handling</Link>
+      <Link href='/demo/billing'>Billing</Link>
     </div>
   </div>
 }
