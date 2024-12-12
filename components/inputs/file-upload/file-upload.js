@@ -2,7 +2,6 @@ import { useCallback, forwardRef, useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Icon } from 'components/icon'
 import { Progress } from 'components/progress-bar'
-import { useStore } from 'util/store'
 import { classnames } from 'util/classnames'
 import { ErrorMessage } from '../error-message'
 

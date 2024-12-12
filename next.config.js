@@ -4,9 +4,9 @@ module.exports = {
     NEXT_PUBLIC_API_URL:
       process.env.NEXT_PUBLIC_API_URL || 'https://localhost:3000',
   },
-  // images: {
-  //   domains: [process.env.NEXT_PUBLIC_IMAGE_HOST],
-  // },
+  images: {
+    domains: process.env.IMAGE_HOST.split(',')
+  },
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
