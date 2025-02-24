@@ -35,10 +35,19 @@ export const SelectInput = forwardRef(
     const containerRef = useRef()
 
     useEffect(() => {
+      // Defer layout calculation until after initial render
       if (!containerRef?.current) return
-      const refRect = containerRef.current.getBoundingClientRect()
-      const width = refRect.width
-      setContentWidth(width)
+      
+      // Use requestAnimationFrame to ensure styles are loaded
+      const timer = requestAnimationFrame(() => {
+        if (containerRef.current) {
+          const refRect = containerRef.current.getBoundingClientRect()
+          const width = refRect.width
+          setContentWidth(width)
+        }
+      })
+      
+      return () => cancelAnimationFrame(timer)
     }, [containerRef])
 
     return (

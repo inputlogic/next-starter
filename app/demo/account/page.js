@@ -1,7 +1,9 @@
+'use client'
+
 import { LogoutForm } from 'components/forms/logout'
 import { useQuery } from 'hooks/use-query'
 
-export const Account = () => {
+const Account = () => {
   const query = useQuery({url: '/user/my-profile'})
   return <div>
     <h3>Account</h3>
@@ -13,5 +15,4 @@ export const Account = () => {
   </div>
 }
 
-Account.Layouts = ['DemoLayout']
 export default Account
