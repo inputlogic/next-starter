@@ -8,7 +8,7 @@ export const Checkbox = forwardRef(
     { id: givenId, name, value, label, icon, iconVariation = 'filled', ...props },
     ref
   ) => {
-    const id = useMemo(() => givenId || `${Math.random()}`, [givenId])
+    const id = useMemo(() => givenId || `checkbox-${name}-${value || ''}`.replace(/\s+/g, '-'), [givenId, name, value])
     return <div
       className={classnames(
         styles['checkbox-component'],

@@ -1,23 +1,30 @@
+'use client'
+
 import { useQuery } from '@tanstack/react-query'
 import { useList, ListProvider, Pagination, TextInput, List } from 'components/list'
 
-export default () => {
+export default function ListPage() {
   const list = useList({
     id: 'example',
     defaultParams: {limit: 2},
     useQuery: (params) => useFakeRecords(params)
   })
-  return <ListProvider {...list}>
-    <TextInput name='search' placeholder='Search...' />
+  return (
     <div>
-      <List>
-        {results => results.map(result =>
-          <div key={result.id} >{result.title}</div>
-        )}
-      </List>
+      <h1>List Demo</h1>
+      <ListProvider {...list}>
+        <TextInput name='search' placeholder='Search...' />
+        <div>
+          <List>
+            {results => results.map(result =>
+              <div key={result.id}>{result.title}</div>
+            )}
+          </List>
+        </div>
+        <Pagination />
+      </ListProvider>
     </div>
-    <Pagination />
-  </ListProvider>
+  )
 }
 
 const useFakeRecords = (params) => useQuery({
@@ -40,4 +47,3 @@ const fetchFakeRecords = params => new Promise((resolve) => {
     })
   }, 1000)
 })
-

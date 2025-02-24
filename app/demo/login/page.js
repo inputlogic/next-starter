@@ -1,8 +1,11 @@
-import { useRouter } from 'next/router'
+'use client'
+
+import { useRouter } from 'next/navigation'
 import { Login as LoginForm } from 'components/forms/login'
 
 const LoginPage = () => {
   const router = useRouter()
+  
   return (
     <>
       <h2>Login</h2>
@@ -13,5 +16,4 @@ const LoginPage = () => {
   )
 }
 
-LoginPage.Layouts = ['DemoLayout']
 export default LoginPage

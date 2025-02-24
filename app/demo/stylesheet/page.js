@@ -1,3 +1,5 @@
+'use client'
+
 import {
   TextInput,
   Textarea,
@@ -12,7 +14,7 @@ import { Popover } from 'components/popover'
 import { Pagination } from 'components/pagination/pagination'
 import { Progress } from 'components/progress-bar/progress-bar'
 
-const Stylesheet = () => {
+export default function Stylesheet() {
   return (
     <div
       className="container"
@@ -25,13 +27,13 @@ const Stylesheet = () => {
       <TextInput label="text input" placeholder="Type here" />
       <TextInput
         label="text input w/ error"
-        value="invalid entry"
+        defaultValue="invalid entry"
         error="Im broken"
       />
       <Textarea label="text area" />
       <Textarea
         label="text area w/ error"
-        value="Some text"
+        defaultValue="Some text"
         error="Too little text"
       />
       <SelectInput
@@ -46,23 +48,22 @@ const Stylesheet = () => {
       <SelectInput
         label="Select field w/ error"
         placeholder="Select an option"
-        value={2}
+        defaultValue={2}
         options={[
           { label: 'Option 1', value: 1 },
           { label: 'Option 2', value: 2 },
         ]}
         error="Wrong choice"
       />
-      <DatePickerSelect label="DatePicker" Placeholder="Select a date" />
+      <DatePickerSelect label="DatePicker" placeholder="Select a date" />
       <DatePickerSelect
-        value="2024-04-20"
         label="DatePicker w/ error"
         error="Wrong date"
       />
       <RadioButton label="Radio Button" />
-      <RadioButton label="Radio Button (selected)" checked={true} />
+      <RadioButton label="Radio Button (selected)" defaultValue={true} />
       <Checkbox label="checkbox" name="test" />
-      <Checkbox label="checkbox (selected)" name="test" checked={true} />
+      <Checkbox label="checkbox (selected)" name="test" defaultValue={true} />
       <FileUpload label="Upload file" />
 
       <h2>Buttons</h2>
@@ -76,7 +77,7 @@ const Stylesheet = () => {
         Outline button w/ Icon
       </Button>
       <Button
-        isLoading="true"
+        isLoading
         variation="outline"
         loadingText="Im in a loading state"
       >
@@ -111,6 +112,3 @@ const Stylesheet = () => {
     </div>
   )
 }
-
-Stylesheet.Layouts = ['BaseLayout']
-export default Stylesheet

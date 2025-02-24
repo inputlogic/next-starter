@@ -1,8 +1,11 @@
-import { useRouter } from 'next/router'
+'use client'
+
+import { useRouter } from 'next/navigation'
 import { Signup as SignupForm } from 'components/forms/signup'
 
 const SignupPage = () => {
   const router = useRouter()
+  
   return (
     <>
       <h2>Signup</h2>
@@ -13,5 +16,4 @@ const SignupPage = () => {
   )
 }
 
-SignupPage.Layouts = ['DemoLayout']
 export default SignupPage
