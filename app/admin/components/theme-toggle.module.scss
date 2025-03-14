@@ -1,0 +1,16 @@
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .iconButton {
+    color: var(--gray-11);
+    transition: color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+    
+    &:hover {
+      color: var(--gray-12);
+      transform: scale(1.05);
+    }
+  }
+}

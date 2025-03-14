@@ -1,0 +1,55 @@
+.input-wrapper {
+  margin-bottom: 16px;
+  width: 100%;
+
+  .label {
+    display: block;
+    font-weight: 500;
+  }
+
+  .error {
+    display: block;
+  }
+  
+  /* Add cursor pointer to dropdown triggers */
+  :global {
+    [role="combobox"] {
+      cursor: pointer;
+    }
+  }
+}
+
+/* Selector for dropdown items */
+.select-options {
+  :global {
+    [role="option"] {
+      cursor: pointer;
+    }
+  }
+}
+
+.checkbox-wrapper,
+.switch-wrapper {
+  margin-bottom: 16px;
+  
+  .label {
+    cursor: pointer;
+  }
+}
+
+.radio-wrapper {
+  margin-bottom: 16px;
+
+  .label {
+    display: block;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  /* Add cursor pointer to radio buttons */
+  :global {
+    [role="radio"] {
+      cursor: pointer;
+    }
+  }
+}
