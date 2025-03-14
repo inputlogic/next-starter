@@ -1,9 +1,11 @@
+'use client'
+
 import { Button } from 'components/button'
 import { classnames } from 'util/classnames'
 
-import styles from './404.module.scss'
+import styles from './not-found.module.scss'
 
-const Custom404 = () => {
+export default function NotFound() {
   return (
     <main className={styles.wrapper}>
       <div className={classnames(['container'])}>
@@ -21,6 +23,3 @@ const Custom404 = () => {
     </main>
   )
 }
-
-export default Custom404
-Custom404.Layouts = ['BaseLayout']
