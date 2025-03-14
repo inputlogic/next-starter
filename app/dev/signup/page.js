@@ -10,7 +10,7 @@ const SignupPage = () => {
     <>
       <h2>Signup</h2>
       <div style={{maxWidth: '20em'}}>
-        <SignupForm onSuccess={() => router.push('/demo')} />
+        <SignupForm onSuccess={() => router.push('/dev')} />
       </div>
     </>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import { useTheme } from 'hooks/demo/use-theme'
+import { useTheme } from 'hooks/dev/use-theme'
 import styles from './theme-toggle.module.scss'
 
 export const ThemeToggle = () => {

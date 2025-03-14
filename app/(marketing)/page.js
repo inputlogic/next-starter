@@ -8,7 +8,7 @@ const Index = () => {
         <title>Next Starter</title>
       </Head>
       <div>
-        <Link href='/demo'>Demo</Link>
+        <Link href='/dev'>Dev</Link>
       </div>
     </>
   )

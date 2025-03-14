@@ -10,7 +10,7 @@ const LoginPage = () => {
     <>
       <h2>Login</h2>
       <div style={{maxWidth: '20em'}}>
-        <LoginForm onSuccess={() => router.push('/demo')} />
+        <LoginForm onSuccess={() => router.push('/dev')} />
       </div>
     </>
   )

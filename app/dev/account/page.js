@@ -11,7 +11,7 @@ const Account = () => {
     {query.isSuccess && <div>
       You are logged in as {query.data.email}
     </div>}
-    <LogoutForm submitButton={{variation: 'text'}} onSuccess={() => window.location.href = '/demo' } />
+    <LogoutForm submitButton={{variation: 'text'}} onSuccess={() => window.location.href = '/dev' } />
   </div>
 }
 
