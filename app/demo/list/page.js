@@ -2,8 +2,9 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { useList, ListProvider, Pagination, TextInput, List } from 'components/list'
+import { Suspense } from 'react'
 
-export default function ListPage() {
+function ListPageContent() {
   const list = useList({
     id: 'example',
     defaultParams: {limit: 2},
@@ -24,6 +25,14 @@ export default function ListPage() {
         <Pagination />
       </ListProvider>
     </div>
+  )
+}
+
+export default function ListPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ListPageContent />
+    </Suspense>
   )
 }
 

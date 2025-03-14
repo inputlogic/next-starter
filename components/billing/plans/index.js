@@ -2,6 +2,7 @@ import { useQuery } from 'hooks/use-query'
 import { useList, List, ListProvider } from 'components/list'
 import { Form, useForm, SubmitButton } from 'components/form'
 import { goToStripeCheckout } from 'components/billing/utils'
+import { Suspense } from 'react'
 import styles from './plans.module.scss'
 
 const centsToDollars = (cents) => (cents / 100).toFixed(2)
@@ -22,7 +23,7 @@ const Plan = ({product, trialPeriodDays, includeTrial = true, next, nextCancelle
   </div>
 }
 
-export const Plans = ({next = '/app', nextCancelled = '/app', includeTrial = true}) => {
+const PlansContent = ({next = '/app', nextCancelled = '/app', includeTrial = true}) => {
   const list = useList({
     useQuery: params => {
       const trialQuery = useQuery({url: '/public/billing/trial-period'})
@@ -54,5 +55,13 @@ export const Plans = ({next = '/app', nextCancelled = '/app', includeTrial = tru
       </List>
     </ListProvider>
   </div>
+}
+
+export const Plans = (props) => {
+  return (
+    <Suspense fallback={<div>Loading plans...</div>}>
+      <PlansContent {...props} />
+    </Suspense>
+  )
 }
 

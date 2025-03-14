@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { axiosClient } from 'util/axios-client'
 import { base64ToJson } from 'util/base64'
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   
@@ -29,4 +29,12 @@ export default function CheckoutPage() {
   }, [router, searchParams])
   
   return <div>Loading...</div>
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CheckoutContent />
+    </Suspense>
+  )
 }
