@@ -160,7 +160,7 @@ Component - Button
     .btn-wrap {
       background-color: transparent;
       border-color: transparent;
-      color: $text-color;
+      color: var(--text-color, $text-color);
       padding: 0;
     }
 
@@ -173,14 +173,14 @@ Component - Button
     &.disabled .btn-wrap {
       background-color: transparent;
       border-color: transparent;
-      color: $black;
+      color: var(--text-color-secondary, $black);
     }
 
     @media (hover: hover) {
       &:hover .btn-wrap {
         background-color: transparent;
         border-color: transparent;
-        color: $black;
+        color: var(--text-color, $text-color);
       }
     }
   }

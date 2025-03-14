@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useIsLoggedIn } from 'hooks/use-is-logged-in'
 import styles from './header.module.scss'
+import ThemeToggle from '../theme-toggle'
 
 export const Header = () => {
   const isLoggedIn = useIsLoggedIn()
@@ -12,6 +13,7 @@ export const Header = () => {
         <Link href='/demo/login'>Login</Link>
         <Link href='/demo/signup'>Signup</Link>
       </>}
+      <ThemeToggle />
     </div>
   </header>
 }
