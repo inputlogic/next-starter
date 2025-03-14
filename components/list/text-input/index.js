@@ -6,8 +6,8 @@ import { debounce } from 'util/debounce'
 export const TextInput = ({name, ...props}) => {
   const { router, setParam, params } = useListContext()
   const setValue = useCallback(
-    debounce((value) => router.replace(setParam(name, value)), 500),
-    [name]
+    debounce((value) => router.push(setParam(name, value)), 500),
+    [name, router, setParam]
   )
   return <TextInputBase
     onChange={ev => setValue(ev.target.value)}

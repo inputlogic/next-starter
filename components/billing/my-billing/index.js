@@ -51,7 +51,7 @@ export const MyBilling = () => {
     {billing.isSuccess && !currentSubscription && <div>This user does not have a subscription</div> }
     <br />
     <h4>Billing Portal</h4>
-    <PortalForm state={{next: '/demo/billing'}} buttonText='Billing Portal' />
+    <PortalForm state={{next: '/dev/billing'}} buttonText='Billing Portal' />
   </div>
 }
 
