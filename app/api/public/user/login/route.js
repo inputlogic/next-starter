@@ -6,7 +6,10 @@ export async function POST(req) {
   try {
     const body = await req.json()
     const { data: { token, ...rest } } = await axiosClient.post('/public/user/login', body)
-    await setToken(token)
+    const { data: { isAdmin } } = await axiosClient.get('/user/my-profile', {
+      headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'}
+    })
+    await setToken(token, { isAdmin })
     return NextResponse.json({ ...rest, token: 'redacted' }, { status: 200 })
   } catch (err) {
     console.error(err)

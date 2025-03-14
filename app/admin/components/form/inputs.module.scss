@@ -1,0 +1,31 @@
+.input-wrapper {
+  margin-bottom: 16px;
+  width: 100%;
+
+  .label {
+    display: block;
+    font-weight: 500;
+  }
+
+  .error {
+    display: block;
+  }
+}
+
+.checkbox-wrapper,
+.switch-wrapper {
+  margin-bottom: 16px;
+  
+  .label {
+    cursor: pointer;
+  }
+}
+
+.radio-wrapper {
+  margin-bottom: 16px;
+
+  .label {
+    display: block;
+    font-weight: 500;
+  }
+}

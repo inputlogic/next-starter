@@ -7,9 +7,20 @@ export const getToken = async () => {
   return session.token
 }
 
-export const setToken = async (token) => {
+export const getSessionValue = async (key) => {
+  const session = await getIronSession(cookies(), sessionOptions)
+  return session[key]
+}
+
+export const setToken = async (token, additionalData = {}) => {
   const session = await getIronSession(cookies(), sessionOptions)
   session.token = token
+  
+  // Add any additional key-value pairs to the session
+  Object.entries(additionalData).forEach(([key, value]) => {
+    session[key] = value
+  })
+  
   await session.save()
 }
 

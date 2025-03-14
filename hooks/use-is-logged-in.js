@@ -8,5 +8,9 @@ export const useIsLoggedIn = () => {
     staleTime: fiveMinutes,
     cacheTime: fiveMinutes
   })
-  return data?.isLoggedIn
+  
+  return {
+    isLoggedIn: data?.isLoggedIn || false,
+    isAdmin: data?.isAdmin || false
+  }
 }
