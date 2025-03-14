@@ -17,11 +17,11 @@ function CheckoutContent() {
     const checkoutComplete = async () => {
       try {
         await axiosClient.post('/user/billing/billing-updated')
-        const redirectPath = (isCancelled && nextCancelled) || state.next || '/demo'
+        const redirectPath = (isCancelled && nextCancelled) || state.next || '/dev'
         router.push(redirectPath)
       } catch (error) {
         console.error('Error completing checkout:', error)
-        router.push('/demo/billing')
+        router.push('/dev/billing')
       }
     }
     

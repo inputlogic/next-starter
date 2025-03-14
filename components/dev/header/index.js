@@ -6,12 +6,12 @@ import ThemeToggle from '../theme-toggle'
 export const Header = () => {
   const isLoggedIn = useIsLoggedIn()
   return <header className={styles.header}>
-    <h3><Link href='/demo'>Starter</Link></h3>
+    <h3><Link href='/dev'>Starter</Link></h3>
     <div>
-      {isLoggedIn === true && <Link href='/demo/account'>Account</Link>}
+      {isLoggedIn === true && <Link href='/dev/account'>Account</Link>}
       {isLoggedIn === false && <>
-        <Link href='/demo/login'>Login</Link>
-        <Link href='/demo/signup'>Signup</Link>
+        <Link href='/dev/login'>Login</Link>
+        <Link href='/dev/signup'>Signup</Link>
       </>}
       <ThemeToggle />
     </div>

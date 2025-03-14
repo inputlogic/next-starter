@@ -7,8 +7,8 @@ export const goToStripeCheckout = async ({state = {}, priceId}) => {
   const response = await axiosClient.post(
     '/user/billing/checkout-session',
     {
-      successUrl: `${currentUrl()}/demo/billing/updated?state=${base64FromJson(state)}`,
-      cancelUrl: `${currentUrl()}/demo/billing/updated?state=${base64FromJson(state)}&cancelled=True`,
+      successUrl: `${currentUrl()}/dev/billing/updated?state=${base64FromJson(state)}`,
+      cancelUrl: `${currentUrl()}/dev/billing/updated?state=${base64FromJson(state)}&cancelled=True`,
       priceId
     }
   )
@@ -20,7 +20,7 @@ export const goToStripePortal = async (state = {}) => {
   const response = await axiosClient.post(
     '/user/billing/portal',
     {
-      returnUrl: `${currentUrl()}/demo/billing/updated?state=${base64FromJson(state)}`
+      returnUrl: `${currentUrl()}/dev/billing/updated?state=${base64FromJson(state)}`
     }
   )
   const { url } = response.data
