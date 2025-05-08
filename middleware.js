@@ -3,7 +3,10 @@ import { cookies } from 'next/headers'
 import { getIronSession } from 'iron-session'
 import { sessionOptions } from 'util/server-only/iron-session'
 
+const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true'
+
 export async function middleware(request) {
+  if (isMaintenanceMode) return NextResponse.redirect(`${request.nextUrl.origin}/maintenance`)
   const authenticatedRoutes = ['/dashboard', '/settings']
   const unauthenticatedRoutes = ['/login']
   const session = await getIronSession(cookies(), sessionOptions)
@@ -24,7 +27,7 @@ export async function middleware(request) {
 
 export const config = {
   matcher: [
-    // '/login',
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
+    '/',
+    '/((?!api|_next/static|_next/image|favicon.ico|maintenance).*)',
+  ]
 }
