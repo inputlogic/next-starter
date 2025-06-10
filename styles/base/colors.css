@@ -1,0 +1,19 @@
+
+:root {
+  /* Light mode */
+  --brand-color-1: #8f9e7f;
+  --background: #ffffff;
+  --text: #000000;
+  --primary: #007bff;
+  --secondary: #6c757d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark mode */
+    --background: #121212;
+    --text: #ffffff;
+    --primary: #66b0ff;
+    --secondary: #adb5bd;
+  }
+}
