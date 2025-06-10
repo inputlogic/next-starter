@@ -45,6 +45,14 @@ To learn more, take a look at the following resources:
 - [React useState](https://reactjs.org/docs/hooks-state.html) - learn about the useState hook in React
 - [React useEffect](https://reactjs.org/docs/hooks-effect.html) - learn about the useEffect hook in React
 
+## Email
+
+This project includes react-email for creating HTML emails with React components. Email templates are located in the `emails/` directory. Note that this app is not responsible for sending any emails at this time.
+
+To run the react-email server (for development) run `npm run email`
+
+For example templates and documentation, visit: https://react.email/templates
+
 ## Storybook
 
 Next Starter supports Storybook, a component documentation tool. Adding stories for components is entirely optional, but it is encouraged for any components that are reused in many locations.
