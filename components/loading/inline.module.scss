@@ -10,7 +10,7 @@ Component - Inline Loader
   padding: 2px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: $brand-color-1;
+  background: var(--brand-color-1);
   --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
   -webkit-mask: var(--_m);
   mask: var(--_m);

@@ -6,7 +6,7 @@ Component - File Upload
 .root {
   @media (hover: hover) {
     &:hover .container {
-      background: $neutral-color;
+      background: var(--neutral-color);
       transition: background 0.2s ease;
     }
   }
@@ -15,8 +15,8 @@ Component - File Upload
 .container {
   transition: background 0.2s ease;
   margin: 0 0 $gutterR * 1.43;
-  background: $grey;
-  border: 1px dashed $brand-color-2;
+  background: var(--grey);
+  border: 1px dashed var(--brand-color-2);
   border-radius: 8px;
   transition: background 0.2s ease;
   min-width: 308px;
@@ -24,8 +24,8 @@ Component - File Upload
 
   .error &,
   .reject & {
-    border-color: $error;
-    background: $error;
+    border-color: var(--error);
+    background: var(--error);
   }
 
   &.is-loading {
@@ -43,7 +43,7 @@ Component - File Upload
     position: relative;
     text-align: center;
     font-size: 0.85rem;
-    color: $brand-color-1;
+    color: var(--brand-color-1);
     display: flex;
     flex-flow: row wrap;
     align-items: center;
@@ -53,7 +53,7 @@ Component - File Upload
 
     .error &,
     .reject & {
-      color: $error;
+      color: var(--error);
     }
   }
 }
@@ -69,7 +69,7 @@ Component - File Upload
   text-align: center;
   flex: 1 1 100%;
   font-size: 0.75rem;
-  color: $brand-color-3;
+  color: var(--brand-color-3);
   margin: 0.5rem 0 0;
 }
 
@@ -79,7 +79,7 @@ Component - File Upload
   height: 2rem;
   margin-right: 0.5rem;
   border-radius: 50%;
-  background: $brand-color-2;
+  background: var(--brand-color-2);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -91,8 +91,8 @@ Component - File Upload
 
   .error &,
   .reject & {
-    background: $error;
-    color: $error;
+    background: var(--error);
+    color: var(--error);
   }
 
   .accept & svg {
@@ -137,13 +137,13 @@ Component - File Upload
 
 .accept {
   .file-dropzone-container {
-    background: $brand-color-2;
+    background: var(--brand-color-2);
     transition: background 0.2s ease;
   }
 }
 .reject {
   .file-dropzone-container {
-    background: $error;
+    background: var(--error);
     transition: background 0.2s ease;
   }
 }
@@ -174,11 +174,11 @@ Component - File Upload
   }
 
   .landing-caption {
-    color: $brand-color-1;
+    color: var(--brand-color-1);
   }
 
   .icon {
-    background-color: $brand-color-1;
+    background-color: var(--brand-color-1);
   }
 }
 

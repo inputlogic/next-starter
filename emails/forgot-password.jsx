@@ -12,7 +12,7 @@ export const ForgotPassword = ({ theme = 'dark', language = 'fr', resetLink = 'h
   return (
     <Html>
       <Head />
-      <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: variables[theme].background, color: variables[theme].text }}>
+      <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: variables[theme]['body-color'], color: variables[theme]['text-color'] }}>
         <Container style={container}>
           <Heading style={heading}>{t('forgot-password.heading')}</Heading>
           <Text style={text}>
