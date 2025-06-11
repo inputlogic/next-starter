@@ -1,29 +1,36 @@
 import { Button, Html, Text, Container, Section, Head, Heading, Body } from '@react-email/components'
+import { variables } from 'styles/variables'
+import { useTranslation } from 'react-i18next'
+import './_util/i18n'
 import * as React from 'react'
 
-export const ForgotPassword = ({ resetLink = 'http://example.com/reset' }) => {
+export const ForgotPassword = ({ theme = 'dark', language = 'fr', resetLink = 'http://example.com/reset' }) => {
+  const { t, i18n } = useTranslation('email')
+  
+  i18n.changeLanguage(language)
+
   return (
     <Html>
       <Head />
-      <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f4f4' }}>
+      <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: variables[theme]['body-color'], color: variables[theme]['text-color'] }}>
         <Container style={container}>
-          <Heading style={heading}>Reset Your Password</Heading>
+          <Heading style={heading}>{t('forgot-password.heading')}</Heading>
           <Text style={text}>
-            We received a request to reset your password. Click the button below to set a new password:
+            {t('forgot-password.body')}
           </Text>
           <Section style={buttonContainer}>
             <Button
               href={resetLink}
               style={button}
             >
-              Reset Password
+              {t('forgot-password.button')}
             </Button>
           </Section>
           <Text style={text}>
-            If you didn't request a password reset, please ignore this email.
+            {t('forgot-password.disclaimer')}
           </Text>
           <Text style={footer}>
-            &copy; 2025 YourApp. All rights reserved.
+            {t('forgot-password.footer')}
           </Text>
         </Container>
       </Body>

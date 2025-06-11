@@ -1,0 +1,9 @@
+{
+  "forgot-password": {
+    "heading": "Reset Your Password",
+    "body": "We received a request to reset your password. Click the button below to set a new password:",
+    "button": "Reset Password",
+    "disclaimer": "If you didn't request a password reset, please ignore this email.",
+    "footer": "© 2025 YourApp. All rights reserved."
+  }
+}

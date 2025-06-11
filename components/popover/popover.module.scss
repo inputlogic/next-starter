@@ -12,16 +12,16 @@ Component - Popover menu
   &-icon {
     width: 1.5rem;
     height: 1.5rem;
-    color: $black;
+    color: var(--black);
   }
 }
 
 .content {
   border-radius: 0.5rem;
   padding: 0.25rem;
-  background-color: $white;
-  box-shadow: 0, 0, 15px rgba($black, 0.2);
-  border: 1px solid $brand-color-1;
+  background-color: var(--white);
+  box-shadow: 0, 0, 15px rgba(var(--black), 0.2);
+  border: 1px solid var(--brand-color-1);
   animation-duration: 200ms;
   outline: none;
   animation-timing-function: ease;
@@ -43,7 +43,7 @@ Component - Popover menu
 }
 
 .arrow {
-  fill: $white;
+  fill: var(--white);
 }
 
 @keyframes slideUpAndFade {

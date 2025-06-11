@@ -1,0 +1,9 @@
+{
+  "forgot-password": {
+    "heading": "Réinitialiser votre mot de passe",
+    "body": "Nous avons reçu une demande de réinitialisation de votre mot de passe. Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe:",
+    "button": "Réinitialiser le mot de passe",
+    "disclaimer": "Si vous n'avez pas demandé de réinitialisation de mot de passe, veuillez ignorer cet e-mail.",
+    "footer": "© 2025 YourApp. Tous droits réservés."
+  }
+}

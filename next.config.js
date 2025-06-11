@@ -8,7 +8,7 @@ module.exports = {
   //   domains: [process.env.NEXT_PUBLIC_IMAGE_HOST],
   // },
   i18n: {
-    locales: ['en'],
+    locales: ['en', 'fr'],
     defaultLocale: 'en',
   },
 

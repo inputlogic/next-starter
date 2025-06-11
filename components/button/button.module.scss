@@ -15,9 +15,9 @@ Component - Button
   .btn-wrap {
     position: relative;
     border-radius: 100px;
-    background-color: $black;
-    border: solid 1px $black;
-    color: $white;
+    background-color: var(--black);
+    border: solid 1px var(--black);
+    color: var(--white);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -75,9 +75,9 @@ Component - Button
     =================================================== */
   &.btn-primary:disabled .btn-wrap,
   &.btn-primary.disabled .btn-wrap {
-    background: $brand-color-1;
-    border: solid 1px $brand-color-1;
-    color: $white;
+    background: var(--brand-color-1);
+    border: solid 1px var(--brand-color-1);
+    color: var(--white);
     cursor: default;
   }
 
@@ -85,9 +85,9 @@ Component - Button
     &.btn-primary {
       &:hover .btn-wrap {
         text-decoration: none;
-        background-color: $brand-color-2;
-        border: solid 1px $brand-color-2;
-        color: $black;
+        background-color: var(--brand-color-2);
+        border: solid 1px var(--brand-color-2);
+        color: var(--black);
       }
     }
   }
@@ -96,24 +96,24 @@ Component - Button
     =================================================== */
   &.btn-secondary {
     .btn-wrap {
-      background-color: $brand-color-2;
-      border-color: $brand-color-2;
-      color: $black;
+      background-color: var(--brand-color-2);
+      border-color: var(--brand-color-2);
+      color: var(--black);
     }
 
     &:disabled .btn-wrap,
     &.disabled .btn-wrap {
-      background-color: $black;
-      border-color: $black;
-      color: $white;
+      background-color: var(--black);
+      border-color: var(--black);
+      color: var(--white);
       cursor: default;
     }
 
     @media (hover: hover) {
       &:hover .btn-wrap {
-        background-color: $black;
-        border-color: $black;
-        color: $white;
+        background-color: var(--black);
+        border-color: var(--black);
+        color: var(--white);
       }
     }
   }
@@ -122,8 +122,8 @@ Component - Button
     =================================================== */
   &.btn-outline {
     .btn-wrap {
-      border: 1px solid $brand-color-1;
-      color: $black;
+      border: 1px solid var(--brand-color-1);
+      color: var(--black);
       background-color: transparent;
       gap: 6px;
 
@@ -138,13 +138,13 @@ Component - Button
 
     &:disabled .btn-wrap,
     &.disabled .btn-wrap {
-      background-color: $black;
+      background-color: var(--black);
       cursor: default;
     }
 
     @media (hover: hover) {
       &:hover .btn-wrap {
-        border-color: $brand-color-2;
+        border-color: var(--brand-color-2);
       }
     }
   }
@@ -160,7 +160,7 @@ Component - Button
     .btn-wrap {
       background-color: transparent;
       border-color: transparent;
-      color: var(--text-color, $text-color);
+      color: var(--text-color);
       padding: 0;
     }
 
@@ -173,14 +173,14 @@ Component - Button
     &.disabled .btn-wrap {
       background-color: transparent;
       border-color: transparent;
-      color: var(--text-color-secondary, $black);
+      color: var(--text-color-secondary, var(--black));
     }
 
     @media (hover: hover) {
       &:hover .btn-wrap {
         background-color: transparent;
         border-color: transparent;
-        color: var(--text-color, $text-color);
+        color: var(--text-color);
       }
     }
   }
@@ -251,7 +251,7 @@ Component - Button
       display: flex;
       align-items: center;
       background: transparent;
-      color: $black;
+      color: var(--black);
       border-color: transparent;
     }
 

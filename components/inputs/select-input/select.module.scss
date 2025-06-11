@@ -10,10 +10,10 @@ Component - Select field
 .select-trigger {
   display: block;
   line-height: 1;
-  border: solid 1px $border-color;
+  border: solid 1px var(--border-color);
   border-radius: $border-radius;
-  color: $brand-color-1;
-  background-color: $white;
+  color: var(--brand-color-1);
+  background-color: var(--white);
   width: 100%;
   font-size: 1rem;
   padding: 1rem 2rem 1rem 1rem;
@@ -26,17 +26,17 @@ Component - Select field
 }
 
 .select-input-component.error .select-trigger {
-  border-color: $error;
-  color: $error;
+  border-color: var(--error);
+  color: var(--error);
   &:focus {
-    border-color: $error;
+    border-color: var(--error);
   }
 }
 
 .select-label {
   display: block;
   width: 100%;
-  color: $brand-color-1;
+  color: var(--brand-color-1);
   font-size: 0.8571rem;
   font-weight: 400;
   margin-bottom: 0.5rem;
@@ -52,25 +52,25 @@ Component - Select field
 }
 
 .select-trigger:focus {
-  border-color: $brand-color-1;
+  border-color: var(--brand-color-1);
 }
 
 .select-trigger[data-placeholder] {
-  color: $brand-color-1;
+  color: var(--brand-color-1);
 }
 
 .select-content {
   overflow: hidden;
-  background-color: $white;
+  background-color: var(--white);
   border-radius: $border-radius;
-  border: solid 1px $border-color;
+  border: solid 1px var(--border-color);
   margin-top: 4px;
 }
 
 .select-item {
   font-size: 1rem;
   line-height: 1;
-  color: $brand-color-1;
+  color: var(--brand-color-1);
   position: relative;
   user-select: none;
   width: 100%;
@@ -85,7 +85,7 @@ Component - Select field
 
 .select-item[data-highlighted] {
   outline: none;
-  background-color: $grey;
+  background-color: var(--grey);
   font-weight: 300;
   text-shadow: 0 0 0.4px currentColor, 0 0 0.4px currentColor;
 }

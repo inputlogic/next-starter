@@ -26,14 +26,14 @@ $radio-size: 18px;
   font-size: 1rem;
   font-weight: normal;
   display: inline-block;
-  color: $brand-color-1;
+  color: var(--brand-color-1);
   font-weight: 500;
 }
 
 .radio-button-component:hover {
   input[type='radio'] + label::before,
   [type='radio'] + label::after {
-    border-color: $brand-color-1;
+    border-color: var(--brand-color-1);
   }
 }
 
@@ -44,12 +44,12 @@ $radio-size: 18px;
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  background-color: $white;
-  border: 1px solid $brand-color-1;
+  background-color: var(--white);
+  border: 1px solid var(--brand-color-1);
   width: $radio-size;
   height: $radio-size;
   border-radius: 3px;
-  color: $white;
+  color: var(--white);
   display: block;
   border-radius: 50%;
 }
@@ -58,10 +58,10 @@ $radio-size: 18px;
   background-image: url(/images/controls/check-white.svg);
   background-repeat: no-repeat;
   background-size: 84% 84%;
-  background-color: $brand-color-1;
+  background-color: var(--brand-color-1);
   transition: all 0.2s;
   background-position: center center;
-  border-color: $brand-color-1;
+  border-color: var(--brand-color-1);
 }
 
 .radio-button-component input[type='radio']:not(:checked) + label::after {

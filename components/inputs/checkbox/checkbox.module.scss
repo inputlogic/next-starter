@@ -32,14 +32,14 @@ $check-size: 18px;
   font-size: 1rem;
   font-weight: normal;
   display: inline-block;
-  color: $brand-color-1;
+  color: var(--brand-color-1);
   font-weight: 500;
 }
 
 .checkbox-component:hover {
   input[type='checkbox'] + label::before,
   [type='checkbox'] + label::after {
-    border-color: $brand-color-1;
+    border-color: var(--brand-color-1);
   }
 }
 
@@ -50,12 +50,12 @@ $check-size: 18px;
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  background-color: $white;
-  border: 1px solid $brand-color-1;
+  background-color: var(--white);
+  border: 1px solid var(--brand-color-1);
   width: $check-size;
   height: $check-size;
   border-radius: 3px;
-  color: $white;
+  color: var(--white);
   display: block;
 }
 
@@ -63,10 +63,10 @@ $check-size: 18px;
   background-image: url(/images/controls/check-white.svg);
   background-repeat: no-repeat;
   background-size: 84% 84%;
-  background-color: $brand-color-1;
+  background-color: var(--brand-color-1);
   transition: all 0.2s;
   background-position: center center;
-  border-color: $brand-color-1;
+  border-color: var(--brand-color-1);
 }
 
 .checkbox-component input[type='checkbox']:not(:checked) + label::after {
@@ -98,12 +98,12 @@ $check-size: 18px;
       left: 0;
       width: 2rem;
       height: 2rem;
-      color: $brand-color-1;
+      color: var(--brand-color-1);
       pointer-events: none;
     }
 
     &:checked + .icon {
-      color: $brand-color-1;
+      color: var(--brand-color-1);
     }
   }
 }

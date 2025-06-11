@@ -12,13 +12,13 @@
     height: 30px;
     text-align: center;
     font-size: 14px;
-    color: $neutral-color;
+    color: var(--neutral-color);
     border-radius: 4px;
     cursor: pointer;
 
     &.active {
-      background-color: $brand-color-1;
-      color: $text-color;
+      background-color: var(--brand-color-1);
+      color: var(--text-color);
       font-weight: 600;
     }
   }
@@ -32,11 +32,11 @@
     transition: background-color 200ms;
 
     &:not(.active) {
-      color: $neutral-color;
+      color: var(--neutral-color);
     }
 
     &:hover {
-      background-color: $brand-color-1;
+      background-color: var(--brand-color-1);
     }
   }
 
@@ -62,6 +62,6 @@
   .spacer {
     align-self: flex-end;
     padding-bottom: 3px;
-    color: $neutral-color;
+    color: var(--neutral-color);
   }
 }
