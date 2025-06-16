@@ -7,10 +7,6 @@ module.exports = {
   // images: {
   //   domains: [process.env.NEXT_PUBLIC_IMAGE_HOST],
   // },
-  i18n: {
-    locales: ['en', 'fr'],
-    defaultLocale: 'en',
-  },
 
   eslint: {
     ignoreDuringBuilds: true,

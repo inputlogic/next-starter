@@ -2,7 +2,7 @@ import React, { forwardRef, useState, useEffect } from 'react'
 import DatePicker from 'react-datepicker'
 import { addYears, subYears, getMonth, getYear, format } from 'date-fns'
 import { Icon } from 'components/icon'
-import { TextInput } from '/components/inputs'
+import { TextInput } from 'components/inputs'
 import { Portal } from 'components/portal'
 import { classnames } from 'util/classnames'
 
