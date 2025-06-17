@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, forwardRef } from 'react'
 import {
   Root,
   Trigger as RadixTrigger,
@@ -23,7 +23,6 @@ export const Popover = ({
   hideTrigger,
 }) => {
   const [open, setOpen] = useState(false)
-  const triggerRef = useRef()
 
   useEffect(() => {
     if (!triggerClose) return
@@ -39,30 +38,29 @@ export const Popover = ({
     <Root open={open}>
       <Anchor />
       {!hideTrigger ? (
-      <RadixTrigger asChild>
-        <>
-          {trigger ? (
-            <div
+        trigger ? (
+          <RadixTrigger asChild>
+            <button
               className={styles['custom-trigger']}
-              ref={triggerRef}
               role="button"
               onClick={() => setOpen(!open)}
+              type="button"
             >
               {trigger}
-            </div>
-          ) : (
+            </button>
+          </RadixTrigger>
+        ) : (
+          <RadixTrigger asChild>
             <button
               className={classnames([styles.trigger, 'button-reset'])}
               onClick={() => setOpen(!open)}
               type="button"
-              ref={triggerRef}
             >
               <span className="visually-hidden">Open popover</span>
               <Icon name="dots" className={styles['trigger-icon']} />
             </button>
-          )}
-        </>
-      </RadixTrigger>
+          </RadixTrigger>
+        )
       ) : null}
       <Content
         onInteractOutside={() => {
