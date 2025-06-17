@@ -9,7 +9,7 @@ export async function middleware(request) {
   if (isMaintenanceMode) return NextResponse.redirect(`${request.nextUrl.origin}/maintenance`)
   const authenticatedRoutes = ['/dashboard', '/settings']
   const unauthenticatedRoutes = ['/login']
-  const session = await getIronSession(cookies(), sessionOptions)
+  const session = await getIronSession(await cookies(), sessionOptions)
   const token = session.token
   const nextUrlPathname = request.nextUrl.pathname
   const isAuthenticatedRoute = authenticatedRoutes.includes(nextUrlPathname)

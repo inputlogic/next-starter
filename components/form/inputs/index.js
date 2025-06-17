@@ -1,6 +1,6 @@
 import Case from 'case'
 import { connectByRef } from '../util/connect-by-ref'
-import * as Inputs from '/components/inputs'
+import * as Inputs from 'components/inputs'
 
 export const TextInput = connectByRef(Inputs.TextInput)
 export const Checkbox = connectByRef(Inputs.Checkbox)

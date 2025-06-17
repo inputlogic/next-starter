@@ -6,7 +6,7 @@ import {
   Content,
   Portal,
 } from '@radix-ui/react-popover'
-import { Icon } from '/components/icon'
+import { Icon } from 'components/icon'
 import { classnames } from 'util/classnames'
 
 import styles from './popover.module.scss'

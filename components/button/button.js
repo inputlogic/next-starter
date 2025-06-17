@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 import Link from 'next/link'
 import { Icon } from 'components/icon'
 import { InlineLoader } from 'components/loading'
-import { classnames } from '/util/classnames'
+import { classnames } from 'util/classnames'
 import PropTypes from 'prop-types'
 
 import styles from './button.module.scss'
