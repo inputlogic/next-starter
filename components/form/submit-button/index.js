@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form'
-import { Button } from '/components/button'
+import { Button } from '../../button'
 
 export const SubmitButton = (props) => {
   const { formState: { isSubmitting } } = useFormContext()
