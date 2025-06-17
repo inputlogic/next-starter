@@ -24,13 +24,15 @@ export const DatePickerSelect = forwardRef(
       size = 'medium',
       style,
       error,
+      onChange,
+      onValueChange,
       ...props
     },
     ref
   ) => {
     const [startDate, setStartDate] = useState(value)
     const portalId = 'date-portal'
-    const onChangeCallback = props?.onValueChange || props?.onChange
+    const onChangeCallback = onValueChange || onChange
 
     function getYearsBetweenDates(date1, date2) {
       let startYear = date1.getFullYear()
@@ -61,9 +63,27 @@ export const DatePickerSelect = forwardRef(
       'December',
     ]
 
+    // Update internal state when value prop changes
     useEffect(() => {
-      typeof onChangeCallback === 'function' && onChangeCallback(startDate)
-    }, [startDate])
+      setStartDate(value)
+    }, [value])
+
+    // Handle date changes
+    const handleDateChange = (date) => {
+      setStartDate(date)
+      if (typeof onChangeCallback === 'function') {
+        // Format date as ISO string (YYYY-MM-DD).
+        const formattedDate = date ? date.toISOString().split('T')[0] : null
+        // Create a synthetic event object for react-hook-form compatibility
+        const syntheticEvent = {
+          target: {
+            name: name,
+            value: formattedDate,
+          },
+        }
+        onChangeCallback(syntheticEvent)
+      }
+    }
 
     return (
       <div
@@ -78,7 +98,7 @@ export const DatePickerSelect = forwardRef(
         <Portal className={styles.portal} id={portalId} />
         <DatePicker
           selected={startDate}
-          onChange={(date) => setStartDate(date)}
+          onChange={handleDateChange}
           isClearable={true}
           readOnly={readOnly}
           showPopperArrow={false}
