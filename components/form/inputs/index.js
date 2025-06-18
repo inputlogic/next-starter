@@ -1,4 +1,5 @@
 import Case from 'case'
+import { useFormContext } from 'react-hook-form'
 import { connectByRef } from '../util/connect-by-ref'
 import * as Inputs from 'components/inputs'
 
@@ -22,6 +23,18 @@ export const DatePickerSelect = connectByRef(
     onValueChange: props.onChange
   })
 )
+export const MultiSelect = ({ name, ...props }) => {
+  const { watch, setValue, formState } = useFormContext()
+  return (
+    <Inputs.MultiSelect
+      name={name}
+      onChange={(value) => setValue(name, value)}
+      value={watch(name) || []}
+      error={formState?.errors[name]?.message}
+      {...props}
+    />
+  )
+}
 // TODO: get these other inputs working
 // export const SelectInput = connectByRef(Inputs.SelectInput)
 // export const FileUpload = connectByRef(Inputs.FileUpload)
