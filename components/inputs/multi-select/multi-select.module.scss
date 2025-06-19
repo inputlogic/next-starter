@@ -156,3 +156,11 @@
     }
   }
 }
+
+.error-message {
+  color: var(--error);
+  margin-top: 4px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 400;
+}
