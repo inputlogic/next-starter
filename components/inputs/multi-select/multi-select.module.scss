@@ -132,7 +132,8 @@
     cursor: pointer;
     font-weight: 400;
 
-    &:hover {
+    &:hover,
+    &.focused {
       background-color: var(--light-grey);
     }
 
