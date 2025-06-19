@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import {
   TextInput,
   Textarea,
@@ -8,6 +9,7 @@ import {
   RadioButton,
   Checkbox,
   FileUpload,
+  MultiSelect,
 } from 'components/inputs'
 import { Button } from 'components/button'
 import { Popover } from 'components/popover'
@@ -15,6 +17,7 @@ import { Pagination } from 'components/pagination/pagination'
 import { Progress } from 'components/progress-bar/progress-bar'
 
 export default function Stylesheet() {
+  const [value, setValue] = useState([])
   return (
     <div
       className="container"
@@ -44,7 +47,6 @@ export default function Stylesheet() {
           { label: 'Option 2', value: 2 },
         ]}
       />
-
       <SelectInput
         label="Select field w/ error"
         placeholder="Select an option"
@@ -56,16 +58,12 @@ export default function Stylesheet() {
         error="Wrong choice"
       />
       <DatePickerSelect label="DatePicker" placeholder="Select a date" />
-      <DatePickerSelect
-        label="DatePicker w/ error"
-        error="Wrong date"
-      />
+      <DatePickerSelect label="DatePicker w/ error" error="Wrong date" />
       <RadioButton label="Radio Button" />
       <RadioButton label="Radio Button (selected)" defaultValue={true} />
       <Checkbox label="checkbox" name="test" />
       <Checkbox label="checkbox (selected)" name="test" defaultValue={true} />
       <FileUpload label="Upload file" />
-
       <h2>Buttons</h2>
       <Button variation="primary">Primary Button</Button>
       <Button variation="secondary">Secondary Button</Button>
@@ -109,6 +107,37 @@ export default function Stylesheet() {
 
       <h2>Progress</h2>
       <Progress progress={33} />
+
+      <h2>MultiSelect</h2>
+      <MultiSelect
+        value={value}
+        onChange={(val) => setValue(val)}
+        label="Multiple Select Input"
+        placeholder="Select options"
+        options={[
+          { label: 'Option 1', value: 'option1' },
+          { label: 'Option 2', value: 'option2' },
+          { label: 'Option 3', value: 'option3' },
+        ]}
+      />
+      <h2>MultiSelect with error</h2>
+      <MultiSelect
+        value={value}
+        onChange={(val) => setValue(val)}
+        label="Multiple Select Input with Error"
+        placeholder="Select options"
+        options={[{ label: 'Option 1', value: 'option1' }]}
+        error="This is an error message"
+      />
+      <h2>MultiSelect disabled</h2>
+      <MultiSelect
+        value={[{ label: 'Option 1', value: 'option1' }]}
+        onChange={(val) => setValue(val)}
+        label="Multiple Select Input (disabled)"
+        placeholder="Select options"
+        options={[{ label: 'Option 1', value: 'option1' }]}
+        disabled
+      />
     </div>
   )
 }
