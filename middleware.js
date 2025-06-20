@@ -16,7 +16,9 @@ export async function middleware(request) {
   const isUnauthenticatedRoute = unauthenticatedRoutes.includes(nextUrlPathname)
   const isLoggedIn = Boolean(token)
 
-  if (isAuthenticatedRoute && !isLoggedIn) {
+  // Don't redirect if session is empty (might be loading/transitioning)
+  // Only redirect if we have a definitive session that shows user is not logged in
+  if (isAuthenticatedRoute && !isLoggedIn && Object.keys(session).length > 0) {
     return NextResponse.redirect(`${request.nextUrl.origin}/`, 302)
   }
 
