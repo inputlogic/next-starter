@@ -10,6 +10,7 @@ import {
   Checkbox,
   FileUpload,
   MultiSelect,
+  ComboboxSearch,
 } from 'components/inputs'
 import { Button } from 'components/button'
 import { Popover } from 'components/popover'
@@ -17,7 +18,34 @@ import { Pagination } from 'components/pagination/pagination'
 import { Progress } from 'components/progress-bar/progress-bar'
 
 export default function Stylesheet() {
+  // MultiSelect state
   const [value, setValue] = useState([])
+
+  // ComboboxSearch state
+  const [searchValue, setSearchValue] = useState('')
+  const [searchOptions, setSearchOptions] = useState([
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ])
+
+  const setQuery = (query) => {
+    if (!query) {
+      setSearchOptions([
+        { label: 'Option 1', value: 'option1' },
+        { label: 'Option 2', value: 'option2' },
+        { label: 'Option 3', value: 'option3' },
+      ])
+    } else {
+      const lowerQuery = query.toLowerCase()
+      setSearchOptions(
+        searchOptions.filter((option) =>
+          option.label.toLowerCase().includes(lowerQuery)
+        )
+      )
+    }
+  }
+
   return (
     <div
       className="container"
@@ -74,11 +102,7 @@ export default function Stylesheet() {
       <Button variation="outline" icon="search">
         Outline button w/ Icon
       </Button>
-      <Button
-        isLoading
-        variation="outline"
-        loadingText="Im in a loading state"
-      >
+      <Button isLoading variation="outline" loadingText="Im in a loading state">
         Button text
       </Button>
       <Button variation="secondary" size="small">
@@ -137,6 +161,53 @@ export default function Stylesheet() {
         placeholder="Select options"
         options={[{ label: 'Option 1', value: 'option1' }]}
         disabled
+      />
+
+      <h2>Combobox Search</h2>
+      <ComboboxSearch
+        value={searchValue}
+        onChange={(val) => setSearchValue(val)}
+        setQuery={setQuery}
+        label="Search Options"
+        placeholder="Search options"
+        searchPlaceholder="Type to search..."
+        options={searchOptions}
+        isLoading={false}
+        disabled={false}
+      />
+      <ComboboxSearch
+        value={searchValue}
+        onChange={(val) => setSearchValue(val)}
+        setQuery={setQuery}
+        label="Search Options with Error"
+        placeholder="Search options"
+        searchPlaceholder="Type to search..."
+        options={searchOptions}
+        isLoading={false}
+        disabled={false}
+        error="This is an error message"
+      />
+      <ComboboxSearch
+        value={searchValue}
+        onChange={(val) => setSearchValue(val)}
+        setQuery={setQuery}
+        label="Search Options (disabled)"
+        placeholder="Search options"
+        searchPlaceholder="Type to search..."
+        options={searchOptions}
+        isLoading={false}
+        disabled={true}
+      />
+      <ComboboxSearch
+        value={searchValue}
+        onChange={(val) => setSearchValue(val)}
+        setQuery={setQuery}
+        label="Search Options (loading)"
+        placeholder="Search options"
+        searchPlaceholder="Type to search..."
+        options={searchOptions}
+        isLoading={true}
+        disabled={false}
       />
     </div>
   )

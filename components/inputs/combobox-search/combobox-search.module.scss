@@ -6,6 +6,7 @@ Component - Searchable Select field
 .container {
   margin-bottom: 1rem;
   width: 100%;
+  position: relative;
 }
 
 .select-trigger-wrapper {
@@ -72,15 +73,14 @@ Component - Searchable Select field
 }
 
 .select-content {
-  overflow: hidden;
+  overflow-y: scroll;
+  position: absolute;
   background-color: var(--white);
   border-radius: $border-radius;
   border: solid 1px var(--border-color);
   box-shadow: $box-shadow;
   margin-top: 4px;
-  z-index: 99999;
   max-height: 300px;
-  position: relative;
 }
 
 .select-item,
