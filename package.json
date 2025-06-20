@@ -11,6 +11,7 @@
     "email": "email dev"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.4",
     "@hookform/resolvers": "2.9.10",
     "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-progress": "^1.0.3",

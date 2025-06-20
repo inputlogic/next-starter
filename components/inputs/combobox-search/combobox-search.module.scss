@@ -1,0 +1,133 @@
+/* =============================================================================
+Component - Searchable Select field
+============================================================================= */
+@import 'styles/base/variables.scss';
+
+.container {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.select-trigger-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-trigger {
+  line-height: 1.5;
+  border: solid 1px var(--border-color);
+  border-radius: $border-radius;
+  background-color: var(--white);
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100%;
+  padding: 0.75rem;
+  text-align: left;
+  outline: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &.placeholder {
+    color: var(--text-color-alt);
+  }
+
+  &.error {
+    border-color: var(--error);
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &:focus {
+    border-color: var(--black);
+  }
+}
+
+.select-label {
+  width: 100%;
+  padding-bottom: 5px;
+  display: block;
+  color: var(--text-color);
+  font-size: 12px;
+  font-weight: 400;
+  text-align: left;
+
+  .required {
+    color: var(--error);
+    margin-left: 2px;
+  }
+}
+
+.select-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+}
+
+.select-content {
+  overflow: hidden;
+  background-color: var(--white);
+  border-radius: $border-radius;
+  border: solid 1px var(--border-color);
+  box-shadow: $box-shadow;
+  margin-top: 4px;
+  z-index: 99999;
+  max-height: 300px;
+  position: relative;
+}
+
+.select-item,
+.select-loader {
+  font-size: 14px;
+  line-height: 1;
+  color: var(--text-color-alt);
+  position: relative;
+  user-select: none;
+  width: 100%;
+  padding: 1rem 0.75rem;
+  cursor: pointer;
+
+  .select-check {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.875rem;
+    height: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.select-item[data-disabled] {
+  pointer-events: none;
+}
+
+.select-item:hover,
+.select-item[data-focus] {
+  outline: none;
+  background-color: var(--light-grey);
+}
+
+.select-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: var(--text-color-alt);
+}
+
+.error-message {
+  color: var(--error);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  padding-left: 0.25rem;
+}
