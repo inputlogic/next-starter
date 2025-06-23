@@ -8,4 +8,5 @@ export {
   RadioButton,
   DatePickerSelect,
   MultiSelect,
+  ComboboxSearch,
 } from './inputs'

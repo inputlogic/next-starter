@@ -9,18 +9,21 @@ export const RadioButton = connectByRef(
   Inputs.RadioButton,
   // override the default props since radio auto label should be based
   // on the value rather than the name
-  ({name, error, props}) =>
-    ({name, error, label: Case.capital(props.value || '')})
+  ({ name, error, props }) => ({
+    name,
+    error,
+    label: Case.capital(props.value || ''),
+  })
 )
 export const DatePickerSelect = connectByRef(
   Inputs.DatePickerSelect,
   // DatePicker needs special handling for value/onChange
-  ({name, error, props}) => ({
+  ({ name, error, props }) => ({
     name,
     error: error?.message,
     label: Case.capital(name.split('.').slice(-1)[0]),
     value: props.value,
-    onValueChange: props.onChange
+    onValueChange: props.onChange,
   })
 )
 export const MultiSelect = ({ name, ...props }) => {
@@ -30,6 +33,18 @@ export const MultiSelect = ({ name, ...props }) => {
       name={name}
       onChange={(value) => setValue(name, value)}
       value={watch(name) || []}
+      error={formState?.errors[name]?.message}
+      {...props}
+    />
+  )
+}
+export const ComboboxSearch = ({ name, ...props }) => {
+  const { watch, setValue, formState } = useFormContext()
+  return (
+    <Inputs.ComboboxSearch
+      name={name}
+      onChange={(value) => setValue(name, value)}
+      value={watch(name) || ''}
       error={formState?.errors[name]?.message}
       {...props}
     />
