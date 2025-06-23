@@ -1,16 +1,13 @@
 import {
-  Combobox,
-  ComboboxButton,
-  ComboboxInput,
-  ComboboxOption,
-  ComboboxOptions,
-} from '@headlessui/react'
+  ComboboxProvider,
+  Combobox as AriakitCombobox,
+  ComboboxPopover,
+  ComboboxItem,
+} from '@ariakit/react'
+import { useState } from 'react'
 import { Icon } from 'components/icon'
 import { InlineLoader } from 'components/loading'
 import { classnames } from 'util/classnames'
-
-import { useState, useEffect, useRef } from 'react'
-
 import styles from './combobox-search.module.scss'
 
 export function ComboboxSearch({
@@ -24,93 +21,69 @@ export function ComboboxSearch({
   isLoading,
   disabled,
 }) {
-  const [contentWidth, setContentWidth] = useState(500)
-  const containerRef = useRef(null)
-
-  useEffect(() => {
-    if (!containerRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    setContentWidth(rect.width)
-  }, [])
-
-  // Known headlessui issue where padding-right is added to the body when the combobox is open
-  // This is a workaround to reset the padding-right and overflow style
   const [open, setOpen] = useState(false)
-  useEffect(() => {
-    document.documentElement.style.paddingRight = '0px'
-    document.documentElement.style.overflow = 'auto'
 
-    // Clean up the style when the component unmounts
-    return () => {
-      document.documentElement.style.paddingRight = '0px'
+  const onBlur = () => {
+    // If the value is not in the options, reset
+    if (value && !options.some((option) => option.value === value.value)) {
+      onChange('')
     }
-  }, [open])
+    setQuery('')
+  }
 
   return (
-    <div className={styles['container']} ref={containerRef}>
+    <div className={styles['container']}>
       {label && <label className={styles['select-label']}>{label}</label>}
-      <Combobox
-        value={value}
-        onChange={onChange}
-        onClose={() => {
-          setOpen(false)
-          setQuery('')
-        }}
-        immediate
-      >
-        {({ open }) => {
-          setOpen(open)
-          return (
-            <div>
-              <div className={classnames(styles['select-trigger-wrapper'])}>
-                <ComboboxInput
-                  className={classnames(
-                    styles['select-trigger'],
-                    error && styles['error'],
-                    disabled && styles['disabled']
-                  )}
-                  displayValue={(option) => option?.label}
-                  placeholder={placeholder}
-                  onChange={(event) => setQuery(event.target.value)}
-                  onBlur={() => setQuery('')}
-                />
-                <ComboboxButton className={styles['select-icon']}>
-                  <Icon name={open ? 'chevron-up' : 'chevron-down'} />
-                </ComboboxButton>
-              </div>
 
-              <ComboboxOptions
-                anchor="bottom"
-                className={styles['select-content']}
-                style={{ width: `${contentWidth}px` }}
-              >
-                {isLoading ? (
-                  <div className={styles['select-loader']}>
-                    <InlineLoader />
-                  </div>
-                ) : (
-                  options.map((option) => (
-                    <ComboboxOption
-                      key={option.value}
-                      value={option}
-                      className={styles['select-item']}
-                    >
-                      {option.label}
-                      {value?.value === option.value && (
-                        <Icon
-                          name="check"
-                          className={styles['select-check']}
-                          variation="filled"
-                        />
-                      )}
-                    </ComboboxOption>
-                  ))
-                )}
-              </ComboboxOptions>
+      <ComboboxProvider value={value} setValue={onChange}>
+        <div className={classnames(styles['select-trigger-wrapper'])}>
+          <AriakitCombobox
+            className={classnames(
+              styles['select-trigger'],
+              error && styles['error'],
+              disabled && styles['disabled']
+            )}
+            value={value?.label || value}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder={placeholder}
+            onBlur={onBlur}
+            disabled={disabled}
+          />
+          <button
+            type="button"
+            onClick={() => setOpen((prev) => !prev)}
+            className={styles['select-icon']}
+          >
+            <Icon name={open ? 'chevron-up' : 'chevron-down'} />
+          </button>
+        </div>
+
+        <ComboboxPopover className={styles['select-content']} sameWidth>
+          {isLoading ? (
+            <div className={styles['select-loader']}>
+              <InlineLoader />
             </div>
-          )
-        }}
-      </Combobox>
+          ) : (
+            options.map((option) => (
+              <ComboboxItem
+                key={option.value}
+                value={option}
+                className={styles['select-item']}
+              >
+                {option.label}
+                {value?.value === option.value && (
+                  <Icon
+                    name="check"
+                    className={styles['select-check']}
+                    variation="filled"
+                  />
+                )}
+              </ComboboxItem>
+            ))
+          )}
+        </ComboboxPopover>
+      </ComboboxProvider>
+
       {error && <div className={styles['error-message']}>{error}</div>}
     </div>
   )

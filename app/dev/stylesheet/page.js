@@ -170,10 +170,8 @@ export default function Stylesheet() {
         setQuery={setQuery}
         label="Search Options"
         placeholder="Search options"
-        searchPlaceholder="Type to search..."
         options={searchOptions}
         isLoading={false}
-        disabled={false}
       />
       <ComboboxSearch
         value={searchValue}
@@ -181,10 +179,8 @@ export default function Stylesheet() {
         setQuery={setQuery}
         label="Search Options with Error"
         placeholder="Search options"
-        searchPlaceholder="Type to search..."
         options={searchOptions}
         isLoading={false}
-        disabled={false}
         error="This is an error message"
       />
       <ComboboxSearch
@@ -193,7 +189,6 @@ export default function Stylesheet() {
         setQuery={setQuery}
         label="Search Options (disabled)"
         placeholder="Search options"
-        searchPlaceholder="Type to search..."
         options={searchOptions}
         isLoading={false}
         disabled={true}
@@ -204,10 +199,8 @@ export default function Stylesheet() {
         setQuery={setQuery}
         label="Search Options (loading)"
         placeholder="Search options"
-        searchPlaceholder="Type to search..."
         options={searchOptions}
         isLoading={true}
-        disabled={false}
       />
     </div>
   )

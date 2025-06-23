@@ -73,7 +73,7 @@ Component - Searchable Select field
 }
 
 .select-content {
-  overflow-y: scroll;
+  overflow-y: auto;
   position: absolute;
   background-color: var(--white);
   border-radius: $border-radius;
@@ -81,6 +81,7 @@ Component - Searchable Select field
   box-shadow: $box-shadow;
   margin-top: 4px;
   max-height: 300px;
+  z-index: 9999;
 }
 
 .select-item,
@@ -112,7 +113,7 @@ Component - Searchable Select field
 }
 
 .select-item:hover,
-.select-item[data-focus] {
+.select-item[data-active-item] {
   outline: none;
   background-color: var(--light-grey);
 }
