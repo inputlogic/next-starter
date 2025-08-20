@@ -1,0 +1,58 @@
+import { NextResponse } from 'next/server'
+import { render } from '@react-email/render'
+import React from 'react'
+import * as BaseEmailComponents from 'emails'
+import { ValidationError, ValidatedEmail } from 'emails/utils/validation'
+import { checkEmailServiceAuth } from 'util/server-only/email-service'
+
+const EmailComponents = Object.values(BaseEmailComponents).reduce(
+  (acc, Component) => ({
+    [`${Component.definition.name}:${Component.definition.version || ''}`]:
+      ValidatedEmail(Component, Component.definition.schema),
+    ...acc,
+  }),
+  {}
+)
+
+// interface RequestBody {
+//   name: string;
+//   id?: string;
+//   data?: Record<string, any>;
+// }
+
+export async function POST(req) {
+  const authError = checkEmailServiceAuth(req)
+  if (authError) return authError
+
+  try {
+    const body = await req.json()
+    const { name, id = '', data = {} } = body
+
+    const identifier = `${name}:${id}`
+
+    const EmailComponent = EmailComponents[identifier]
+
+    if (!EmailComponent) {
+      return NextResponse.json(
+        { error: `Email template "${name}" not found` },
+        { status: 404 }
+      )
+    }
+
+    const html = await render(React.createElement(EmailComponent, data))
+    return NextResponse.json({ html })
+  } catch (error) {
+    console.error('Email render error:', error)
+    return NextResponse.json(
+      error instanceof ValidationError
+        ? {
+            error: error.message,
+            data: error.data,
+          }
+        : {
+            error: error instanceof Error ? error.message : 'Invalid request',
+          },
+      { status: 400 }
+    )
+  }
+}
