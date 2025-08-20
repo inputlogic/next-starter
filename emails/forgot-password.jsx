@@ -14,13 +14,32 @@ const definition = {
   name: 'Forgot Password',
   description:
     'Sends a password reset link when a user submits forgot password form.',
+  version: 'forgot-password-v1',
   schema: {
     type: 'object',
     required: ['resetLink'],
     properties: {
+      subject: {
+        type: 'string',
+        default: 'Reset your password',
+      },
       resetLink: {
         type: 'string',
+        format: 'uri',
         default: 'https://example.com/reset',
+      },
+      languages: {
+        type: 'array',
+        items: {
+          type: 'string',
+          enum: ['en', 'es', 'fr'],
+        },
+        default: ['en'],
+      },
+      theme: {
+        type: 'string',
+        enum: ['default', 'dark', 'minimal'],
+        default: 'default',
       },
     },
   },
@@ -30,15 +49,36 @@ const schema = {
   type: 'object',
   required: ['resetLink'],
   properties: {
+    subject: {
+      type: 'string',
+      default: 'Reset your password',
+    },
     resetLink: {
       type: 'string',
+      format: 'uri',
       default: 'https://example.com/reset',
+    },
+    languages: {
+      type: 'array',
+      items: {
+        type: 'string',
+        enum: ['en', 'es', 'fr'],
+      },
+      default: ['en'],
+    },
+    theme: {
+      type: 'string',
+      enum: ['default', 'dark', 'minimal'],
+      default: 'default',
     },
   },
 }
 
 export const ForgotPassword = ({
+  subject = schema.properties.subject.default,
   resetLink = schema.properties.resetLink.default,
+  languages = schema.properties.languages.default,
+  theme = schema.properties.theme.default,
 }) => {
   return (
     <Html>
@@ -47,7 +87,7 @@ export const ForgotPassword = ({
         style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f4f4' }}
       >
         <Container style={container}>
-          <Heading style={heading}>Reset Your Password</Heading>
+          <Heading style={heading}>{subject}</Heading>
           <Text style={text}>
             We received a request to reset your password. Click the button below
             to set a new password:

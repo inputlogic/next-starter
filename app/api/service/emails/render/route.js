@@ -2,12 +2,12 @@ import { NextResponse } from 'next/server'
 import { render } from '@react-email/render'
 import React from 'react'
 import * as BaseEmailComponents from 'emails'
-import { ValidationError, ValidatedEmail } from 'emails/utils/validation'
+import { ValidationError, ValidatedEmail } from 'emails/_util/validation'
 import { checkEmailServiceAuth } from 'util/server-only/email-service'
 
 const EmailComponents = Object.values(BaseEmailComponents).reduce(
   (acc, Component) => ({
-    [`${Component.definition.name}:${Component.definition.version || ''}`]:
+    [Component.definition.version || Component.definition.name]:
       ValidatedEmail(Component, Component.definition.schema),
     ...acc,
   }),
@@ -15,8 +15,7 @@ const EmailComponents = Object.values(BaseEmailComponents).reduce(
 )
 
 // interface RequestBody {
-//   name: string;
-//   id?: string;
+//   template_id: string;
 //   data?: Record<string, any>;
 // }
 
@@ -26,15 +25,13 @@ export async function POST(req) {
 
   try {
     const body = await req.json()
-    const { name, id = '', data = {} } = body
+    const { template_id, data = {} } = body
 
-    const identifier = `${name}:${id}`
-
-    const EmailComponent = EmailComponents[identifier]
+    const EmailComponent = EmailComponents[template_id]
 
     if (!EmailComponent) {
       return NextResponse.json(
-        { error: `Email template "${name}" not found` },
+        { error: `Email template "${template_id}" not found` },
         { status: 404 }
       )
     }
