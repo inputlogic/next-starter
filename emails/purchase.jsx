@@ -224,69 +224,8 @@ export const Purchase = ({
   )
 }
 
-const schema = {
-  type: 'object',
-  required: ['items', 'order_number'],
-  properties: {
-    subject: {
-      type: 'string',
-      default: 'Purchase Confirmation',
-    },
-    email: {
-      type: 'string',
-      format: 'email',
-    },
-    order_number: {
-      type: 'number',
-    },
-    total: {
-      type: 'number',
-    },
-    languages: {
-      type: 'array',
-      items: {
-        type: 'string',
-      },
-      default: ['en'],
-    },
-    theme: {
-      type: 'string',
-      default: 'default',
-    },
-    items: {
-      type: 'array',
-      minItems: 1,
-      items: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-          },
-          details: {
-            type: 'string',
-          },
-          price: {
-            type: 'number',
-          },
-          image: {
-            type: 'string',
-          },
-        },
-        required: ['name', 'details', 'price', 'image'],
-      },
-      default: [
-        {
-          name: 'Premium Subscription',
-          description: '1-year premium plan with all features included',
-          price: 99.99,
-          image: 'https://via.placeholder.com/60x60?text=Premium',
-        },
-      ],
-    },
-  },
-}
 
-Purchase.schema = schema
+Purchase.schema = definition.schema
 Purchase.definition = definition
 
 export default Purchase

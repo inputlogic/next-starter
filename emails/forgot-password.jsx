@@ -45,40 +45,12 @@ const definition = {
   },
 }
 
-const schema = {
-  type: 'object',
-  required: ['resetLink'],
-  properties: {
-    subject: {
-      type: 'string',
-      default: 'Reset your password',
-    },
-    resetLink: {
-      type: 'string',
-      format: 'uri',
-      default: 'https://example.com/reset',
-    },
-    languages: {
-      type: 'array',
-      items: {
-        type: 'string',
-        enum: ['en', 'es', 'fr'],
-      },
-      default: ['en'],
-    },
-    theme: {
-      type: 'string',
-      enum: ['default', 'dark', 'minimal'],
-      default: 'default',
-    },
-  },
-}
 
 export const ForgotPassword = ({
-  subject = schema.properties.subject.default,
-  resetLink = schema.properties.resetLink.default,
-  languages = schema.properties.languages.default,
-  theme = schema.properties.theme.default,
+  subject = definition.schema.properties.subject.default,
+  resetLink = definition.schema.properties.resetLink.default,
+  languages = definition.schema.properties.languages.default,
+  theme = definition.schema.properties.theme.default,
 }) => {
   return (
     <Html>
@@ -145,7 +117,7 @@ const footer = {
   textAlign: 'center',
 }
 
-ForgotPassword.schema = schema
+ForgotPassword.schema = definition.schema
 ForgotPassword.definition = definition
 
 export default ForgotPassword
