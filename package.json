@@ -6,8 +6,6 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "test": "node --test **/*.test.mjs",
-    "test:email-render": "node app/api/service/emails/render/route.test.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "email": "email dev"
