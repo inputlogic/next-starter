@@ -16,10 +16,6 @@ const EmailComponents = Object.values(BaseEmailComponents).reduce(
   {}
 )
 
-// interface RequestBody {
-//   template_id: string;
-//   data?: Record<string, any>;
-// }
 
 export async function POST(req) {
   const authError = checkEmailServiceAuth(req)
