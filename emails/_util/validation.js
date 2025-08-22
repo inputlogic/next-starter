@@ -1,4 +1,9 @@
 import React from 'react'
+import Ajv from 'ajv'
+import addFormats from 'ajv-formats'
+import fs from 'fs'
+import path from 'path'
+import yaml from 'yaml'
 
 export class ValidationError extends Error {
   constructor(message, data) {
@@ -8,50 +13,80 @@ export class ValidationError extends Error {
   }
 }
 
+// Cache for loaded OpenAPI spec
+let openApiSpec = null
+
+// Load OpenAPI schema
+const getOpenApiSpec = () => {
+  if (!openApiSpec) {
+    const specPath = path.join(process.cwd(), 'emails.yaml')
+    const specContent = fs.readFileSync(specPath, 'utf8')
+    openApiSpec = yaml.parse(specContent)
+  }
+  return openApiSpec
+}
+
+// Get schema for a specific email type from OpenAPI spec
+const getEmailSchema = (emailType) => {
+  const spec = getOpenApiSpec()
+  const schemaName = `${emailType.charAt(0).toUpperCase()}${emailType.slice(1)}Email`
+  
+  if (!spec.components?.schemas?.[schemaName]) {
+    throw new Error(`Email schema not found: ${schemaName}`)
+  }
+  
+  return {
+    ...spec.components.schemas[schemaName],
+    // Include referenced schemas in definitions for Ajv
+    definitions: spec.components.schemas
+  }
+}
+
 export const ValidatedEmail = (Component, schema) => (props) => {
-  // Basic validation - check required fields
-  if (schema.required) {
-    for (const field of schema.required) {
-      if (props[field] === undefined || props[field] === null) {
-        throw new ValidationError(
-          `Missing required field: ${field}`,
-          { field, value: props[field] }
-        )
-      }
+  // If schema is provided inline, use the current validation
+  // Otherwise, try to get schema from OpenAPI spec
+  let validationSchema = schema
+  
+  if (!schema && Component.definition?.version) {
+    // Extract email type from template version (e.g., "forgot-password-v1" -> "forgotPassword")
+    const emailType = Component.definition.version
+      .split('-')
+      .slice(0, -1) // Remove version suffix
+      .map((part, index) => index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1))
+      .join('')
+    
+    try {
+      validationSchema = getEmailSchema(emailType)
+    } catch (error) {
+      console.warn(`Could not load OpenAPI schema for ${emailType}:`, error.message)
+      // Fall back to inline schema if available
+      validationSchema = Component.schema
     }
   }
 
-  // Basic type and format validation
-  if (schema.properties) {
-    for (const [field, fieldSchema] of Object.entries(schema.properties)) {
-      const value = props[field]
-      if (value !== undefined) {
-        // Type validation
-        if (fieldSchema.type === 'string' && typeof value !== 'string') {
-          throw new ValidationError(
-            `Field ${field} must be a string`,
-            { field, value, expectedType: 'string' }
-          )
-        }
-        if (fieldSchema.type === 'array' && !Array.isArray(value)) {
-          throw new ValidationError(
-            `Field ${field} must be an array`,
-            { field, value, expectedType: 'array' }
-          )
-        }
-
-        // URI format validation
-        if (fieldSchema.format === 'uri' && typeof value === 'string') {
-          try {
-            new URL(value)
-          } catch {
-            throw new ValidationError(
-              `Field ${field} must be a valid URI`,
-              { field, value, expectedFormat: 'uri' }
-            )
-          }
-        }
-      }
+  if (validationSchema) {
+    // Create Ajv instance
+    const ajv = new Ajv({ allErrors: true })
+    addFormats(ajv)
+    
+    // Compile the schema
+    const validate = ajv.compile(validationSchema)
+    
+    // Validate props
+    const valid = validate(props)
+    
+    if (!valid) {
+      const errors = validate.errors.map(error => ({
+        field: error.instancePath?.replace('/', '') || error.params?.missingProperty,
+        message: error.message,
+        value: error.data,
+        schemaPath: error.schemaPath
+      }))
+      
+      throw new ValidationError(
+        `Validation failed: ${errors.map(e => `${e.field}: ${e.message}`).join(', ')}`,
+        { errors }
+      )
     }
   }
 
