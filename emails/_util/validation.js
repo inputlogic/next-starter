@@ -19,7 +19,7 @@ let openApiSpec = null
 // Load OpenAPI schema
 const getOpenApiSpec = () => {
   if (!openApiSpec) {
-    const specPath = path.join(process.cwd(), 'emails.yaml')
+    const specPath = path.join(process.cwd(), 'email-type-list.yaml')
     const specContent = fs.readFileSync(specPath, 'utf8')
     openApiSpec = yaml.parse(specContent)
   }
