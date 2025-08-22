@@ -1,0 +1,51 @@
+openapi: 3.1.0
+info:
+  title: Email Specifications
+  description: Defines the structure and data requirements for emails sent by the backend
+  version: 1.0.0
+
+# Email template provider configuration
+x-email-template-providers:
+  endpoint: "https://example.com/api/service/emails/render"
+    
+# Use vendor extensions for email-specific metadata
+x-email-templates:
+  forgot-password:
+    name: "Forgot Password"
+    description: "Email that is sent when a user submits the forgot password form."
+    trigger: "user_forgot_password"
+    subject: "Reset your password"
+    template-id: "forgot-password-v1"
+  
+components:
+  schemas:
+    # Common schemas that can be reused
+    Language:
+      type: string
+      enum: [en, es, fr]
+      default: en
+      
+    Theme:
+      type: string
+      enum: [default, dark, minimal]
+      default: default
+      
+    # Email-specific schemas (must end with "Email")
+    ForgotPasswordEmail:
+      type: object
+      description: Data required for forgot password email template
+      properties:
+        resetLink:
+          type: string
+          format: uri
+          default: "https://example.com/reset"
+          example: "https://example.com/reset?token=abc123"
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Language'
+          default: ["en", "es", "fr"]
+        theme:
+          $ref: '#/components/schemas/Theme'
+      required:
+        - resetLink

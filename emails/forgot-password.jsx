@@ -1,37 +1,50 @@
-import { Button, Html, Text, Container, Section, Head, Heading, Body } from '@react-email/components'
-import { variables } from 'styles/variables'
-import { useTranslation } from 'react-i18next'
-import './_util/i18n'
+import {
+  Button,
+  Html,
+  Text,
+  Container,
+  Section,
+  Head,
+  Heading,
+  Body,
+} from '@react-email/components'
 import * as React from 'react'
 
-export const ForgotPassword = ({ theme = 'dark', language = 'fr', resetLink = 'http://example.com/reset' }) => {
-  const { t, i18n } = useTranslation('email')
-  
-  i18n.changeLanguage(language)
+const definition = {
+  name: 'Forgot Password',
+  description:
+    'Sends a password reset link when a user submits forgot password form.',
+  version: 'forgot-password-v1',
+}
 
+
+export const ForgotPassword = ({
+  resetLink = 'https://example.com/reset',
+  languages = ['en', 'es', 'fr'],
+  theme = 'default',
+}) => {
+  const subject = 'Reset your password'
   return (
     <Html>
       <Head />
-      <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: variables[theme]['body-color'], color: variables[theme]['text-color'] }}>
+      <Body
+        style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f4f4' }}
+      >
         <Container style={container}>
-          <Heading style={heading}>{t('forgot-password.heading')}</Heading>
+          <Heading style={heading}>{subject}</Heading>
           <Text style={text}>
-            {t('forgot-password.body')}
+            We received a request to reset your password. Click the button below
+            to set a new password:
           </Text>
           <Section style={buttonContainer}>
-            <Button
-              href={resetLink}
-              style={button}
-            >
-              {t('forgot-password.button')}
+            <Button href={resetLink} style={button}>
+              Reset Password
             </Button>
           </Section>
           <Text style={text}>
-            {t('forgot-password.disclaimer')}
+            If you didn't request a password reset, please ignore this email.
           </Text>
-          <Text style={footer}>
-            {t('forgot-password.footer')}
-          </Text>
+          <Text style={footer}>&copy; 2025 YourApp. All rights reserved.</Text>
         </Container>
       </Body>
     </Html>
@@ -75,5 +88,7 @@ const footer = {
   color: '#666666',
   textAlign: 'center',
 }
+
+ForgotPassword.definition = definition
 
 export default ForgotPassword
