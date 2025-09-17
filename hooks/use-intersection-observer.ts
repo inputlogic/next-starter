@@ -1,14 +1,26 @@
 import { RefObject, useEffect, useState } from 'react'
 
-export function useIntersectionObserver(
-  elementRef,
-  { threshold = 0, root = null, rootMargin = '0%', freezeOnceVisible = false }
-) {
-  const [entry, setEntry] = useState()
+interface IntersectionObserverOptions {
+  threshold?: number | number[]
+  root?: Element | Document | null
+  rootMargin?: string
+  freezeOnceVisible?: boolean
+}
+
+export function useIntersectionObserver<T extends Element>(
+  elementRef: RefObject<T>,
+  {
+    threshold = 0,
+    root = null,
+    rootMargin = '0%',
+    freezeOnceVisible = false
+  }: IntersectionObserverOptions = {}
+): IntersectionObserverEntry | undefined {
+  const [entry, setEntry] = useState<IntersectionObserverEntry>()
 
   const frozen = entry?.isIntersecting && freezeOnceVisible
 
-  const updateEntry = ([entry]) => {
+  const updateEntry = ([entry]: IntersectionObserverEntry[]): void => {
     setEntry(entry)
   }
 

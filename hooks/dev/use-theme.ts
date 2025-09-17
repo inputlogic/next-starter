@@ -2,12 +2,19 @@
 
 import { useState, useEffect } from 'react'
 
-export function useTheme() {
-  const [theme, setTheme] = useState('light')
+type Theme = 'light' | 'dark'
+
+interface UseThemeReturn {
+  theme: Theme
+  toggleTheme: () => void
+}
+
+export function useTheme(): UseThemeReturn {
+  const [theme, setTheme] = useState<Theme>('light')
 
   useEffect(() => {
     // Check for saved theme in localStorage
-    const savedTheme = localStorage.getItem('demo-theme')
+    const savedTheme = localStorage.getItem('demo-theme') as Theme | null
     if (savedTheme) {
       setTheme(savedTheme)
       document.body.dataset.theme = savedTheme
@@ -19,7 +26,7 @@ export function useTheme() {
   }, [])
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light'
+    const newTheme: Theme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
     localStorage.setItem('demo-theme', newTheme)
     document.body.dataset.theme = newTheme
