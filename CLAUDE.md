@@ -18,15 +18,15 @@
 
 ### Development
 ```
-npm run dev         # Start development server
-npm run build       # Build for production
-npm run start       # Start production server
+pnpm run dev         # Start development server
+pnpm run build       # Build for production
+pnpm run start       # Start production server
 ```
 
 ### Documentation
 ```
-npm run storybook       # Run Storybook
-npm run build-storybook # Build Storybook
+pnpm run storybook       # Run Storybook
+pnpm run build-storybook # Build Storybook
 ```
 
 ### Linting and Formatting
@@ -34,9 +34,9 @@ npm run build-storybook # Build Storybook
 - do not use semicolons
 
 ```
-npx eslint .            # Run ESLint
-npx prettier --write .  # Format code with Prettier
-npx tsc --noEmit        # Run TypeScript type checking
+pnpm exec eslint .            # Run ESLint
+pnpm exec prettier --write .  # Format code with Prettier
+pnpm exec tsc --noEmit        # Run TypeScript type checking
 ```
 
 ## Project Structure

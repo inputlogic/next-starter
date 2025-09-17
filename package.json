@@ -3,12 +3,12 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "email": "email dev"
+    "dev": "pnpm next dev --turbopack",
+    "build": "pnpm next build",
+    "start": "pnpm next start",
+    "storybook": "pnpm storybook dev -p 6006",
+    "build-storybook": "pnpm storybook build",
+    "email": "pnpm email dev"
   },
   "dependencies": {
     "@ariakit/react": "^0.4.17",
@@ -30,6 +30,7 @@
     "i18next": "^25.2.1",
     "iron-session": "^8.0.1",
     "next": "^15.3.3",
+    "prop-types": "^15.8.1",
     "ramda": "^0.30.1",
     "react": "18.2.0",
     "react-datepicker": "^6.9.0",
