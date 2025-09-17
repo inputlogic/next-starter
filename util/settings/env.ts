@@ -1,4 +1,4 @@
-export const env = (name, description) => {
+export const env = (name: string, description?: string): string | undefined => {
   const value = process.env[name]
   const isServer = typeof window === 'undefined'
   if (!value && (name.startsWith('NEXT_PUBLIC') || isServer)) {
@@ -6,4 +6,3 @@ export const env = (name, description) => {
   }
   return value
 }
-
