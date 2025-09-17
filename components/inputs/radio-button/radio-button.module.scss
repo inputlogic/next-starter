@@ -1,7 +1,7 @@
 /* =============================================================================
 Component - Select field
 ============================================================================= */
-@import 'styles/base/variables.scss';
+@use 'styles/base/variables' as *;
 
 $radio-size: 18px;
 

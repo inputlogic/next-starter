@@ -1,4 +1,4 @@
-@import 'styles/base/variables.scss';
+@use 'variables' as *;
 
 .button-reset {
   border: 0;

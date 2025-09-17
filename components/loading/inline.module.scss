@@ -1,7 +1,7 @@
 /* =============================================================================
 Component - Inline Loader
 ============================================================================= */
-@import 'styles/base/variables.scss';
+@use 'styles/base/variables' as *;
 
 .loader {
   display: inline-block;
