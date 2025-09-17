@@ -1,10 +1,24 @@
-import { forwardRef, useState } from 'react'
+import { forwardRef, useState, CSSProperties, InputHTMLAttributes } from 'react'
 import { Icon } from 'components/icon'
 import { classnames } from 'util/classnames'
 import { ErrorMessage } from 'components/inputs/error-message'
 import styles from './text-input.module.scss'
 
-export const TextInput = forwardRef(
+export interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url' | 'search'
+  name?: string
+  value?: string | number
+  label?: string
+  hideLabel?: boolean
+  placeholder?: string
+  error?: string | boolean
+  icon?: string
+  id?: string
+  className?: string
+  style?: CSSProperties
+}
+
+export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   (
     {
       type = 'text',
@@ -23,7 +37,8 @@ export const TextInput = forwardRef(
     ref,
   ) => {
     const [showPass, setShowPass] = useState(false)
-    id = id || name
+    const inputId = id || name
+
     return (
       <>
         <div
@@ -36,7 +51,7 @@ export const TextInput = forwardRef(
         >
           {label && (
             <label
-              htmlFor={id}
+              htmlFor={inputId}
               className={classnames([hideLabel ? 'visually-hidden' : null])}
             >
               {label}
@@ -49,7 +64,7 @@ export const TextInput = forwardRef(
             value={value}
             autoComplete="off"
             placeholder={placeholder}
-            id={id}
+            id={inputId}
             ref={ref}
             className={classnames([
               hideLabel ? styles['no-label'] : null,

@@ -1,7 +1,14 @@
 import { classnames } from 'util/classnames'
 import styles from './icon.module.scss'
 
-export const Icon = ({ name, className, color, variation = 'stroked' }) => (
+export interface IconProps {
+  name: string
+  className?: string
+  color?: string
+  variation?: 'stroked' | 'filled'
+}
+
+export const Icon = ({ name, className, color, variation = 'stroked' }: IconProps) => (
   <>
     <span
       className={classnames([
