@@ -1,7 +1,7 @@
 /* =============================================================================
 Component - Error Boundary
 ============================================================================= */
-@import 'styles/base/variables.scss';
+@use 'styles/base/variables' as *;
 
 .wrapper {
   padding: 2rem 0;

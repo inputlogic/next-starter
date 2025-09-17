@@ -13,8 +13,8 @@ SESSION_SECRET=[RANDOM-32-CHARACTER-STRING]
 Now install and run the project:
 
 ```
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -49,7 +49,7 @@ To learn more, take a look at the following resources:
 
 This project includes react-email for creating HTML emails with React components. Email templates are located in the `emails/` directory. Note that this app is not responsible for sending any emails at this time.
 
-To run the react-email server (for development) run `npm run email`
+To run the react-email server (for development) run `pnpm run email`
 
 For example templates and documentation, visit: https://react.email/templates
 
@@ -60,7 +60,7 @@ Next Starter supports Storybook, a component documentation tool. Adding stories 
 run storybook:
 
 ```
-npm run storybook
+pnpm run storybook
 ```
 
 see [https://storybook.js.org/](https://storybook.js.org/) for more info.

@@ -1,7 +1,7 @@
 /* =============================================================================
 Component - Progress / Loading bar
 ============================================================================= */
-@import 'styles/base/variables.scss';
+@use 'styles/base/variables' as *;
 
 .root {
   position: relative;

@@ -1,7 +1,7 @@
 /* =============================================================================
 Component - Select field
 ============================================================================= */
-@import 'styles/base/variables.scss';
+@use 'styles/base/variables' as *;
 
 $check-size: 18px;
 
