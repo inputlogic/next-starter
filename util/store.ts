@@ -2,8 +2,9 @@ import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 interface Notification {
-  message?: string
+  text?: string
   type?: 'success' | 'error' | 'warning' | 'info'
+  duration?: number
   [key: string]: unknown
 }
 
