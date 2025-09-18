@@ -1,19 +1,29 @@
-import { useEffect, useState } from 'react'
+'use client'
+
+import { useEffect, useState, ReactNode } from 'react'
 import ReactDOM from 'react-dom'
 
-export const Portal = ({ children, className, id = 'portal-root' }) => {
-  const [el, setEl] = useState(null)
+interface PortalProps {
+  children: ReactNode
+  className?: string
+  id?: string
+}
+
+export const Portal = ({ children, className, id = 'portal-root' }: PortalProps) => {
+  const [el, setEl] = useState<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    let tempEl = null;
-    
+    let tempEl: HTMLDivElement | null = null
+
     // Defer DOM manipulation with requestAnimationFrame
     const timer = requestAnimationFrame(() => {
       tempEl = document.createElement('div')
       const portalRoot = document.body
       portalRoot.appendChild(tempEl)
       tempEl.setAttribute('id', id)
-      tempEl.setAttribute('class', className)
+      if (className) {
+        tempEl.setAttribute('class', className)
+      }
 
       setEl(tempEl)
     })
