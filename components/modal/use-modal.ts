@@ -1,4 +1,3 @@
-
 const WARNING = `
 Unable to locate modal. Make sure to provide an id to useModal, and to pass the result of useModal along to a Modal component.
 
@@ -10,12 +9,18 @@ return <Modal {...modal}>
 </Modal>
 `.trim()
 
-export const useModal = (id) => {
+interface UseModalReturn {
+  open: () => void
+  close: () => void
+  id: string
+}
+
+export const useModal = (id: string): UseModalReturn => {
   return {
     open: () => {
       const modal = document.getElementById(id)
       if (!modal) console.warn(WARNING)
-      modal.classList.add('open')
+      modal?.classList.add('open')
       document.querySelectorAll('.modal').forEach(openModal => {
         openModal !== modal && openModal.classList.remove('open')
       })
@@ -23,7 +28,7 @@ export const useModal = (id) => {
     close: () => {
       const modal = document.getElementById(id)
       if (!modal) console.warn(WARNING)
-      modal.classList.remove('open')
+      modal?.classList.remove('open')
     },
     id,
   }
