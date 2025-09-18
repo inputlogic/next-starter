@@ -3,9 +3,15 @@ import { LogoutForm } from 'components/forms/logout'
 import { useStore } from 'util/store'
 import { useQuery } from 'hooks/use-query'
 
+interface UserLoggedInResponse {
+  isLoggedIn: boolean
+}
+
 export const TemporaryNav = () => {
   const setModal = useStore((state) => state.setModal)
-  const {data, isSuccess} = useQuery({url: '/public/user/is-logged-in'})
+  const { data, isSuccess } = useQuery<UserLoggedInResponse>({
+    url: '/public/user/is-logged-in',
+  })
   const isLoggedIn = data?.isLoggedIn
 
   return (
@@ -20,11 +26,14 @@ export const TemporaryNav = () => {
               <Link href="/dashboard">Authed area</Link> |{' '}
             </li>
             <li>
-              <LogoutForm submitButton={{variation: 'text'}} onSuccess={() => window.location.href = '/' } />
+              <LogoutForm
+                submitButton={{ variation: 'text' }}
+                onSuccess={() => (window.location.href = '/')}
+              />
             </li>
           </>
         ) : null}
-        {(!isLoggedIn && isSuccess) ? (
+        {!isLoggedIn && isSuccess ? (
           <>
             <li>
               <Link href="/login">Login</Link>
