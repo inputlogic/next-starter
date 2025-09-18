@@ -11,8 +11,8 @@ export const RadioButton = connectByRef(
   // on the value rather than the name
   ({ name, error, props }) => ({
     name,
-    error,
-    label: Case.capital(props.value || ''),
+    error: error?.message,
+    label: Case.capital((props.value as string) || ''),
   })
 )
 export const DatePickerSelect = connectByRef(
@@ -26,26 +26,38 @@ export const DatePickerSelect = connectByRef(
     onValueChange: props.onChange,
   })
 )
-export const MultiSelect = ({ name, ...props }) => {
+
+interface MultiSelectProps {
+  name: string
+  [key: string]: unknown
+}
+
+export const MultiSelect = ({ name, ...props }: MultiSelectProps) => {
   const { watch, setValue, formState } = useFormContext()
   return (
     <Inputs.MultiSelect
-      name={name}
-      onChange={(value) => setValue(name, value)}
+      onChange={(value: unknown) => setValue(name, value)}
       value={watch(name) || []}
-      error={formState?.errors[name]?.message}
+      error={(formState?.errors[name] as { message?: string })?.message}
       {...props}
     />
   )
 }
-export const ComboboxSearch = ({ name, ...props }) => {
+
+interface ComboboxSearchProps {
+  name: string
+  [key: string]: unknown
+}
+
+export const ComboboxSearch = ({ name, setQuery, options, ...props }: ComboboxSearchProps & { setQuery: (query: string) => void; options: Array<{ value: string; label: string }> }) => {
   const { watch, setValue, formState } = useFormContext()
   return (
     <Inputs.ComboboxSearch
-      name={name}
-      onChange={(value) => setValue(name, value)}
+      onChange={(value: unknown) => setValue(name, value)}
       value={watch(name) || ''}
-      error={formState?.errors[name]?.message}
+      error={(formState?.errors[name] as { message?: string })?.message}
+      setQuery={setQuery}
+      options={options}
       {...props}
     />
   )

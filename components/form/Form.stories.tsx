@@ -1,15 +1,21 @@
-import { TextInput, SubmitButton, Checkbox, RadioButton, Form, useForm } from '/components/form'
-import { Checkbox as ManualCheckbox } from '/components/inputs'
+import { TextInput, SubmitButton, Checkbox, RadioButton, Form, useForm } from 'components/form'
+import { Checkbox as ManualCheckbox } from 'components/inputs'
+// @ts-expect-error - hookform resolver types issue
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
+import type { Meta, StoryObj } from '@storybook/react'
 
-export default {
+const meta: Meta<typeof Form> = {
   title: 'Components/Form/Form',
   component: Form,
   tags: ['autodocs'],
 }
 
-const wait = async (timeout) => new Promise((resolve) => setTimeout(resolve, timeout))
+export default meta
+
+type Story = StoryObj<typeof Form>
+
+const wait = async (timeout: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, timeout))
 
 const Template = () => {
   const methods = useForm({
@@ -18,7 +24,7 @@ const Template = () => {
         textInput: y.string().required('Text Input is a required field'),
       })
     ),
-    onSubmit: async (data) => {
+    onSubmit: async (data: Record<string, unknown>) => {
       await wait(3000)
       alert(`onSubmit: ${JSON.stringify(data)}`)
     }
@@ -46,5 +52,7 @@ const Template = () => {
   </div>
 }
 
-export const Default = Template.bind({})
-Default.args = {}
+export const Default: Story = {
+  render: Template,
+  args: {}
+}
