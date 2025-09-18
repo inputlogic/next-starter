@@ -1,4 +1,4 @@
-import { useState, useEffect, forwardRef } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import {
   Root,
   Trigger as RadixTrigger,
@@ -11,6 +11,18 @@ import { classnames } from 'util/classnames'
 
 import styles from './popover.module.scss'
 
+interface PopoverProps {
+  trigger?: ReactNode
+  children: ReactNode
+  side?: 'top' | 'right' | 'bottom' | 'left'
+  align?: 'start' | 'center' | 'end'
+  onInteractOutside?: () => void
+  triggerClose?: boolean | number
+  className?: string
+  externalOpenState?: boolean
+  hideTrigger?: boolean
+}
+
 export const Popover = ({
   trigger,
   children,
@@ -21,7 +33,7 @@ export const Popover = ({
   className,
   externalOpenState,
   hideTrigger,
-}) => {
+}: PopoverProps) => {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
