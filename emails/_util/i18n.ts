@@ -1,11 +1,11 @@
-import i18n from 'i18next'
+import i18n, { Resource } from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
 // Import translation files
 import enEmail from '../../public/locales/en/email.json'
 import frEmail from '../../public/locales/fr/email.json'
 
-const resources = {
+const resources: Resource = {
   en: {
     email: enEmail
   },

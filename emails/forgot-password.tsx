@@ -4,15 +4,31 @@ import { useTranslation } from 'react-i18next'
 import './_util/i18n'
 import * as React from 'react'
 
-export const ForgotPassword = ({ theme = 'dark', language = 'fr', resetLink = 'http://example.com/reset' }) => {
+interface ForgotPasswordProps {
+  theme?: 'dark' | 'light'
+  language?: string
+  resetLink?: string
+}
+
+type VariablesType = {
+  [key in 'dark' | 'light']: {
+    [cssVar: string]: string
+  }
+}
+
+export const ForgotPassword: React.FC<ForgotPasswordProps> = ({
+  theme = 'dark',
+  language = 'fr',
+  resetLink = 'http://example.com/reset'
+}) => {
   const { t, i18n } = useTranslation('email')
-  
+
   i18n.changeLanguage(language)
 
   return (
     <Html>
       <Head />
-      <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: variables[theme]['body-color'], color: variables[theme]['text-color'] }}>
+      <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: (variables as VariablesType)[theme]['body-color'], color: (variables as VariablesType)[theme]['text-color'] }}>
         <Container style={container}>
           <Heading style={heading}>{t('forgot-password.heading')}</Heading>
           <Text style={text}>
@@ -38,30 +54,30 @@ export const ForgotPassword = ({ theme = 'dark', language = 'fr', resetLink = 'h
   )
 }
 
-const container = {
+const container: React.CSSProperties = {
   maxWidth: '600px',
   margin: '0 auto',
   padding: '20px',
 }
 
-const heading = {
+const heading: React.CSSProperties = {
   fontSize: '24px',
   fontWeight: 'bold',
   marginBottom: '20px',
 }
 
-const text = {
+const text: React.CSSProperties = {
   fontSize: '16px',
   lineHeight: '24px',
   marginBottom: '20px',
 }
 
-const buttonContainer = {
+const buttonContainer: React.CSSProperties = {
   textAlign: 'center',
   marginBottom: '20px',
 }
 
-const button = {
+const button: React.CSSProperties = {
   backgroundColor: '#007bff',
   color: '#ffffff',
   padding: '12px 24px',
@@ -70,7 +86,7 @@ const button = {
   fontSize: '16px',
 }
 
-const footer = {
+const footer: React.CSSProperties = {
   fontSize: '12px',
   color: '#666666',
   textAlign: 'center',
