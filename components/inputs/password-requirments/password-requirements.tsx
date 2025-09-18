@@ -2,11 +2,17 @@ import { Icon } from 'components/icon'
 import { classnames } from 'util/classnames'
 import styles from './password-requirements.module.scss'
 
+export interface PasswordRequirementsProps {
+  isLongEnough?: boolean
+  hasUpperCase?: boolean
+  hasSpecial?: boolean
+}
+
 export const PasswordRequirements = ({
   isLongEnough,
   hasUpperCase,
   hasSpecial,
-}) => (
+}: PasswordRequirementsProps) => (
   <div className={styles['password-requirements']}>
     <p
       className={classnames([

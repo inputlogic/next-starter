@@ -1,14 +1,62 @@
-import { useCallback, forwardRef, useState, useEffect } from 'react'
-import { useDropzone } from 'react-dropzone'
+import {
+  useCallback,
+  forwardRef,
+  useState,
+  useEffect,
+  InputHTMLAttributes,
+} from 'react'
+import { useDropzone, Accept } from 'react-dropzone'
 import { Icon } from 'components/icon'
 import { Progress } from 'components/progress-bar'
-import { useStore } from 'util/store'
 import { classnames } from 'util/classnames'
 import { ErrorMessage } from '../error-message'
 
 import styles from './file-upload.module.scss'
 
-export const FileUpload = forwardRef(
+interface FileInfo {
+  name: string
+  type: string
+  file: File | null
+}
+
+interface UploadedFile {
+  name: string
+  type: string
+  url?: string
+}
+
+interface UploadProgressEvent {
+  loaded: number
+  total: number
+}
+
+interface UploadHookReturn {
+  uploadFile: (file: File) => Promise<void>
+  status: number | string | 'error' | 'uploading'
+  uploadedUrl?: string
+}
+
+export interface FileUploadProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'type'> {
+  acceptedFileTypes?: Accept
+  multiple?: boolean
+  id?: string
+  label?: string
+  error?: string
+  className?: string
+  callback?: (file: File) => void
+  uploadHook?: (
+    progressCallback: (event: UploadProgressEvent) => void
+  ) => UploadHookReturn
+  disabled?: boolean
+  icon?: string
+  iconVariation?: 'stroked' | 'filled'
+  caption?: string
+  instructionsText?: string
+  onChange?: (file: UploadedFile) => void
+}
+
+export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
   (
     {
       acceptedFileTypes = {
@@ -28,32 +76,33 @@ export const FileUpload = forwardRef(
       instructionsText,
       ...passedProps
     },
-    ref,
+    ref
   ) => {
-    const [fileInfo, setFileInfo] = useState({
+    const [fileInfo, setFileInfo] = useState<FileInfo>({
       name: '',
       type: '',
-      file: '',
+      file: null,
     })
-    const [fileLoaded, setFileLoaded] = useState()
+    const [fileLoaded, setFileLoaded] = useState<boolean>(false)
     const [isUploading, setIsUploading] = useState(false)
     const [uploadComplete, setUploadComplete] = useState(false)
     const [progress, setProgress] = useState(0)
     const onChangeCallback = passedProps.onChange
-    const filteredProps = { ...passedProps }
-    delete filteredProps.onChange
+    const { onChange: _, ...filteredProps } = passedProps
 
-    const uploadProgressCallback = (event) => {
+    const uploadProgressCallback = (event: UploadProgressEvent) => {
       const newProgress =
         event.loaded > 0 ? (event.loaded / event.total) * 100 : 0
       setProgress(newProgress)
     }
 
     const { uploadFile, status, uploadedUrl } =
-      typeof uploadHook === 'function' ? uploadHook(uploadProgressCallback) : {}
+      typeof uploadHook === 'function'
+        ? uploadHook(uploadProgressCallback)
+        : ({} as UploadHookReturn)
 
     const onDrop = useCallback(
-      (acceptedFiles) => {
+      (acceptedFiles: File[]) => {
         if (disabled) return
         acceptedFiles.forEach((file) => {
           setFileInfo({
@@ -74,6 +123,7 @@ export const FileUpload = forwardRef(
             setFileInfo({
               name: '',
               type: '',
+              file: null,
             })
             console.log('file reading has failed')
           }
@@ -88,10 +138,10 @@ export const FileUpload = forwardRef(
           reader.readAsArrayBuffer(file)
         })
       },
-      [disabled, callback],
+      [disabled, callback]
     )
 
-    async function handleFileUpload(file) {
+    async function handleFileUpload(file: File) {
       if (!uploadHook) {
         console.error('Upload function not provided!')
         return
@@ -105,11 +155,8 @@ export const FileUpload = forwardRef(
       }
     }
 
-    const onError = (error, fileRejections) => {
+    const onError = (error: Error) => {
       console.error('Dropzone error:', error)
-      fileRejections.forEach((file) => {
-        console.error('File rejection:', file)
-      })
     }
 
     const {
@@ -143,7 +190,7 @@ export const FileUpload = forwardRef(
     }
 
     useEffect(() => {
-      const uploadSuccessful = [200, 204].includes(status)
+      const uploadSuccessful = [200, 204].includes(status as number)
       if (status === 'error') {
         setProgress(1)
         setIsUploading(false)
@@ -154,7 +201,7 @@ export const FileUpload = forwardRef(
         setIsUploading(false)
         setUploadComplete(true)
         if (onChangeCallback) {
-          const file = {
+          const file: UploadedFile = {
             name: fileInfo.name,
             type: fileInfo.type,
             url: uploadedUrl,
@@ -168,7 +215,7 @@ export const FileUpload = forwardRef(
     useEffect(() => {
       if (!fileLoaded) return
       if (onChangeCallback) {
-        const file = {
+        const file: UploadedFile = {
           name: fileInfo.name,
           type: fileInfo.type,
         }
@@ -205,11 +252,7 @@ export const FileUpload = forwardRef(
                   className={styles['progress-icon']}
                 />
                 {isUploading ? (
-                  <Progress
-                    progress={progress}
-                    className={styles['progress-bar']}
-                    displayText={fileInfo.name}
-                  />
+                  <Progress progress={progress} displayText={fileInfo.name} />
                 ) : uploadComplete ? (
                   <>
                     <span className={styles['file-name']}>{fileInfo.name}</span>
@@ -272,7 +315,7 @@ export const FileUpload = forwardRef(
         )}
       </div>
     )
-  },
+  }
 )
 
 FileUpload.displayName = 'File Uploader'

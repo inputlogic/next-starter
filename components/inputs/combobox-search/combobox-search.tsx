@@ -4,11 +4,28 @@ import {
   ComboboxPopover,
   ComboboxItem,
 } from '@ariakit/react'
-import { useState } from 'react'
+import { useState, ChangeEvent } from 'react'
 import { Icon } from 'components/icon'
 import { InlineLoader } from 'components/loading'
 import { classnames } from 'util/classnames'
 import styles from './combobox-search.module.scss'
+
+export interface ComboboxOption {
+  value: string
+  label: string
+}
+
+export interface ComboboxSearchProps {
+  value?: ComboboxOption | string
+  onChange: (value: ComboboxOption | string) => void
+  setQuery: (query: string) => void
+  label?: string
+  placeholder?: string
+  error?: string
+  options: ComboboxOption[]
+  isLoading?: boolean
+  disabled?: boolean
+}
 
 export function ComboboxSearch({
   value = '',
@@ -20,22 +37,40 @@ export function ComboboxSearch({
   options,
   isLoading,
   disabled,
-}) {
+}: ComboboxSearchProps) {
   const [open, setOpen] = useState(false)
 
   const onBlur = () => {
     // If the value is not in the options, reset
-    if (value && !options.some((option) => option.value === value.value)) {
+    if (
+      value &&
+      typeof value === 'object' &&
+      !options.some((option) => option.value === value.value)
+    ) {
       onChange('')
     }
     setQuery('')
+  }
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value)
+  }
+
+  const getDisplayValue = () => {
+    if (typeof value === 'object' && value !== null) {
+      return value.label
+    }
+    return value as string
   }
 
   return (
     <div className={styles['container']}>
       {label && <label className={styles['select-label']}>{label}</label>}
 
-      <ComboboxProvider value={value} setValue={onChange}>
+      <ComboboxProvider
+        value={typeof value === 'object' ? value?.value : value}
+        setValue={onChange}
+      >
         <div className={classnames(styles['select-trigger-wrapper'])}>
           <AriakitCombobox
             className={classnames(
@@ -43,8 +78,8 @@ export function ComboboxSearch({
               error && styles['error'],
               disabled && styles['disabled']
             )}
-            value={value?.label || value}
-            onChange={(event) => setQuery(event.target.value)}
+            value={getDisplayValue()}
+            onChange={handleInputChange}
             placeholder={placeholder}
             onBlur={onBlur}
             disabled={disabled}
@@ -67,11 +102,11 @@ export function ComboboxSearch({
             options.map((option) => (
               <ComboboxItem
                 key={option.value}
-                value={option}
+                value={option.value}
                 className={styles['select-item']}
               >
                 {option.label}
-                {value?.value === option.value && (
+                {typeof value === 'object' && value?.value === option.value && (
                   <Icon
                     name="check"
                     className={styles['select-check']}

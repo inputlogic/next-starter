@@ -1,8 +1,24 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, KeyboardEvent, MouseEvent } from 'react'
 import { Root, Trigger, Portal, Content } from '@radix-ui/react-popover'
 import { Icon } from 'components/icon'
 import { classnames } from 'util/classnames'
 import styles from './multi-select.module.scss'
+
+export interface MultiSelectOption {
+  value: string
+  label: string
+}
+
+export interface MultiSelectProps {
+  value: MultiSelectOption[]
+  onChange: (value: MultiSelectOption[]) => void
+  onBlur?: () => void
+  label?: string
+  options?: MultiSelectOption[]
+  disabled?: boolean
+  placeholder?: string
+  error?: string
+}
 
 export function MultiSelect({
   value,
@@ -13,12 +29,12 @@ export function MultiSelect({
   disabled,
   placeholder = 'Select options',
   error,
-}) {
+}: MultiSelectProps) {
   const [open, setOpen] = useState(false)
   const [contentWidth, setContentWidth] = useState(500)
   const [focusedIndex, setFocusedIndex] = useState(-1)
-  const containerRef = useRef(null)
-  const listRef = useRef([])
+  const containerRef = useRef<HTMLButtonElement>(null)
+  const listRef = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -28,16 +44,16 @@ export function MultiSelect({
 
   useEffect(() => {
     if (open && focusedIndex >= 0 && listRef.current[focusedIndex]) {
-      listRef.current[focusedIndex].scrollIntoView({ block: 'nearest' })
+      listRef.current[focusedIndex]?.scrollIntoView({ block: 'nearest' })
     }
   }, [focusedIndex, open])
 
-  const onRemoveValue = (optionValue) => {
+  const onRemoveValue = (optionValue: MultiSelectOption) => {
     const newValues = value.filter((v) => v.value !== optionValue.value)
     onChange(newValues)
   }
 
-  const onToggleValue = (optionValue) => {
+  const onToggleValue = (optionValue: MultiSelectOption) => {
     const exists = value.find((v) => v.value === optionValue.value)
     if (exists) {
       onRemoveValue(optionValue)
@@ -46,7 +62,7 @@ export function MultiSelect({
     }
   }
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!open) {
       if (e.key === 'ArrowDown' || e.key === 'Enter') {
         e.preventDefault()
@@ -118,7 +134,7 @@ export function MultiSelect({
                     {!disabled && (
                       <span
                         className={styles['value-icon']}
-                        onClick={(e) => {
+                        onClick={(e: MouseEvent<HTMLSpanElement>) => {
                           e.stopPropagation()
                           onRemoveValue(option)
                         }}
@@ -158,7 +174,9 @@ export function MultiSelect({
               return (
                 <div
                   key={option.value}
-                  ref={(el) => (listRef.current[idx] = el)}
+                  ref={(el) => {
+                    listRef.current[idx] = el
+                  }}
                   className={classnames(
                     styles['listbox-option'],
                     selected && styles['selected'],

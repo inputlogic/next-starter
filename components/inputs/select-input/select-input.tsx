@@ -1,4 +1,4 @@
-import { forwardRef, useState, useRef, useEffect } from 'react'
+import { forwardRef, useState, useRef, useEffect, ReactNode } from 'react'
 import { Icon } from 'components/icon'
 import { ErrorMessage } from 'components/inputs/error-message'
 import { classnames } from 'util/classnames'
@@ -14,9 +14,27 @@ import {
   Item,
   ItemText,
   Portal,
+  SelectProps as RadixSelectProps,
+  SelectItemProps as RadixSelectItemProps,
 } from '@radix-ui/react-select'
 
-export const SelectInput = forwardRef(
+export interface SelectOption {
+  value: string
+  label: string
+}
+
+export interface SelectInputProps extends Omit<RadixSelectProps, 'children'> {
+  id?: string
+  name?: string
+  label?: string
+  placeholder?: string
+  defaultValue?: string
+  error?: string
+  options?: SelectOption[]
+  required?: boolean
+}
+
+export const SelectInput = forwardRef<HTMLButtonElement, SelectInputProps>(
   (
     {
       id,
@@ -25,19 +43,19 @@ export const SelectInput = forwardRef(
       placeholder,
       defaultValue,
       error,
-      options = [{}],
+      options = [],
       required,
       ...props
     },
     ref
   ) => {
     const [contentWidth, setContentWidth] = useState(500)
-    const containerRef = useRef()
+    const containerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
       // Defer layout calculation until after initial render
       if (!containerRef?.current) return
-      
+
       // Use requestAnimationFrame to ensure styles are loaded
       const timer = requestAnimationFrame(() => {
         if (containerRef.current) {
@@ -46,7 +64,7 @@ export const SelectInput = forwardRef(
           setContentWidth(width)
         }
       })
-      
+
       return () => cancelAnimationFrame(timer)
     }, [containerRef])
 
@@ -69,7 +87,11 @@ export const SelectInput = forwardRef(
               {label}
             </label>
           )}
-          <Trigger className={styles['select-trigger']} aria-label={label}>
+          <Trigger
+            ref={ref}
+            className={styles['select-trigger']}
+            aria-label={label}
+          >
             <Value placeholder={placeholder} />
             <div className={styles['select-arrow']}>
               <Icon name="chevron-down" />
@@ -103,15 +125,18 @@ export const SelectInput = forwardRef(
 
 SelectInput.displayName = 'SelectInput'
 
-const SelectItem = forwardRef(function SelectItem(
-  { children, ...props },
-  forwardedRef
-) {
-  return (
-    <Item className={styles['select-item']} {...props} ref={forwardedRef}>
-      <ItemText>{children}</ItemText>
-    </Item>
-  )
-})
+interface SelectItemPropsInternal extends RadixSelectItemProps {
+  children?: ReactNode
+}
+
+const SelectItem = forwardRef<HTMLDivElement, SelectItemPropsInternal>(
+  function SelectItem({ children, ...props }, forwardedRef) {
+    return (
+      <Item className={styles['select-item']} {...props} ref={forwardedRef}>
+        <ItemText>{children}</ItemText>
+      </Item>
+    )
+  }
+)
 
 SelectItem.displayName = 'SelectItem'

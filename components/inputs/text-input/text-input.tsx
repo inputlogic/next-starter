@@ -4,7 +4,8 @@ import { classnames } from 'util/classnames'
 import { ErrorMessage } from 'components/inputs/error-message'
 import styles from './text-input.module.scss'
 
-export interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+export interface TextInputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url' | 'search'
   name?: string
   value?: string | number
@@ -34,7 +35,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       style,
       ...props
     },
-    ref,
+    ref
   ) => {
     const [showPass, setShowPass] = useState(false)
     const inputId = id || name
@@ -90,7 +91,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         </div>
       </>
     )
-  },
+  }
 )
 
 TextInput.displayName = 'TextInput'
