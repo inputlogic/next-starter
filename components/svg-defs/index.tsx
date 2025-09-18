@@ -1,4 +1,6 @@
-export const SvgDefs = () => (
+import { FC } from 'react'
+
+export const SvgDefs: FC = () => (
   <svg
     aria-hidden="true"
     style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}
