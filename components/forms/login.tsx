@@ -4,8 +4,17 @@ import { Form, useForm, TextInput, SubmitButton } from 'components/form'
 import { queryClient } from 'util/query-client'
 import { axiosClient } from 'util/axios-client'
 
-export const Login = ({onSuccess}) => {
-  const methods = useForm({
+interface LoginFormData extends Record<string, unknown> {
+  email: string
+  password: string
+}
+
+interface LoginProps {
+  onSuccess?: () => void
+}
+
+export const Login = ({onSuccess}: LoginProps) => {
+  const methods = useForm<LoginFormData>({
     resolver: yupResolver(
       y.object().shape({
         email: y.string().email().required(),
@@ -15,13 +24,13 @@ export const Login = ({onSuccess}) => {
     onSubmit: async (data) => {
       await axiosClient.post('/public/user/login', data)
       queryClient.resetQueries({
-        predicate: query => query.queryKey[0]?.includes('is-logged-in')
+        predicate: query => !!query.queryKey[0]?.toString().includes('is-logged-in')
       })
       onSuccess?.()
     }
   })
   return (
-    <Form methods={methods}>
+    <Form methods={methods as any}>
       <TextInput type='email' name='email' placeholder='email@example.com' />
       <TextInput
         name='password'
@@ -32,4 +41,3 @@ export const Login = ({onSuccess}) => {
     </Form>
   )
 }
-

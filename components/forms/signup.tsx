@@ -4,8 +4,19 @@ import { Form, useForm, TextInput, SubmitButton } from 'components/form'
 import { queryClient } from 'util/query-client'
 import { axiosClient } from 'util/axios-client'
 
-export const Signup = ({onSuccess, useForm: useFormArgs = {}, ...props}) => {
-  const methods = useForm({
+interface SignupFormData extends Record<string, unknown> {
+  email: string
+  password: string
+}
+
+interface SignupProps {
+  onSuccess?: () => void
+  useForm?: Record<string, unknown>
+  [key: string]: unknown
+}
+
+export const Signup = ({onSuccess, useForm: useFormArgs = {}, ...props}: SignupProps) => {
+  const methods = useForm<SignupFormData>({
     resolver: yupResolver(
       y.object().shape({
         email: y.string().email().required('Email is required'),
@@ -15,14 +26,14 @@ export const Signup = ({onSuccess, useForm: useFormArgs = {}, ...props}) => {
     onSubmit: async (data) => {
       await axiosClient.post('/public/user/signup', data)
       queryClient.resetQueries({
-        predicate: query => query.queryKey[0]?.includes('is-logged-in')
+        predicate: query => !!query.queryKey[0]?.toString().includes('is-logged-in')
       })
       onSuccess?.()
     },
     ...useFormArgs
   })
   return (
-    <Form methods={methods} {...props} >
+    <Form methods={methods as any} {...props} >
       <TextInput type='email' name='email' placeholder='email@example.com' />
       <TextInput
         name='password'
@@ -33,4 +44,3 @@ export const Signup = ({onSuccess, useForm: useFormArgs = {}, ...props}) => {
     </Form>
   )
 }
-

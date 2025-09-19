@@ -1,9 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
 import { Form, useForm, TextInput, SubmitButton } from 'components/form'
+import { axiosClient } from 'util/axios-client'
 
-export const ForgotPasswordStep1 = ({onSuccess}) => {
-  const methods = useForm({
+interface ForgotPasswordStep1FormData extends Record<string, unknown> {
+  email: string
+}
+
+interface ForgotPasswordStep1Props {
+  onSuccess?: () => void
+}
+
+export const ForgotPasswordStep1 = ({onSuccess}: ForgotPasswordStep1Props) => {
+  const methods = useForm<ForgotPasswordStep1FormData>({
     resolver: yupResolver(
       y.object().shape({
         email: y.string().email().required(),
@@ -15,7 +24,7 @@ export const ForgotPasswordStep1 = ({onSuccess}) => {
     }
   })
   return (
-    <Form methods={methods}>
+    <Form methods={methods as any}>
       <TextInput name='email' placeholder='email@example.com' />
       <SubmitButton>Send Reset Password Link</SubmitButton>
     </Form>
