@@ -10,14 +10,14 @@ function CheckoutContent() {
   const searchParams = useSearchParams()
   
   useEffect(() => {
-    const state = base64ToJson(searchParams.get('state') || '')
+    const state = base64ToJson(searchParams.get('state') || '') as { nextCancelled?: string; next?: string }
     const isCancelled = searchParams.get('cancelled')
-    const nextCancelled = state.nextCancelled
+    const nextCancelled = state?.nextCancelled
     
     const checkoutComplete = async () => {
       try {
         await axiosClient.post('/user/billing/billing-updated')
-        const redirectPath = (isCancelled && nextCancelled) || state.next || '/dev'
+        const redirectPath = (isCancelled && nextCancelled) || state?.next || '/dev'
         router.push(redirectPath)
       } catch (error) {
         console.error('Error completing checkout:', error)

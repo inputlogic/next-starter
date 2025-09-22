@@ -16,17 +16,17 @@ export default function ModalsPage() {
       <div>
         <Button onClick={() => modal2.open()}>component modal</Button>
       </div>
-      <Modal {...modal}>
+      <Modal id={modal.id} close={modal.close}>
         <h1>Inline Modal Example</h1>
         <button onClick={() => modal.close()}>cancel</button>
       </Modal>
-      <ComponentModal {...modal2} onClickOpenInlineModal={() => {modal.open()}} />
+      <ComponentModal id={modal2.id} close={modal2.close} onClickOpenInlineModal={() => {modal.open()}} />
     </div>
   )
 }
 
-const ComponentModal = ({onClickOpenInlineModal, ...props}) => (
-  <Modal {...props}>
+const ComponentModal = ({onClickOpenInlineModal, ...props}: {onClickOpenInlineModal: () => void, id: string, close: () => void}) => (
+  <Modal id={props.id} close={props.close}>
     <h1>Component Modal Example</h1>
     <div><button onClick={() => props.close()}>cancel</button></div>
     <div><button onClick={() => onClickOpenInlineModal()}>open inline modal</button></div>

@@ -3,8 +3,9 @@ import * as y from 'yup'
 import { Form, useForm, TextInput, SubmitButton } from 'components/form'
 import { axiosClient } from 'util/axios-client'
 
-interface ForgotPasswordStep1FormData extends Record<string, unknown> {
+interface ForgotPasswordStep1FormData {
   email: string
+  [key: string]: any
 }
 
 interface ForgotPasswordStep1Props {
@@ -17,7 +18,7 @@ export const ForgotPasswordStep1 = ({onSuccess}: ForgotPasswordStep1Props) => {
       y.object().shape({
         email: y.string().email().required(),
       })
-    ),
+    ) as any,
     onSubmit: async (data) => {
       await axiosClient.post('/public/user/forgot-password-step-1', data)
       onSuccess?.()

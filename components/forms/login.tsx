@@ -4,9 +4,10 @@ import { Form, useForm, TextInput, SubmitButton } from 'components/form'
 import { queryClient } from 'util/query-client'
 import { axiosClient } from 'util/axios-client'
 
-interface LoginFormData extends Record<string, unknown> {
+interface LoginFormData {
   email: string
   password: string
+  [key: string]: any
 }
 
 interface LoginProps {
@@ -20,7 +21,7 @@ export const Login = ({onSuccess}: LoginProps) => {
         email: y.string().email().required(),
         password: y.string().required(),
       })
-    ),
+    ) as any,
     onSubmit: async (data) => {
       await axiosClient.post('/public/user/login', data)
       queryClient.resetQueries({

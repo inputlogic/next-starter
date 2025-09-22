@@ -12,6 +12,7 @@ import {
   MultiSelect,
   ComboboxSearch,
 } from 'components/inputs'
+import type { MultiSelectOption, ComboboxOption } from 'components/inputs'
 import { Button } from 'components/button'
 import { Popover } from 'components/popover'
 import { Pagination } from 'components/pagination/pagination'
@@ -19,17 +20,17 @@ import { Progress } from 'components/progress-bar/progress-bar'
 
 export default function Stylesheet() {
   // MultiSelect state
-  const [value, setValue] = useState([])
+  const [value, setValue] = useState<MultiSelectOption[]>([])
 
   // ComboboxSearch state
-  const [searchValue, setSearchValue] = useState('')
-  const [searchOptions, setSearchOptions] = useState([
+  const [searchValue, setSearchValue] = useState<ComboboxOption | string>('')
+  const [searchOptions, setSearchOptions] = useState<ComboboxOption[]>([
     { label: 'Option 1', value: 'option1' },
     { label: 'Option 2', value: 'option2' },
     { label: 'Option 3', value: 'option3' },
   ])
 
-  const setQuery = (query) => {
+  const setQuery = (query: string) => {
     if (!query) {
       setSearchOptions([
         { label: 'Option 1', value: 'option1' },
@@ -71,26 +72,26 @@ export default function Stylesheet() {
         label="Select field"
         placeholder="Select an option"
         options={[
-          { label: 'Option 1', value: 1 },
-          { label: 'Option 2', value: 2 },
+          { label: 'Option 1', value: '1' },
+          { label: 'Option 2', value: '2' },
         ]}
       />
       <SelectInput
         label="Select field w/ error"
         placeholder="Select an option"
-        defaultValue={2}
+        defaultValue="2"
         options={[
-          { label: 'Option 1', value: 1 },
-          { label: 'Option 2', value: 2 },
+          { label: 'Option 1', value: '1' },
+          { label: 'Option 2', value: '2' },
         ]}
         error="Wrong choice"
       />
       <DatePickerSelect label="DatePicker" placeholder="Select a date" />
       <DatePickerSelect label="DatePicker w/ error" error="Wrong date" />
       <RadioButton label="Radio Button" />
-      <RadioButton label="Radio Button (selected)" defaultValue={true} />
+      <RadioButton label="Radio Button (selected)" defaultValue="true" />
       <Checkbox label="checkbox" name="test" />
-      <Checkbox label="checkbox (selected)" name="test" defaultValue={true} />
+      <Checkbox label="checkbox (selected)" name="test" defaultValue="true" />
       <FileUpload label="Upload file" />
       <h2>Buttons</h2>
       <Button variation="primary">Primary Button</Button>

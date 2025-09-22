@@ -36,12 +36,12 @@ export default function ListPage() {
   )
 }
 
-const useFakeRecords = (params) => useQuery({
+const useFakeRecords = (params: any) => useQuery({
   queryKey: ['example', params],
   queryFn: () => fetchFakeRecords(params)
 })
 
-const fetchFakeRecords = params => new Promise((resolve) => {
+const fetchFakeRecords = (params: any) => new Promise((resolve) => {
   const allResults = [
     {id: 1, title: 'Foo'},
     {id: 2, title: 'Bar'},
