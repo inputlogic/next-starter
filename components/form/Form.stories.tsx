@@ -1,6 +1,5 @@
 import { TextInput, SubmitButton, Checkbox, RadioButton, Form, useForm } from 'components/form'
 import { Checkbox as ManualCheckbox } from 'components/inputs'
-// @ts-expect-error - hookform resolver types issue
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
 import type { Meta, StoryObj } from '@storybook/react'
