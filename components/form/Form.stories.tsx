@@ -17,13 +17,11 @@ type Story = StoryObj<typeof Form>
 const wait = async (timeout: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, timeout))
 
 const Template = () => {
-  const methods = useForm({
-    resolver: yupResolver(
-      y.object().shape({
-        textInput: y.string().required('Text Input is a required field'),
-      })
-    ),
-    onSubmit: async (data: Record<string, unknown>) => {
+  const methods = useForm<Record<string, unknown>>({
+    resolver: yupResolver(y.object().shape({
+      textInput: y.string().required('Text Input is a required field'),
+    })) as any,
+    onSubmit: async (data) => {
       await wait(3000)
       alert(`onSubmit: ${JSON.stringify(data)}`)
     }
