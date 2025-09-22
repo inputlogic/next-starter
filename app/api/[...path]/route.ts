@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getToken } from 'util/server-only/cookies'
 
 const API_URL = process.env.API_URL
@@ -10,7 +10,7 @@ if (!API_URL) {
 }
 
 // This function forwards requests to the backend API
-async function proxyRequest(req) {
+async function proxyRequest(req: NextRequest) {
   const token = await getToken()
   const url = new URL(req.url)
   const path = url.pathname
@@ -74,22 +74,22 @@ async function proxyRequest(req) {
   }
 }
 
-export async function GET(req) {
+export async function GET(req: NextRequest) {
   return proxyRequest(req)
 }
 
-export async function POST(req) {
+export async function POST(req: NextRequest) {
   return proxyRequest(req)
 }
 
-export async function PUT(req) {
+export async function PUT(req: NextRequest) {
   return proxyRequest(req)
 }
 
-export async function DELETE(req) {
+export async function DELETE(req: NextRequest) {
   return proxyRequest(req)
 }
 
-export async function PATCH(req) {
+export async function PATCH(req: NextRequest) {
   return proxyRequest(req)
 }

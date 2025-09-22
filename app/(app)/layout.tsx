@@ -9,8 +9,9 @@ import { queryClient } from 'util/query-client'
 import { Notification } from 'components/notification/'
 import { TemporaryNav } from 'components/temporary-nav'
 import { SvgDefs } from 'components/svg-defs'
+import { ReactNode } from 'react'
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>

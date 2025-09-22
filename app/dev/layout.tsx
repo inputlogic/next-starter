@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, ReactNode } from 'react'
 import { Header } from 'components/dev'
 import styles from './layout.module.scss'
 import { QueryClientProvider } from '@tanstack/react-query'
@@ -10,7 +10,7 @@ import { Notification } from 'components/notification/'
 import { SvgDefs } from 'components/svg-defs'
 import { useTheme } from 'hooks/dev/use-theme'
 
-const DemoLayout = ({children}) => {
+const DemoLayout = ({children}: {children: ReactNode}) => {
   const { theme } = useTheme()
   
   // Apply theme color to html element for overscroll
