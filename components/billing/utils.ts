@@ -1,10 +1,21 @@
 import { axiosClient } from 'util/axios-client'
 import { base64FromJson } from 'util/base64'
 
+type CheckoutState = {
+  next?: string
+  nextCancelled?: string
+  [key: string]: any
+}
+
+interface GoToStripeCheckoutParams {
+  state?: CheckoutState
+  priceId: string
+}
+
 const currentUrl = () => `${window.location.protocol}//${window.location.host}`
 
-export const goToStripeCheckout = async ({state = {}, priceId}) => {
-  const response = await axiosClient.post(
+export const goToStripeCheckout = async ({state = {}, priceId}: GoToStripeCheckoutParams) => {
+  const response = await axiosClient.post<{ url: string }>(
     '/user/billing/checkout-session',
     {
       successUrl: `${currentUrl()}/dev/billing/updated?state=${base64FromJson(state)}`,
@@ -16,8 +27,8 @@ export const goToStripeCheckout = async ({state = {}, priceId}) => {
   window.location.href = url
 }
 
-export const goToStripePortal = async (state = {}) => {
-  const response = await axiosClient.post(
+export const goToStripePortal = async (state: Record<string, any> = {}) => {
+  const response = await axiosClient.post<{ url: string }>(
     '/user/billing/portal',
     {
       returnUrl: `${currentUrl()}/dev/billing/updated?state=${base64FromJson(state)}`
@@ -26,4 +37,3 @@ export const goToStripePortal = async (state = {}) => {
   const { url } = response.data
   window.location.href = url
 }
-
