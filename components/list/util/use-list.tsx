@@ -1,6 +1,5 @@
 'use client'
 
-import { omit } from 'ramda'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useMemo, ReactNode } from 'react'
 import { UseQueryResult } from '@tanstack/react-query'
@@ -34,14 +33,15 @@ interface WithListParamsProps extends UseListOptions {
  * Use this component to wrap components that call useList.
  */
 export function WithListParams({ children, id, defaultParams, useQuery }: WithListParamsProps) {
-  const listData = useListInternal({ id, defaultParams, useQuery })
+  const listData = useList({ id, defaultParams, useQuery })
   return children(listData)
 }
 
 /**
- * Internal implementation of useList. Should be used with WithListParams in a Suspense boundary.
+ * Hook for managing list state with URL search parameters.
+ * Must be used in a component wrapped with Suspense boundary.
  */
-const useListInternal = ({ id = 'l', defaultParams = { limit: 25 }, useQuery }: UseListOptions): UseListReturn => {
+export const useList = ({ id = 'l', defaultParams = { limit: 25 }, useQuery }: UseListOptions): UseListReturn => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -113,16 +113,6 @@ const useListInternal = ({ id = 'l', defaultParams = { limit: 25 }, useQuery }: 
     count: countQuery.data?.count,
     query
   }
-}
-
-/**
- * Wrapper for useList that uses searchParams in a Suspense boundary
- * This maintains the original API while ensuring searchParams is used safely
- */
-export const useList = (options: UseListOptions): UseListReturn => {
-  // This is a client hook that calls useSearchParams
-  // It should ONLY be used in a component wrapped with Suspense
-  return useListInternal(options)
 }
 
 const queryName = ({ id, name }: { id?: string; name: string }): string =>
