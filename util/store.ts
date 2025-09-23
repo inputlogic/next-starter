@@ -5,7 +5,6 @@ interface Notification {
   text?: string
   type?: 'success' | 'error' | 'warning' | 'info'
   duration?: number
-  [key: string]: unknown
 }
 
 interface StoreState {
@@ -16,7 +15,7 @@ interface StoreState {
 }
 
 export const useStore = create<StoreState>()(
-  devtools((set, get) => ({
+  devtools((set) => ({
     modal: '',
     setModal: (modal: string) => set({ modal }),
     notification: {},
