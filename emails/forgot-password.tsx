@@ -6,7 +6,7 @@ import * as React from 'react'
 
 interface ForgotPasswordProps {
   theme?: 'dark' | 'light'
-  language?: string
+  language?: 'en' | 'fr'
   resetLink?: string
 }
 
@@ -16,19 +16,23 @@ type VariablesType = {
   }
 }
 
+const typedVariables = variables as VariablesType
+
 export const ForgotPassword: React.FC<ForgotPasswordProps> = ({
-  theme = 'dark',
-  language = 'fr',
+  theme = 'light',
+  language = 'en',
   resetLink = 'http://example.com/reset'
 }) => {
   const { t, i18n } = useTranslation('email')
 
   i18n.changeLanguage(language)
 
+  const themeVars = typedVariables[theme]
+
   return (
     <Html>
       <Head />
-      <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: (variables as VariablesType)[theme]['body-color'], color: (variables as VariablesType)[theme]['text-color'] }}>
+      <Body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: themeVars['body-color'], color: themeVars['text-color'] }}>
         <Container style={container}>
           <Heading style={heading}>{t('forgot-password.heading')}</Heading>
           <Text style={text}>
