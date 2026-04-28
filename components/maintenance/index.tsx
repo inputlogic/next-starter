@@ -1,5 +1,6 @@
 'use client'
 
+import { JSX } from 'react'
 import styles from './maintenance.module.scss'
 
 const maintenanceMessage = process.env.NEXT_PUBLIC_MAINTENANCE_UPCOMING
