@@ -3,12 +3,12 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "pnpm next dev --turbopack",
-    "build": "pnpm next build",
-    "start": "pnpm next start",
-    "storybook": "pnpm storybook dev -p 6006",
-    "build-storybook": "pnpm storybook build",
-    "email": "pnpm email dev"
+    "dev": "pnpm exec next dev --turbopack",
+    "build": "pnpm exec next build",
+    "start": "pnpm exec next start",
+    "storybook": "pnpm exec storybook dev -p 6006",
+    "build-storybook": "pnpm exec storybook build",
+    "email": "pnpm exec email dev"
   },
   "dependencies": {
     "@ariakit/react": "^0.4.17",
