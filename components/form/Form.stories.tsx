@@ -2,7 +2,7 @@ import { TextInput, SubmitButton, Checkbox, RadioButton, Form, useForm } from 'c
 import { Checkbox as ManualCheckbox } from 'components/inputs'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as y from 'yup'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 
 const meta: Meta<typeof Form> = {
   title: 'Components/Form/Form',
