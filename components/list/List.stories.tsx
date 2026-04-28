@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { useList, ListProvider, List, TextInput, Pagination } from 'components/list'
 
 const meta: Meta<typeof ListProvider> = {

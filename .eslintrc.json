@@ -1,5 +1,9 @@
 {
-  "extends": ["next/core-web-vitals", "prettier"],
+  "extends": [
+    "next/core-web-vitals",
+    "prettier",
+    "plugin:storybook/recommended"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -7,13 +11,23 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "unused-imports"],
+  "plugins": [
+    "react",
+    "unused-imports"
+  ],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
       "parser": "@typescript-eslint/parser",
-      "plugins": ["@typescript-eslint"],
-      "extends": ["plugin:@typescript-eslint/recommended"]
+      "plugins": [
+        "@typescript-eslint"
+      ],
+      "extends": [
+        "plugin:@typescript-eslint/recommended"
+      ]
     }
   ],
   "rules": {
